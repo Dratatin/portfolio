@@ -1,0 +1,25 @@
+@font-face {
+	font-family: "StroyMono";
+	src: url("/fonts/StroyMonoTEST-Light.eot");
+	src:
+		url("/fonts/StroyMonoTEST-Light.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/StroyMonoTEST-Light.woff2") format("woff2"),
+		url("/fonts/StroyMonoTEST-Light.woff") format("woff"),
+		url("/fonts/StroyMonoTEST-Light.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "StroyMono";
+	src: url("/fonts/StroyMonoTEST-Bold.eot");
+	src:
+		url("/fonts/StroyMonoTEST-Bold.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/StroyMonoTEST-Bold.woff2") format("woff2"),
+		url("/fonts/StroyMonoTEST-Bold.woff") format("woff"),
+		url("/fonts/StroyMonoTEST-Bold.ttf") format("truetype");
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}

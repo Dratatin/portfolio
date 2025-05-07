@@ -1,0 +1,51 @@
+:root {
+	--main-font: "StroyMono", sans-serif;
+	--color-black: #1a1a1a;
+	--color-white: #fdfbf7;
+	--container-padding: 3rem;
+}
+
+body {
+	font-family: var(--main-font);
+	font-weight: 400;
+	color: var(--color-black);
+	background-color: var(--color-white);
+	-webkit-font-smoothing: antialiased; /* Pour Safari et Chrome */
+	-moz-osx-font-smoothing: grayscale; /* Pour Firefox sur macOS */
+	text-rendering: optimizeLegibility;
+}
+
+/* Container style */
+.container-inline-padding {
+	padding-inline: var(--container-padding);
+}
+
+.container-block-padding {
+	padding-block: var(--container-padding);
+}
+
+.container-padding {
+	padding: var(--container-padding);
+}
+
+/* Font style */
+.text-sm {
+	font-size: 0.875rem;
+}
+
+.hero-title {
+	font-size: clamp(2.625rem, 0.131rem + 10.9325vw, 13.25rem);
+	line-height: 85%;
+	text-transform: uppercase;
+	font-weight: 800;
+}
+
+.hero-suptitle {
+	font-size: clamp(1.125rem, 0.1274rem + 4.373vw, 5.375rem);
+	text-transform: uppercase;
+}
+
+.interactive-btn-font {
+	font-size: clamp(1.25rem, 1.0153rem + 1.0289vw, 2.25rem);
+	line-height: normal;
+}
