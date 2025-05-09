@@ -3,6 +3,7 @@
 	--color-black: #1a1a1a;
 	--color-white: #fdfbf7;
 	--container-padding: 3rem;
+	--side-content-size: 4.75rem;
 }
 
 body {
@@ -43,11 +44,12 @@ body {
 .hero-suptitle {
 	font-size: clamp(1.125rem, 0.1274rem + 4.373vw, 5.375rem);
 	text-transform: uppercase;
+	font-weight: 400;
 }
 
 .interactive-btn-font {
 	font-size: clamp(1.25rem, 1.0153rem + 1.0289vw, 2.25rem);
-	line-height: normal;
+	font-weight: 800;
 }
 
 ::-moz-selection {
