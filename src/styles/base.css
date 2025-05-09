@@ -49,3 +49,14 @@ body {
 	font-size: clamp(1.25rem, 1.0153rem + 1.0289vw, 2.25rem);
 	line-height: normal;
 }
+
+::-moz-selection {
+	/* Code for Firefox */
+	color: var(--color-white);
+	background: rgba(0, 0, 0, 0.7);
+}
+
+::selection {
+	color: var(--color-white);
+	background: rgba(0, 0, 0, 0.7);
+}

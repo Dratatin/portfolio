@@ -1,4 +1,16 @@
 <script lang="ts">
+	import { hoveredElement } from "$lib/stores/cursor";
+
+	const hooksRefs: HTMLElement[] = [];
+
+	function onMouseEnter(element: HTMLElement) {
+		hoveredElement.set(element);
+	}
+
+	function onMouseLeave() {
+		hoveredElement.set(null);
+	}
+
 	const menuItems = [
 		{ text: "à propos", link: "#" },
 		{ text: "liste des projets", link: "#" },
@@ -11,9 +23,14 @@
 		<ul class="nav-list text-sm">
 			{#each menuItems as item, index (index)}
 				<li>
-					<a href={item.link} class="nav-link">
+					<a
+						href={item.link}
+						class="nav-link"
+						on:mouseenter={() => onMouseEnter(hooksRefs[index])}
+						on:mouseleave={onMouseLeave}
+					>
 						<div class="nav-link-hook-wrapper">
-							<span class="nav-link-hook"></span>
+							<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
 						</div>
 						<span class="nav-link-text">{item.text}</span>
 					</a>
@@ -34,7 +51,7 @@
 	.nav-list {
 		display: flex;
 		text-transform: uppercase;
-		gap: 3rem;
+		gap: 2rem;
 	}
 	.nav-link {
 		display: flex;
@@ -49,7 +66,7 @@
 		);
 		background-size: 100% 200%;
 		/*trasition effect for background*/
-		transition: background 0.3s cubic-bezier(0, 0.99, 0.67, 1);
+		transition: background 0.3s cubic-bezier(0, 1, 0.65, 1);
 	}
 	.nav-link-hook-wrapper {
 		display: flex;
@@ -73,19 +90,13 @@
 		border-right: 1px solid var(--color-white);
 	}
 	.nav-link-hook {
-		visibility: hidden;
 		width: 0.5rem;
 		height: 0.5rem;
 		margin: 0 0.4rem;
-		/* border-radius: .5rem; */
-		background-color: var(--color-white);
-		mix-blend-mode: difference;
+		display: block;
 	}
 	.nav-link:hover {
 		background-position: 100% 100%;
 		color: var(--color-white);
-	}
-	.nav-link:hover .nav-link-hook {
-		visibility: visible;
 	}
 </style>
