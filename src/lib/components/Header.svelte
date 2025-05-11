@@ -12,7 +12,7 @@
 	}
 
 	const menuItems = [
-		{ text: "à propos", link: "#" },
+		{ text: "à propos", link: "#about" },
 		{ text: "liste des projets", link: "#" },
 		{ text: "savoir faire", link: "#" }
 	];
@@ -20,7 +20,7 @@
 
 <header class="header">
 	<nav class="nav">
-		<ul class="nav-list text-sm">
+		<ul class="nav-list">
 			{#each menuItems as item, index (index)}
 				<li>
 					<a
@@ -32,7 +32,7 @@
 						<div class="nav-link-hook-wrapper">
 							<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
 						</div>
-						<span class="nav-link-text">{item.text}</span>
+						<span class="nav-link-text text-sm">{item.text}</span>
 					</a>
 				</li>
 			{/each}

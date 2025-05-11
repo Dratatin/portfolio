@@ -6,7 +6,8 @@
 
 	onMount(() => {
 		const lenis = new Lenis({
-			autoRaf: true
+			autoRaf: true,
+			anchors: true
 		});
 
 		// Listen for the scroll event and log the event data

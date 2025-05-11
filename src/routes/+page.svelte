@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Header, Skillsbar, HeroContent, MousePointer } from "$lib";
+	import { Header, Skillsbar, HeroContent, MousePointer, About } from "$lib";
 </script>
 
 <Header />
@@ -9,7 +9,9 @@
 		<a href="/" download="" class="cv-button interactive-btn-font"> CV </a>
 		<Skillsbar />
 	</section>
-	<section style="height: 50vh;">Ceci est une section test pour le scroll</section>
+	<section class="about-section" id="about">
+		<About />
+	</section>
 </main>
 <footer></footer>
 <MousePointer />
@@ -17,6 +19,11 @@
 <style>
 	.hero-section {
 		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+	.about-section {
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 	}
