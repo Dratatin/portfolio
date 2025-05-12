@@ -11,5 +11,14 @@ import HeroContent from "./components/HeroContent.svelte";
 import MousePointer from "./components/MousePointer.svelte";
 import About from "./components/About.svelte";
 import LazyImage from "./components/LazyImage.svelte";
+import SectionTitle from "./components/SectionTitle.svelte";
 
-export { Header, Skillsbar, HeroContent, MousePointer, About, LazyImage };
+export {
+	Header,
+	Skillsbar,
+	HeroContent,
+	MousePointer,
+	About,
+	LazyImage,
+	SectionTitle
+};
