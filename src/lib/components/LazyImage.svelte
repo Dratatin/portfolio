@@ -8,7 +8,8 @@
 		height,
 		placeholder = "",
 		threshold = 0.1,
-		rootMargin = "50px"
+		rootMargin = "50px",
+		fit = "cover"
 	} = $props<{
 		src: string;
 		alt?: string;
@@ -17,6 +18,7 @@
 		placeholder?: string;
 		threshold?: number;
 		rootMargin?: string;
+		fit?: "cover" | "contain";
 	}>();
 
 	let loaded = $state(false);
@@ -60,7 +62,7 @@
 	}
 </script>
 
-<div class="lazy-image-container">
+<div class="lazy-image-container {fit}">
 	{#if placeholder && !loaded}
 		<img
 			src={placeholder}
@@ -90,8 +92,6 @@
 		position: relative;
 		overflow: hidden;
 		display: inline-block;
-		width: 100%;
-		height: 100%;
 	}
 
 	.placeholder-image,
@@ -106,13 +106,11 @@
 		top: 0;
 		left: 0;
 		transition: opacity 0.3s ease;
-		object-fit: cover;
 	}
 
 	.main-image {
 		opacity: 0;
 		transition: opacity 0.3s ease;
-		object-fit: cover;
 	}
 
 	.main-image.loaded {
@@ -121,5 +119,17 @@
 
 	.placeholder-image.hidden {
 		opacity: 0;
+	}
+
+	.cover {
+		height: 100%;
+		width: 100%;
+	}
+	.cover img {
+		object-fit: cover;
+	}
+
+	.contain img {
+		object-fit: contain;
 	}
 </style>
