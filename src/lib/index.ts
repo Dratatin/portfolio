@@ -11,6 +11,7 @@ import HeroContent from "./components/HeroContent.svelte";
 import MousePointer from "./components/MousePointer.svelte";
 import About from "./components/About.svelte";
 import LazyImage from "./components/LazyImage.svelte";
+import ProjectList from "./components/ProjectList.svelte";
 import SectionTitle from "./components/SectionTitle.svelte";
 
 export {
@@ -20,5 +21,6 @@ export {
 	MousePointer,
 	About,
 	LazyImage,
+	ProjectList,
 	SectionTitle
 };

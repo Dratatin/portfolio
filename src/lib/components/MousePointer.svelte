@@ -85,7 +85,7 @@
 	}
 
 	.pointer {
-		--cursor-size: 0.4rem;
+		--cursor-size: 0.5rem;
 		width: var(--cursor-size);
 		height: var(--cursor-size);
 		border-radius: var(--cursor-size);

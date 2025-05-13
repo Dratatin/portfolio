@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Header, Skillsbar, HeroContent, MousePointer, About } from "$lib";
+	import { Header, Skillsbar, HeroContent, MousePointer, About, ProjectList } from "$lib";
 </script>
 
 <Header />
@@ -12,6 +12,10 @@
 	<section class="about-section" id="about">
 		<About />
 	</section>
+	<section class="project-list" id="project">
+		<ProjectList />
+	</section>
+	<section style="height: 100vh;">coucou</section>
 </main>
 <footer></footer>
 <MousePointer />
@@ -26,6 +30,11 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
+	}
+	.project-list {
+		overflow: hidden;
+		margin-block: 15rem;
 	}
 	.cv-button {
 		background-color: var(--color-white);
