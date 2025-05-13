@@ -1,5 +1,13 @@
 <script lang="ts">
+	import { get } from "svelte/store";
+	import { lenisInstance } from "$lib/stores/lenis";
 	import { hoveredElement } from "$lib/stores/cursor";
+	export let sections: {
+		isVisible: boolean;
+		title: string;
+		id: string;
+		el: () => HTMLElement | undefined;
+	}[] = [];
 
 	const hooksRefs: HTMLElement[] = [];
 
@@ -11,30 +19,34 @@
 		hoveredElement.set(null);
 	}
 
-	const menuItems = [
-		{ text: "à propos", link: "#about" },
-		{ text: "liste des projets", link: "#" },
-		{ text: "savoir faire", link: "#" }
-	];
+	function scrollToSection(section: HTMLElement | undefined) {
+		const lenis = get(lenisInstance);
+		if (lenis && section) {
+			lenis.scrollTo(section);
+		}
+	}
 </script>
 
 <header class="header">
 	<nav class="nav">
 		<ul class="nav-list">
-			{#each menuItems as item, index (index)}
-				<li>
-					<a
-						href={item.link}
-						class="nav-link"
-						on:mouseenter={() => onMouseEnter(hooksRefs[index])}
-						on:mouseleave={onMouseLeave}
-					>
-						<div class="nav-link-hook-wrapper">
-							<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
-						</div>
-						<span class="nav-link-text text-sm">{item.text}</span>
-					</a>
-				</li>
+			{#each sections as section, index (index)}
+				{#if section.isVisible}
+					<li>
+						<a
+							href={section.id}
+							class="nav-link"
+							on:mouseenter={() => onMouseEnter(hooksRefs[index])}
+							on:mouseleave={onMouseLeave}
+							on:click={() => scrollToSection(section.el())}
+						>
+							<div class="nav-link-hook-wrapper">
+								<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
+							</div>
+							<span class="nav-link-text text-sm">{section.title}</span>
+						</a>
+					</li>
+				{/if}
 			{/each}
 		</ul>
 	</nav>
@@ -44,6 +56,7 @@
 	.header {
 		position: absolute;
 		top: 0;
+		z-index: 10;
 	}
 	.nav {
 		padding: 3rem;

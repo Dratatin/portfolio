@@ -3,12 +3,13 @@
 	--color-black: #1a1a1a;
 	--color-white: #fdfbf7;
 	--container-padding: 3rem;
-	--side-content-size: 4.75rem;
+	--side-content-size: 4.25rem;
 }
 
 body {
 	font-family: var(--main-font);
 	font-weight: 400;
+	font-size: 1.125rem;
 	color: var(--color-black);
 	background-color: var(--color-white);
 	-webkit-font-smoothing: antialiased; /* Pour Safari et Chrome */

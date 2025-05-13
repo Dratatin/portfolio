@@ -2,7 +2,6 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 	import LazyImage from "$lib/components/LazyImage.svelte";
 	import SectionTitle from "$lib/components/SectionTitle.svelte";
 	import project1 from "../../assets/project-1.jpg";
@@ -35,7 +34,6 @@
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
-		ScrollTrigger.refresh();
 
 		let scrollTween = gsap.to(projectListRefs, {
 			x: -projectContainerRef.offsetWidth + projectListRefs[0].offsetWidth,

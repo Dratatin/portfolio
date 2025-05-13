@@ -13,6 +13,7 @@ import About from "./components/About.svelte";
 import LazyImage from "./components/LazyImage.svelte";
 import ProjectList from "./components/ProjectList.svelte";
 import SectionTitle from "./components/SectionTitle.svelte";
+import ScrolltopButton from "./components/ScrolltopButton.svelte";
 
 export {
 	Header,
@@ -22,5 +23,6 @@ export {
 	About,
 	LazyImage,
 	ProjectList,
-	SectionTitle
+	SectionTitle,
+	ScrolltopButton
 };

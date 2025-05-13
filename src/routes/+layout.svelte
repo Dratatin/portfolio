@@ -3,12 +3,14 @@
 	import "lenis/dist/lenis.css";
 	import { onMount } from "svelte";
 	import Lenis from "lenis";
+	import { lenisInstance } from "$lib/stores/lenis";
 
 	onMount(() => {
 		const lenis = new Lenis({
-			autoRaf: true,
-			anchors: true
+			autoRaf: true
 		});
+
+		lenisInstance.set(lenis);
 
 		// Listen for the scroll event and log the event data
 		lenis.on("scroll", () => {

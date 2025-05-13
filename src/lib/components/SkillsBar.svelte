@@ -22,7 +22,7 @@
 		border-left: 2px solid var(--color-black);
 	}
 	.keyword-item {
-		padding: 0.8rem 1rem;
+		padding: 0.5rem 0.75rem;
 		flex: auto;
 		display: flex;
 		align-items: center;

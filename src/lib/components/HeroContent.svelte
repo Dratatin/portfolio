@@ -27,6 +27,8 @@
 		display: flex;
 		justify-content: space-between;
 		flex: 1;
+		position: relative;
+		z-index: 5;
 	}
 	.hero-title {
 		margin-block: auto;
