@@ -23,3 +23,16 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+@font-face {
+	font-family: "StroyMono";
+	src: url("/fonts/StroyMonoTEST-LightItalic.eot");
+	src:
+		url("/fonts/StroyMonoTEST-LightItalic.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/StroyMonoTEST-LightItalic.woff2") format("woff2"),
+		url("/fonts/StroyMonoTEST-LightItalic.woff") format("woff"),
+		url("/fonts/StroyMonoTEST-LightItalic.ttf") format("truetype");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}

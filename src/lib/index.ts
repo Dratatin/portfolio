@@ -14,6 +14,7 @@ import LazyImage from "./components/LazyImage.svelte";
 import ProjectList from "./components/ProjectList.svelte";
 import SectionTitle from "./components/SectionTitle.svelte";
 import ScrolltopButton from "./components/ScrolltopButton.svelte";
+import InfiniteBanner from "./components/InfiniteBanner.svelte";
 
 export {
 	Header,
@@ -24,5 +25,6 @@ export {
 	LazyImage,
 	ProjectList,
 	SectionTitle,
-	ScrolltopButton
+	ScrolltopButton,
+	InfiniteBanner
 };

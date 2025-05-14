@@ -6,7 +6,8 @@
 		MousePointer,
 		About,
 		ProjectList,
-		ScrolltopButton
+		ScrolltopButton,
+		InfiniteBanner
 	} from "$lib";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -63,13 +64,14 @@
 		<a href="/" download="" class="cv-button interactive-btn-font"> CV </a>
 		<Skillsbar />
 	</section>
+	<InfiniteBanner />
 	<section class="about-section" id="about" bind:this={aboutSection}>
 		<About />
 	</section>
 	<section class="project-list" id="project" bind:this={projectSection}>
 		<ProjectList />
 	</section>
-	<section style="height: 100vh;">coucou</section>
+	<section style="height: 100vh;" id="skills">coucou</section>
 </main>
 <footer></footer>
 <MousePointer />
