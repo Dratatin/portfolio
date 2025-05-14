@@ -3,7 +3,7 @@
 	--color-black: #1a1a1a;
 	--color-white: #fdfbf7;
 	--container-padding: 3rem;
-	--side-content-size: 4.25rem;
+	--square-btn-size: 4.5rem;
 }
 
 body {
@@ -51,6 +51,14 @@ body {
 .interactive-btn-font {
 	font-size: clamp(1.25rem, 1.0153rem + 1.0289vw, 2.25rem);
 	font-weight: 800;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.uppercase {
+	text-transform: uppercase;
 }
 
 ::-moz-selection {

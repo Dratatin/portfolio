@@ -35,14 +35,14 @@
 	}
 	.sidebar {
 		background-color: var(--color-black);
-		width: var(--side-content-size);
+		width: var(--square-btn-size);
 		display: flex;
 		flex-direction: column;
 	}
 	.sidebar-indication {
 		margin-top: auto;
-		width: var(--side-content-size);
-		height: var(--side-content-size);
+		width: var(--square-btn-size);
+		height: var(--square-btn-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;

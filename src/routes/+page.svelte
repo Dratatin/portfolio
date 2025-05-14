@@ -7,7 +7,8 @@
 		About,
 		ProjectList,
 		ScrolltopButton,
-		InfiniteBanner
+		InfiniteBanner,
+		Footer
 	} from "$lib";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -71,9 +72,11 @@
 	<section class="project-list" id="project" bind:this={projectSection}>
 		<ProjectList />
 	</section>
-	<section style="height: 100vh;" id="skills">coucou</section>
+	<section style="height: 100vh;" id="skills">skills section</section>
 </main>
-<footer></footer>
+<footer class="footer">
+	<Footer />
+</footer>
 <MousePointer />
 
 <style>
@@ -87,7 +90,6 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
 	}
 	.project-list {
 		overflow: hidden;
@@ -99,11 +101,16 @@
 		top: 0;
 		right: 0;
 		border: 2px solid var(--color-black);
-		width: var(--side-content-size);
-		height: var(--side-content-size);
+		width: var(--square-btn-size);
+		height: var(--square-btn-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		z-index: 10;
+	}
+	.footer {
+		min-height: calc(100vh - (var(--square-btn-size) * 2));
+		display: flex;
+		flex-direction: column;
 	}
 </style>
