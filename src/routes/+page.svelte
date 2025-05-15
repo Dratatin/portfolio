@@ -8,7 +8,8 @@
 		ProjectList,
 		ScrolltopButton,
 		InfiniteBanner,
-		Footer
+		Footer,
+		Skills
 	} from "$lib";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,12 +18,13 @@
 	let heroSection: HTMLElement;
 	let aboutSection: HTMLElement;
 	let projectSection: HTMLElement;
+	let skillsSection: HTMLElement;
 
 	const sections = [
 		{ isVisible: false, title: "Acceuil", id: "#hero", el: () => heroSection },
 		{ isVisible: true, title: "À propos", id: "#about", el: () => aboutSection },
 		{ isVisible: true, title: "Liste des projets ", id: "#project", el: () => projectSection },
-		{ isVisible: true, title: "Savoir faire", id: "#skills", el: () => undefined }
+		{ isVisible: true, title: "Savoir faire", id: "#skills", el: () => skillsSection }
 	];
 
 	let titleTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -69,10 +71,17 @@
 	<section class="about-section" id="about" bind:this={aboutSection}>
 		<About />
 	</section>
-	<section class="project-list" id="project" bind:this={projectSection}>
+	<section class="project-list-section" id="project" bind:this={projectSection}>
 		<ProjectList />
 	</section>
-	<section style="height: 100vh;" id="skills">skills section</section>
+	<section class="skills-section" id="skills" bind:this={skillsSection}>
+		<Skills />
+	</section>
+	<section
+		style="height: 100vh; background-color:var(--color-white); position: relative; z-index: 5;"
+	>
+		Je suis une section purrement artistique
+	</section>
 </main>
 <footer class="footer">
 	<Footer />
@@ -91,9 +100,9 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.project-list {
+	.project-list-section {
 		overflow: hidden;
-		margin-block: 15rem;
+		margin-block: 10rem;
 	}
 	.cv-button {
 		background-color: var(--color-white);
@@ -106,7 +115,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 10;
+		z-index: 15;
 	}
 	.footer {
 		min-height: calc(100vh - (var(--square-btn-size) * 2));

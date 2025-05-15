@@ -68,7 +68,6 @@
 		<div class="container-padding">
 			<SectionTitle title="Liste des projets" />
 		</div>
-		<!-- style:width={`calc(${projects.length} * 100vw + 150vw)`} -->
 		<ul
 			class="project-list"
 			bind:this={projectContainerRef}

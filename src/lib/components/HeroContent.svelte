@@ -28,7 +28,7 @@
 		justify-content: space-between;
 		flex: 1;
 		position: relative;
-		z-index: 5;
+		z-index: 10;
 	}
 	.hero-title {
 		margin-block: auto;

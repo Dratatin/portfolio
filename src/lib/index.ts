@@ -16,6 +16,7 @@ import SectionTitle from "./components/SectionTitle.svelte";
 import ScrolltopButton from "./components/ScrolltopButton.svelte";
 import InfiniteBanner from "./components/InfiniteBanner.svelte";
 import Footer from "./components/Footer.svelte";
+import Skills from "./components/Skills.svelte";
 
 export {
 	Header,
@@ -28,5 +29,6 @@ export {
 	SectionTitle,
 	ScrolltopButton,
 	InfiniteBanner,
-	Footer
+	Footer,
+	Skills
 };

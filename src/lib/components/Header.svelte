@@ -56,7 +56,7 @@
 	.header {
 		position: absolute;
 		top: 0;
-		z-index: 10;
+		z-index: 15;
 	}
 	.nav {
 		padding: 3rem;
