@@ -8,23 +8,99 @@
 	const panels = [
 		{
 			panelTitle: "Langages & Préprocesseurs",
-			panelCompetences: ["HTML", "CSS", "SASS", "Javascript", "Typescript", "Twig"],
-			panelShape: "square"
+			panelCompetences: [
+				{
+					iconName: "html",
+					skillName: "HTML"
+				},
+				{
+					iconName: "css",
+					skillName: "CSS"
+				},
+				{
+					iconName: "sass",
+					skillName: "SASS"
+				},
+				{
+					iconName: "javascript",
+					skillName: "Javascript"
+				},
+				{
+					iconName: "typescript",
+					skillName: "Typescript"
+				},
+				{
+					iconName: "twig",
+					skillName: "Twig"
+				}
+			]
 		},
 		{
 			panelTitle: "Frameworks & CMS",
-			panelCompetences: ["React", "Svelte", "Symfony", "Drupal", "Wordpress"],
-			panelShape: "square"
+			panelCompetences: [
+				{
+					iconName: "react",
+					skillName: "React"
+				},
+				{
+					iconName: "svelte",
+					skillName: "Svelte"
+				},
+				{
+					iconName: "symfony",
+					skillName: "Symfony"
+				},
+				{
+					iconName: "drupal",
+					skillName: "Drupal"
+				},
+				{
+					iconName: "wordpress",
+					skillName: "Wordpress"
+				}
+			]
 		},
 		{
 			panelTitle: "Librairies & Outils UI",
-			panelCompetences: ["Tailwind", "GSAP ScrollTrigger", "Three.js"],
-			panelShape: "square"
+			panelCompetences: [
+				{
+					iconName: "tailwind",
+					skillName: "Tailwind"
+				},
+				{
+					iconName: "gsap",
+					skillName: "GSAP ScrollTrigger"
+				},
+				{
+					iconName: "three",
+					skillName: "Three.js"
+				}
+			]
 		},
 		{
 			panelTitle: "Outils & Bundlers",
-			panelCompetences: ["Vite", "Webpack", "Gulp", "Git", "Docker"],
-			panelShape: "square"
+			panelCompetences: [
+				{
+					iconName: "vite",
+					skillName: "Vite"
+				},
+				{
+					iconName: "webpack",
+					skillName: "Webpack"
+				},
+				{
+					iconName: "gulp",
+					skillName: "Gulp"
+				},
+				{
+					iconName: "git",
+					skillName: "Git"
+				},
+				{
+					iconName: "docker",
+					skillName: "Docker"
+				}
+			]
 		}
 	];
 
@@ -149,10 +225,14 @@
 					{#each panel.panelCompetences as skill, index (index)}
 						<li class="skill">
 							<div class="skill-hook-wrapper">
-								<span class="skill-hook"></span>
+								<img
+									class="skill-img"
+									src={`icons/${skill.iconName}.svg`}
+									alt={`${skill.skillName} icon`}
+								/>
 							</div>
 							<span class="skill-text">
-								{skill}
+								{skill.skillName}
 							</span>
 						</li>
 					{/each}
@@ -184,7 +264,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		padding-bottom: 10rem;
+		margin: auto;
+		width: 17rem;
 	}
 	.skill {
 		display: flex;
@@ -211,10 +292,10 @@
 	.skill-hook-wrapper::after {
 		border-right: 1px solid var(--color-white);
 	}
-	.skill-hook {
-		width: 0.5rem;
-		height: 0.5rem;
-		margin: 0 0.4rem;
+	.skill-img {
+		width: 1rem;
+		height: 1rem;
+		margin: 0 0.2rem;
 		display: block;
 	}
 	.panel {
@@ -222,30 +303,27 @@
 		width: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: center;
 		background-color: var(--color-white);
-		position: relative;
+		flex-direction: column;
 	}
 	.panel:last-child {
 		position: relative;
 		z-index: 5;
 	}
 	.panel-title {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		padding: 1rem 8rem 1rem 1rem;
+		padding-right: var(--square-btn-size);
 		font-weight: 800;
 		text-transform: uppercase;
 		font-size: 6rem;
 		line-height: 1;
 		text-align: right;
-		background-color: var(--color-white);
+		margin-top: auto;
+		align-self: flex-end;
 	}
 	.canvas {
 		position: sticky;
 		top: 0;
-		flex: 3;
+		flex: 2;
 		display: flex;
 		justify-content: center;
 		align-items: center;
