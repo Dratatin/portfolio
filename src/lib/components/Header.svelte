@@ -19,10 +19,11 @@
 		hoveredElement.set(null);
 	}
 
-	function scrollToSection(section: HTMLElement | undefined) {
+	function killScrollToNavigate() {
 		const lenis = get(lenisInstance);
-		if (lenis && section) {
-			lenis.scrollTo(section);
+		if (lenis) {
+			lenis.stop();
+			lenis.start();
 		}
 	}
 </script>
@@ -38,7 +39,7 @@
 							class="nav-link"
 							on:mouseenter={() => onMouseEnter(hooksRefs[index])}
 							on:mouseleave={onMouseLeave}
-							on:click={() => scrollToSection(section.el())}
+							on:click={killScrollToNavigate}
 						>
 							<div class="nav-link-hook-wrapper">
 								<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
