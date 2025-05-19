@@ -127,53 +127,55 @@
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
 
-		if (canvasElement) {
-			const scene = new THREE.Scene();
-			const camera = new THREE.PerspectiveCamera(
-				65,
-				canvasElement.clientWidth / canvasElement.clientHeight,
-				1,
-				1000
-			);
-			camera.position.z = 5;
+		requestAnimationFrame(() => {
+			if (canvasElement) {
+				const canvasWidth = canvasElement.clientWidth;
+				const canvasHeight = canvasElement.clientHeight;
 
-			const renderer = new THREE.WebGLRenderer({
-				canvas: canvasElement,
-				antialias: true,
-				alpha: true
-			});
-			renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
+				const scene = new THREE.Scene();
+				const camera = new THREE.PerspectiveCamera(65, canvasWidth / canvasHeight, 1, 1000);
+				camera.position.z = 5;
 
-			const loader = new GLTFLoader();
-			loader.load("/shapes.glb", (gltf) => {
-				gltf.scene.traverse((child) => {
-					morphMesh = child;
-					if (child instanceof THREE.Mesh) {
-						child.material = new THREE.MeshBasicMaterial({
-							color: 0x1a1a1a,
-							wireframe: true
-						});
-						scene.add(child);
-					}
+				const renderer = new THREE.WebGLRenderer({
+					canvas: canvasElement,
+					antialias: true,
+					alpha: true
 				});
-				renderer.render(scene, camera);
-			});
 
-			const animate = () => {
-				requestAnimationFrame(animate);
-				scene.rotation.y += 0.003;
-				scene.rotation.x += 0.003;
-				renderer.render(scene, camera);
-			};
-			animate();
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(canvasWidth, canvasHeight);
 
-			window.addEventListener("resize", () => {
-				if (!canvasElement) return;
-				camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
-			});
-		}
+				const loader = new GLTFLoader();
+				loader.load("/shapes.glb", (gltf) => {
+					gltf.scene.traverse((child) => {
+						morphMesh = child;
+						if (child instanceof THREE.Mesh) {
+							child.material = new THREE.MeshBasicMaterial({
+								color: 0x1a1a1a,
+								wireframe: true
+							});
+							scene.add(child);
+						}
+					});
+					renderer.render(scene, camera);
+				});
+
+				const animate = () => {
+					requestAnimationFrame(animate);
+					scene.rotation.y += 0.003;
+					scene.rotation.x += 0.003;
+					renderer.render(scene, camera);
+				};
+				animate();
+
+				window.addEventListener("resize", () => {
+					if (!canvasElement) return;
+					camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
+					camera.updateProjectionMatrix();
+					renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
+				});
+			}
+		});
 
 		panelRefs.forEach((panel, index) => {
 			gsap.to(panel, {
@@ -220,9 +222,7 @@
 <div class="skills-content">
 	<div class="skills-sidecontent container-padding">
 		<SectionTitle title="Savoir faire" />
-		<div class="canvas-container">
-			<canvas bind:this={canvasElement}></canvas>
-		</div>
+		<canvas bind:this={canvasElement}></canvas>
 	</div>
 	<div class="panels-container">
 		{#each panels as panel, index (index)}
@@ -259,13 +259,7 @@
 		top: 0;
 		flex: 2;
 	}
-	.canvas-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-	}
-	.canvas-container canvas {
+	.skills-sidecontent canvas {
 		width: 100%;
 		height: 100%;
 		display: block;

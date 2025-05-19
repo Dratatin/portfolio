@@ -214,7 +214,7 @@
 		display: block;
 		width: 100%;
 		overflow: hidden;
-		padding-block: 2rem;
+		padding-block: 1.6rem;
 		position: relative;
 	}
 	.footer-link .svg {
@@ -230,7 +230,7 @@
 		width: 100%;
 		height: 2px;
 		left: 0;
-		transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
 	.footer-link:before {
 		top: 0;
