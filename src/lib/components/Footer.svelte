@@ -1,18 +1,115 @@
-<div class="footer-content container-padding">
+<script lang="ts">
+	import gsap from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { onMount } from "svelte";
+
+	let svgLetters: SVGElement[] = [];
+	let FooterElement: HTMLElement;
+
+	function linkFocusIn() {
+		if (svgLetters[12]) {
+			gsap.set(svgLetters[12], { transformOrigin: "center center" });
+			gsap.to(svgLetters[12], { rotate: -40, duration: 0.3, ease: "power2.out" });
+		}
+	}
+
+	function linkFocusOut() {
+		if (svgLetters[12]) {
+			gsap.set(svgLetters[12], { transformOrigin: "center center" });
+			gsap.to(svgLetters[12], { rotate: 0, duration: 0.3, ease: "power2.out" });
+		}
+	}
+
+	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.from(svgLetters, {
+			yPercent: -100,
+			ease: "power2.out",
+			stagger: 0.08,
+			scrollTrigger: {
+				trigger: FooterElement,
+				start: "top bottom",
+				end: "bottom bottom",
+				scrub: true
+			}
+		});
+	});
+</script>
+
+<div bind:this={FooterElement} class="footer-content container-padding">
 	<div class="footer-top">
-		<span class="footer-action">Me recruter</span>
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="172"
-			height="116"
-			viewBox="0 0 172 116"
-			fill="none"
+		<a
+			class="footer-link"
+			href="/"
+			download=""
+			aria-label="Me recruter"
+			on:mouseover={linkFocusIn}
+			on:focus={linkFocusIn}
+			on:mouseleave={linkFocusOut}
+			on:blur={linkFocusOut}
 		>
-			<path
-				d="M172 57.8096L72 0.074543V115.545L172 57.8096ZM0 57.8096L0 67.8096H82V57.8096V47.8096L0 47.8096L0 57.8096Z"
-				fill="#FDFBF7"
-			/>
-		</svg>
+			<svg
+				class="svg"
+				viewBox="0 0 1320 140"
+				width="100%"
+				height="100%"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<g id="letter0" bind:this={svgLetters[0]}
+					><text x="0" y="135" font-size="170" font-family="StroyMono" font-weight="800">M</text></g
+				>
+				<g id="letter1" bind:this={svgLetters[1]}
+					><text x="100" y="135" font-size="170" font-family="StroyMono" font-weight="800">E</text
+					></g
+				>
+				<g id="letter2" bind:this={svgLetters[2]}
+					><text x="200" y="135" font-size="170" font-family="StroyMono" font-weight="800">
+					</text></g
+				>
+				<g id="letter3" bind:this={svgLetters[3]}
+					><text x="300" y="135" font-size="170" font-family="StroyMono" font-weight="800">R</text
+					></g
+				>
+				<g id="letter4" bind:this={svgLetters[4]}
+					><text x="400" y="135" font-size="170" font-family="StroyMono" font-weight="800">E</text
+					></g
+				>
+				<g id="letter5" bind:this={svgLetters[5]}
+					><text x="500" y="135" font-size="170" font-family="StroyMono" font-weight="800">C</text
+					></g
+				>
+				<g id="letter6" bind:this={svgLetters[6]}
+					><text x="600" y="135" font-size="170" font-family="StroyMono" font-weight="800">R</text
+					></g
+				>
+				<g id="letter7" bind:this={svgLetters[7]}
+					><text x="700" y="135" font-size="170" font-family="StroyMono" font-weight="800">U</text
+					></g
+				>
+				<g id="letter8" bind:this={svgLetters[8]}
+					><text x="800" y="135" font-size="170" font-family="StroyMono" font-weight="800">T</text
+					></g
+				>
+				<g id="letter9" bind:this={svgLetters[9]}
+					><text x="900" y="135" font-size="170" font-family="StroyMono" font-weight="800">E</text
+					></g
+				>
+				<g id="letter10" bind:this={svgLetters[10]}
+					><text x="1000" y="135" font-size="170" font-family="StroyMono" font-weight="800">R</text
+					></g
+				>
+				<g id="letter11" bind:this={svgLetters[11]}
+					><text x="1100" y="135" font-size="170" font-family="StroyMono" font-weight="800">
+					</text></g
+				>
+				<g id="arrow" bind:this={svgLetters[12]}
+					><text x="1200" y="135" font-size="200" font-family="StroyMono" font-weight="800"
+						>&#8594;</text
+					></g
+				>
+			</svg>
+		</a>
 	</div>
 	<div class="footer-bottom">
 		<div class="footer-contact">
@@ -80,16 +177,12 @@
 		background-color: var(--color-black);
 		color: var(--color-white);
 		flex: 1;
+		gap: 5rem;
 	}
 	.footer-top {
 		display: flex;
 		align-items: center;
 		gap: 5rem;
-	}
-	.footer-action {
-		text-transform: uppercase;
-		font-size: clamp(2.625rem, 0.131rem + 10.9325vw, 13.25rem);
-		font-weight: 800;
 	}
 	.footer-bottom {
 		display: flex;
@@ -116,5 +209,54 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	.footer-link {
+		display: block;
+		width: 100%;
+		overflow: hidden;
+		padding-block: 2rem;
+		position: relative;
+	}
+	.footer-link .svg {
+		fill: var(--color-white);
+		overflow: visible;
+	}
+	.footer-link:before,
+	.footer-link:after {
+		content: "";
+		display: block;
+		position: absolute;
+		background-color: var(--color-white);
+		width: 100%;
+		height: 2px;
+		left: 0;
+		transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+	.footer-link:before {
+		top: 0;
+		transform: scaleX(1);
+	}
+	.footer-link:after {
+		bottom: 0;
+		transform: scaleX(0);
+	}
+	.footer-link:hover::after {
+		transform: scaleX(1);
+	}
+	.footer-link::after {
+		transform-origin: bottom right;
+	}
+	.footer-link:hover::after {
+		transform-origin: bottom left;
+	}
+
+	.footer-link:hover::before {
+		transform: scaleX(0);
+	}
+	.footer-link::before {
+		transform-origin: bottom right;
+	}
+	.footer-link:hover::before {
+		transform-origin: bottom left;
 	}
 </style>

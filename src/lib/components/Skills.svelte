@@ -4,6 +4,7 @@
 	import { onMount } from "svelte";
 	import * as THREE from "three";
 	import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+	import SectionTitle from "./SectionTitle.svelte";
 
 	const panels = [
 		{
@@ -186,37 +187,42 @@
 				}
 			});
 
-			const tl = gsap.timeline({
-				scrollTrigger: {
-					trigger: panel,
-					scrub: true,
-					pin: true,
-					pinSpacing: false
-				}
-			});
-			tl.to(
-				panelTitleRefs[index],
-				{
-					y: `-${panel.offsetHeight}px`,
-					ease: "none"
-				},
-				0
-			);
-			tl.to(
-				separatorRefs[index],
-				{
-					y: `-${panel.offsetHeight}px`,
-					ease: "none"
-				},
-				0
-			);
+			if (index + 1 < panelRefs.length) {
+				const tl = gsap.timeline({
+					scrollTrigger: {
+						trigger: panel,
+						scrub: true,
+						pin: true,
+						pinSpacing: false
+					}
+				});
+				tl.to(
+					panelTitleRefs[index],
+					{
+						y: `-${panel.offsetHeight}px`,
+						ease: "none"
+					},
+					0
+				);
+				tl.to(
+					separatorRefs[index],
+					{
+						y: `-${panel.offsetHeight}px`,
+						ease: "none"
+					},
+					0
+				);
+			}
 		});
 	});
 </script>
 
 <div class="skills-content">
-	<div class="canvas container-padding">
-		<canvas bind:this={canvasElement}></canvas>
+	<div class="skills-sidecontent container-padding">
+		<SectionTitle title="Savoir faire" />
+		<div class="canvas-container">
+			<canvas bind:this={canvasElement}></canvas>
+		</div>
 	</div>
 	<div class="panels-container">
 		{#each panels as panel, index (index)}
@@ -245,12 +251,21 @@
 </div>
 
 <style>
-	.canvas {
+	.skills-sidecontent {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		position: sticky;
+		top: 0;
+		flex: 2;
+	}
+	.canvas-container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		height: 100%;
 	}
-	.canvas canvas {
+	.canvas-container canvas {
 		width: 100%;
 		height: 100%;
 		display: block;
@@ -305,8 +320,6 @@
 		align-items: center;
 		background-color: var(--color-white);
 		flex-direction: column;
-	}
-	.panel:last-child {
 		position: relative;
 		z-index: 5;
 	}
@@ -319,15 +332,6 @@
 		text-align: right;
 		margin-top: auto;
 		align-self: flex-end;
-	}
-	.canvas {
-		position: sticky;
-		top: 0;
-		flex: 2;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
 	}
 	.panels-container {
 		flex: 5;

@@ -32,8 +32,8 @@
 		flex: none;
 	}
 	.about-content {
-		max-width: 400px;
-		min-width: 300px;
+		max-width: 29rem;
+		min-width: 22rem;
 		width: 30%;
 		margin: auto;
 		display: flex;

@@ -77,9 +77,7 @@
 	<section class="skills-section" id="skills" bind:this={skillsSection}>
 		<Skills />
 	</section>
-	<section
-		style="height: 100vh; background-color:var(--color-white); position: relative; z-index: 5;"
-	>
+	<section style="height: 100vh; background-color:var(--color-white);">
 		Je suis une section purrement artistique
 	</section>
 </main>
