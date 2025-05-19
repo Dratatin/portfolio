@@ -4,12 +4,14 @@
 	--color-white: #fdfbf7;
 	--container-padding: 3rem;
 	--square-btn-size: 4.5rem;
+	--small-font-size: clamp(0.875rem, 0.8462rem + 0.1282vw, 1rem);
+	--base-font-size: clamp(1rem, 0.9423rem + 0.2564vw, 1.25rem);
 }
 
 body {
 	font-family: var(--main-font);
 	font-weight: 400;
-	font-size: 1.125rem;
+	font-size: var(--base-font-size);
 	color: var(--color-black);
 	background-color: var(--color-white);
 	-webkit-font-smoothing: antialiased; /* Pour Safari et Chrome */
@@ -32,7 +34,11 @@ body {
 
 /* Font style */
 .text-sm {
-	font-size: 0.875rem;
+	font-size: var(--small-font-size);
+}
+
+.text-base {
+	font-size: var(--base-font-size);
 }
 
 .hero-title {
