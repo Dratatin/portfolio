@@ -65,7 +65,7 @@
 	.nav-list {
 		display: flex;
 		text-transform: uppercase;
-		gap: 2rem;
+		gap: 3rem;
 	}
 	.nav-link {
 		display: flex;

@@ -30,6 +30,7 @@
 		min-width: 27rem;
 		overflow: hidden;
 		flex: none;
+		border-right: 2px solid var(--color-black);
 	}
 	.about-content {
 		max-width: 29rem;

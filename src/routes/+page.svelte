@@ -97,10 +97,10 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		border-bottom: 2px solid var(--color-black);
 	}
 	.project-list-section {
 		overflow: hidden;
-		margin-block: 10rem;
 	}
 	.cv-button {
 		background-color: var(--color-white);

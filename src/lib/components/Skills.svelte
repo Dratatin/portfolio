@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { SplitText } from "gsap/SplitText";
 	import { onMount } from "svelte";
 	import * as THREE from "three";
 	import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -115,17 +116,17 @@
 	function animateMorph(number: number) {
 		if (morphMesh instanceof THREE.Mesh && morphMesh.morphTargetInfluences) {
 			const influences = morphMesh.morphTargetInfluences;
-			gsap.to(influences, { [0]: 0, duration: 1.3, ease: "power3" });
-			gsap.to(influences, { [1]: 0, duration: 1.3, ease: "power3" });
-			gsap.to(influences, { [2]: 0, duration: 1.3, ease: "power3" });
+			gsap.to(influences, { [0]: 0, duration: 0.6, ease: "power2.out" });
+			gsap.to(influences, { [1]: 0, duration: 0.6, ease: "power2.out" });
+			gsap.to(influences, { [2]: 0, duration: 0.6, ease: "power2.out" });
 			if (number !== -1) {
-				gsap.to(influences, { [number]: 1, duration: 1.3, ease: "power3" });
+				gsap.to(influences, { [number]: 1, duration: 0.6, ease: "power2.out" });
 			}
 		}
 	}
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger);
+		gsap.registerPlugin(ScrollTrigger, SplitText);
 
 		requestAnimationFrame(() => {
 			if (canvasElement) {
@@ -190,6 +191,24 @@
 			});
 
 			if (index + 1 < panelRefs.length) {
+				let split = SplitText.create(panelTitleRefs[index], {
+					type: "words, lines", // only split into words and lines (not characters)
+					mask: "lines" // adds extra wrapper element around lines with overflow: clip (v3.13.0+)
+				});
+
+				gsap.from(split.words, {
+					yPercent: 110,
+					rotate: -3,
+					duration: 0.4,
+					ease: "power2.out",
+					stagger: 0.06,
+					scrollTrigger: {
+						trigger: panelTitleRefs[index],
+						start: "bottom bottom",
+						toggleActions: "play none none reverse"
+					}
+				});
+
 				const tl = gsap.timeline({
 					scrollTrigger: {
 						trigger: panel,
@@ -322,7 +341,7 @@
 		font-weight: 800;
 		text-transform: uppercase;
 		font-size: 6rem;
-		line-height: 1;
+		line-height: 1.2;
 		text-align: right;
 		margin-top: auto;
 		align-self: flex-end;

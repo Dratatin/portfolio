@@ -42,7 +42,6 @@
 				trigger: ".project-container",
 				pin: true,
 				scrub: 1,
-				//snap: directionalSnap(1 / (sections.length - 1)),
 				end: "+=3000"
 			}
 		});
