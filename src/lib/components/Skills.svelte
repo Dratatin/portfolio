@@ -337,7 +337,7 @@
 		z-index: 5;
 	}
 	.panel-title {
-		padding-right: var(--square-btn-size);
+		padding-right: var(--side-content-size);
 		font-weight: 800;
 		text-transform: uppercase;
 		font-size: 6rem;

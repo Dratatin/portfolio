@@ -203,8 +203,8 @@
 		flex-direction: column;
 	}
 	.footer-btn {
-		width: var(--square-btn-size);
-		height: var(--square-btn-size);
+		width: var(--side-content-size);
+		height: var(--side-content-size);
 		background-color: var(--color-white);
 		display: flex;
 		align-items: center;

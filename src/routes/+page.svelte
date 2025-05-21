@@ -27,9 +27,10 @@
 		{ isVisible: true, title: "Savoir faire", id: "#skills", el: () => skillsSection }
 	];
 
+	let activeSectionName: string = $state(sections[0].title);
 	let titleTimeout: ReturnType<typeof setTimeout> | null = null;
 
-	function updateURL(id: string, title: string) {
+	function updateActiveSection(id: string, title: string) {
 		const current = window.location.hash.replace("#", "");
 		if (current !== id) {
 			if (titleTimeout) clearTimeout(titleTimeout);
@@ -37,6 +38,7 @@
 
 			titleTimeout = setTimeout(() => {
 				document.title = `Portfolio — ${title}`;
+				activeSectionName = title;
 			}, 500);
 		}
 	}
@@ -52,41 +54,50 @@
 				trigger: node,
 				start: "top center",
 				end: "bottom center",
-				onEnter: () => updateURL(id, title),
-				onEnterBack: () => updateURL(id, title)
+				onEnter: () => updateActiveSection(id, title),
+				onEnterBack: () => updateActiveSection(id, title)
 			});
 		});
 	});
 </script>
 
-<Header {sections} />
-<main>
-	<ScrolltopButton />
-	<section class="hero-section" id="hero" bind:this={heroSection}>
-		<HeroContent />
-		<a href="/" download="" class="cv-button interactive-btn-font"> CV </a>
-		<Skillsbar />
-	</section>
-	<InfiniteBanner />
-	<section class="about-section" id="about" bind:this={aboutSection}>
-		<About />
-	</section>
-	<section class="project-list-section" id="project" bind:this={projectSection}>
-		<ProjectList />
-	</section>
-	<section class="skills-section" id="skills" bind:this={skillsSection}>
-		<Skills />
-	</section>
-	<section style="height: 100vh; background-color:var(--color-white);">
-		Je suis une section purrement artistique
-	</section>
-</main>
-<footer class="footer">
-	<Footer />
-</footer>
-<MousePointer />
+<div class="site-content">
+	<Header {sections} />
+	<main>
+		<div class="sidebar">
+			<a href="/" download="" class="sidebar-cv interactive-btn-font"> CV </a>
+			<span class="sidebar-section text-sm">{activeSectionName}</span>
+			<ScrolltopButton />
+		</div>
+		<MousePointer />
+
+		<section class="hero-section" id="hero" bind:this={heroSection}>
+			<HeroContent />
+			<Skillsbar />
+		</section>
+		<InfiniteBanner />
+		<section class="about-section" id="about" bind:this={aboutSection}>
+			<About />
+		</section>
+		<section class="project-list-section" id="project" bind:this={projectSection}>
+			<ProjectList />
+		</section>
+		<section class="skills-section" id="skills" bind:this={skillsSection}>
+			<Skills />
+		</section>
+		<section style="height: 100vh; background-color:var(--color-white);">
+			Je suis une section purrement artistique
+		</section>
+	</main>
+	<footer class="footer">
+		<Footer />
+	</footer>
+</div>
 
 <style>
+	.site-content {
+		padding-right: var(--side-content-size);
+	}
 	.hero-section {
 		min-height: 100vh;
 		display: flex;
@@ -102,22 +113,38 @@
 	.project-list-section {
 		overflow: hidden;
 	}
-	.cv-button {
-		background-color: var(--color-white);
+	.footer {
+		min-height: calc(100vh - (var(--side-content-size) * 2));
+		display: flex;
+		flex-direction: column;
+	}
+	.sidebar {
+		background-color: var(--color-black);
+		width: var(--side-content-size);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
 		position: fixed;
 		top: 0;
 		right: 0;
+		height: 100vh;
+	}
+	.sidebar-section {
+		text-orientation: mixed;
+		writing-mode: vertical-rl;
+		color: var(--color-white);
+		margin-bottom: auto;
+		padding-inline: 2rem;
+		text-transform: uppercase;
+	}
+	.sidebar-cv {
+		background-color: var(--color-white);
 		border: 2px solid var(--color-black);
-		width: var(--square-btn-size);
-		height: var(--square-btn-size);
+		width: var(--side-content-size);
+		height: var(--side-content-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 15;
-	}
-	.footer {
-		min-height: calc(100vh - (var(--square-btn-size) * 2));
-		display: flex;
-		flex-direction: column;
 	}
 </style>

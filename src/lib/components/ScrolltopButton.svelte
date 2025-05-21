@@ -22,16 +22,12 @@
 <style>
 	.scrolltop-button {
 		background-color: var(--color-black);
-		position: fixed;
-		top: var(--square-btn-size);
-		right: 0;
 		border: 2px solid var(--color-black);
-		width: var(--square-btn-size);
-		height: var(--square-btn-size);
+		width: var(--side-content-size);
+		height: var(--side-content-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 10;
 		cursor: pointer;
 	}
 	.scrolltop-button svg {

@@ -32,4 +32,7 @@
 		position: relative;
 		line-height: normal;
 	}
+	.keyword-item:last-child {
+		border-right: 0;
+	}
 </style>

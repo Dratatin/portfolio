@@ -3,7 +3,7 @@
 	--color-black: #1a1a1a;
 	--color-white: #fdfbf7;
 	--container-padding: 3rem;
-	--square-btn-size: 4.5rem;
+	--side-content-size: 4.5rem;
 	--small-font-size: clamp(0.875rem, 0.8462rem + 0.1282vw, 1rem);
 	--base-font-size: clamp(1rem, 0.9423rem + 0.2564vw, 1.25rem);
 }
