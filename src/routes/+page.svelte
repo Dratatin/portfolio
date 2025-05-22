@@ -5,11 +5,11 @@
 		HeroContent,
 		MousePointer,
 		About,
-		ProjectList,
 		ScrolltopButton,
 		InfiniteBanner,
 		Footer,
-		Skills
+		Skills,
+		Projects
 	} from "$lib";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -80,7 +80,7 @@
 			<About />
 		</section>
 		<section class="project-list-section" id="project" bind:this={projectSection}>
-			<ProjectList />
+			<Projects />
 		</section>
 		<section class="skills-section" id="skills" bind:this={skillsSection}>
 			<Skills />
@@ -111,7 +111,7 @@
 		border-bottom: 2px solid var(--color-black);
 	}
 	.project-list-section {
-		overflow: hidden;
+		height: 100vh;
 	}
 	.footer {
 		min-height: calc(100vh - (var(--side-content-size) * 2));

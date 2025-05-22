@@ -1,6 +1,5 @@
 <script>
-	import LazyImage from "$lib/components/LazyImage.svelte";
-	import SectionTitle from "$lib/components/SectionTitle.svelte";
+	import { LazyImage } from "$lib";
 	import moi from "../../assets/moi.jpg";
 </script>
 
@@ -10,7 +9,6 @@
 		<LazyImage src={moi} alt="Photo de moi détendue" placeholder={moi} width="1365" height="2048" />
 	</div>
 	<div class="about-content">
-		<SectionTitle title="à propos" />
 		<p class="about-description">
 			Salut ! Bienvenue sur mon portfolio. Je suis développeur front-end, passionné par le design
 			d’interaction et les animations web. J’aime créer des interfaces fluides, vivantes, et bien

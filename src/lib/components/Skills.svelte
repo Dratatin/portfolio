@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 	import * as THREE from "three";
 	import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-	import SectionTitle from "./SectionTitle.svelte";
+	import { SkillItem } from "$lib";
 
 	const panels = [
 		{
@@ -240,7 +240,6 @@
 
 <div class="skills-content">
 	<div class="skills-sidecontent container-padding">
-		<SectionTitle title="Savoir faire" />
 		<canvas bind:this={canvasElement}></canvas>
 	</div>
 	<div class="panels-container">
@@ -248,17 +247,8 @@
 			<div class="panel container-padding" bind:this={panelRefs[index]}>
 				<ul class="skills-list">
 					{#each panel.panelCompetences as skill, index (index)}
-						<li class="skill">
-							<div class="skill-hook-wrapper">
-								<img
-									class="skill-img"
-									src={`icons/${skill.iconName}.svg`}
-									alt={`${skill.skillName} icon`}
-								/>
-							</div>
-							<span class="skill-text">
-								{skill.skillName}
-							</span>
+						<li>
+							<SkillItem skillName={skill.skillName} skillIcon={skill.iconName} />
 						</li>
 					{/each}
 				</ul>
@@ -294,37 +284,6 @@
 		gap: 0.5rem;
 		margin: auto;
 		width: 17rem;
-	}
-	.skill {
-		display: flex;
-		gap: 1rem;
-	}
-	.skill-hook-wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	.skill-hook-wrapper::before,
-	.skill-hook-wrapper::after {
-		content: "";
-		display: block;
-		width: 0.35rem;
-		height: 1rem;
-		border-top: 1px solid var(--color-white);
-		border-bottom: 1px solid var(--color-white);
-		mix-blend-mode: difference;
-	}
-	.skill-hook-wrapper::before {
-		border-left: 1px solid var(--color-white);
-	}
-	.skill-hook-wrapper::after {
-		border-right: 1px solid var(--color-white);
-	}
-	.skill-img {
-		width: 1rem;
-		height: 1rem;
-		margin: 0 0.2rem;
-		display: block;
 	}
 	.panel {
 		min-height: 100vh;

@@ -11,12 +11,12 @@ import HeroContent from "./components/HeroContent.svelte";
 import MousePointer from "./components/MousePointer.svelte";
 import About from "./components/About.svelte";
 import LazyImage from "./components/LazyImage.svelte";
-import ProjectList from "./components/ProjectList.svelte";
-import SectionTitle from "./components/SectionTitle.svelte";
 import ScrolltopButton from "./components/ScrolltopButton.svelte";
 import InfiniteBanner from "./components/InfiniteBanner.svelte";
 import Footer from "./components/Footer.svelte";
 import Skills from "./components/Skills.svelte";
+import Projects from "./components/Projects.svelte";
+import SkillItem from "./components/SkillItem.svelte";
 
 export {
 	Header,
@@ -25,10 +25,10 @@ export {
 	MousePointer,
 	About,
 	LazyImage,
-	ProjectList,
-	SectionTitle,
 	ScrolltopButton,
 	InfiniteBanner,
 	Footer,
-	Skills
+	Skills,
+	Projects,
+	SkillItem
 };
