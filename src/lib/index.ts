@@ -17,6 +17,7 @@ import Footer from "./components/Footer.svelte";
 import Skills from "./components/Skills.svelte";
 import Projects from "./components/Projects.svelte";
 import SkillItem from "./components/SkillItem.svelte";
+import VisualGrid from "./components/VisualGrid.svelte";
 
 export {
 	Header,
@@ -30,5 +31,6 @@ export {
 	Footer,
 	Skills,
 	Projects,
-	SkillItem
+	SkillItem,
+	VisualGrid
 };

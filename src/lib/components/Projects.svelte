@@ -5,8 +5,16 @@
 
 <div class="projects">
 	<div class="projects-details">
+		<h3 class="projects-title container-padding">Kerialis</h3>
 		<div class="projects-description">
-			<h3 class="projects-title container-padding">Kerialis</h3>
+			<div class="projects-technowrapper container-padding">
+				<div class="project-techno">
+					<SkillItem skillIcon="react" skillName="React" />
+					<SkillItem skillIcon="tailwind" skillName="Tailwindcss" />
+					<SkillItem skillIcon="vite" skillName="Vite" />
+					<SkillItem skillIcon="gsap" skillName="GSAP" />
+				</div>
+			</div>
 			<p class="project-text container-padding">
 				Salut ! Bienvenue sur mon portfolio. Je suis développeur front-end, passionné par le design
 				d’interaction et les animations web. J’aime créer des interfaces fluides, vivantes, et bien
@@ -37,19 +45,11 @@
 			</a>
 		</div>
 	</div>
-	<div class="projects-main">
-		<div class="projects-technocontainer">
-			<div class="projects-technowrapper container-padding">
-				<div class="project-techno">
-					<SkillItem skillIcon="react" skillName="React" />
-					<SkillItem skillIcon="tailwind" skillName="Tailwindcss" />
-					<SkillItem skillIcon="vite" skillName="Vite" />
-					<SkillItem skillIcon="gsap" skillName="GSAP" />
-				</div>
-			</div>
-			<div class="projects-decoration">*</div>
+	<div class="projects-video">
+		<div class="projects-decoration">*</div>
+		<div class="project-img">
+			<img src={project1} alt="Project img" />
 		</div>
-		<img class="project-img" src={project1} alt="Project img" />
 	</div>
 </div>
 
@@ -57,6 +57,12 @@
 	.projects {
 		display: flex;
 		height: 100%;
+	}
+	.projects-technowrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
 	}
 	.project-techno {
 		display: flex;
@@ -78,24 +84,13 @@
 		width: 100%;
 		padding: 2rem;
 	}
-	.projects-main {
+	.projects-video {
 		border-bottom: 2px solid var(--color-black);
 		border-left: 2px solid var(--color-black);
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-	}
-	.projects-technocontainer {
-		display: flex;
-		flex: 1;
-	}
-	.projects-technowrapper {
-		height: 100%;
-		border-bottom: 2px solid var(--color-black);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
+		aspect-ratio: 1;
 	}
 	.projects-details {
 		border-bottom: 2px solid var(--color-black);
@@ -118,9 +113,20 @@
 		padding: 1rem 3rem;
 	}
 	.project-img {
-		aspect-ratio: 4 / 3;
+		display: block;
+		overflow: hidden;
+		position: relative;
+		aspect-ratio: 4/3;
+	}
+	.project-img img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
 		width: 100%;
-		height: auto;
+		height: 100%;
+		object-fit: cover;
 	}
 	.projects-description {
 		display: flex;
@@ -131,10 +137,11 @@
 	.project-text {
 		margin: 3rem;
 		max-width: 700px;
-		min-width: 400px;
-		width: 60%;
+		min-width: 500px;
+		width: 65%;
 		margin: auto;
 		padding: 3rem;
+		padding-top: 0;
 	}
 	.projects-decoration {
 		font-size: 6rem;
@@ -145,7 +152,7 @@
 		justify-content: center;
 		padding: 2rem 3rem;
 		border-bottom: 2px solid var(--color-black);
-		border-left: 2px solid var(--color-black);
 		line-height: 1;
+		flex: 1;
 	}
 </style>

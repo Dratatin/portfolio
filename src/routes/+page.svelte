@@ -9,7 +9,8 @@
 		InfiniteBanner,
 		Footer,
 		Skills,
-		Projects
+		Projects,
+		VisualGrid
 	} from "$lib";
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -70,7 +71,6 @@
 			<ScrolltopButton />
 		</div>
 		<MousePointer />
-
 		<section class="hero-section" id="hero" bind:this={heroSection}>
 			<HeroContent />
 			<Skillsbar />
@@ -85,8 +85,8 @@
 		<section class="skills-section" id="skills" bind:this={skillsSection}>
 			<Skills />
 		</section>
-		<section style="height: 100vh; background-color:var(--color-white);">
-			Je suis une section purrement artistique
+		<section class="visual-section">
+			<VisualGrid />
 		</section>
 	</main>
 	<footer class="footer">
@@ -129,6 +129,7 @@
 		top: 0;
 		right: 0;
 		height: 100vh;
+		z-index: 15;
 	}
 	.sidebar-section {
 		text-orientation: mixed;
@@ -146,5 +147,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	.visual-section {
+		min-height: 100vh;
+		background-color: var(--color-white);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		margin-block: 5rem;
 	}
 </style>

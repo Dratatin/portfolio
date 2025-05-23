@@ -106,6 +106,7 @@
 		}
 	];
 
+	let skillsBlock: HTMLElement;
 	let canvasElement: HTMLCanvasElement | null = null;
 	let panelRefs: HTMLElement[] = [];
 	let panelTitleRefs: HTMLElement[] = [];
@@ -128,55 +129,77 @@
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger, SplitText);
 
-		requestAnimationFrame(() => {
-			if (canvasElement) {
-				const canvasWidth = canvasElement.clientWidth;
-				const canvasHeight = canvasElement.clientHeight;
+		let scene: THREE.Scene;
+		let camera: THREE.PerspectiveCamera;
+		let renderer: THREE.WebGLRenderer;
+		let isRendering = false;
 
-				const scene = new THREE.Scene();
-				const camera = new THREE.PerspectiveCamera(65, canvasWidth / canvasHeight, 1, 1000);
-				camera.position.z = 5;
+		if (canvasElement) {
+			const canvasWidth = canvasElement.clientWidth;
+			const canvasHeight = canvasElement.clientHeight;
 
-				const renderer = new THREE.WebGLRenderer({
-					canvas: canvasElement,
-					antialias: true,
-					alpha: true
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(65, canvasWidth / canvasHeight, 1, 1000);
+			camera.position.z = 5;
+
+			renderer = new THREE.WebGLRenderer({
+				canvas: canvasElement,
+				antialias: true,
+				alpha: true
+			});
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(canvasWidth, canvasHeight);
+
+			const loader = new GLTFLoader();
+			loader.load("/shapes.glb", (gltf) => {
+				gltf.scene.traverse((child) => {
+					morphMesh = child;
+					if (child instanceof THREE.Mesh) {
+						child.material = new THREE.MeshBasicMaterial({
+							color: 0x1a1a1a,
+							wireframe: true
+						});
+						scene.add(child);
+					}
 				});
+				renderer.render(scene, camera);
+			});
 
-				renderer.setPixelRatio(window.devicePixelRatio);
-				renderer.setSize(canvasWidth, canvasHeight);
+			const renderLoop = () => {
+				if (!isRendering) return;
+				requestAnimationFrame(renderLoop);
+				scene.rotation.y += 0.003;
+				scene.rotation.x += 0.003;
+				renderer.render(scene, camera);
+			};
 
-				const loader = new GLTFLoader();
-				loader.load("/shapes.glb", (gltf) => {
-					gltf.scene.traverse((child) => {
-						morphMesh = child;
-						if (child instanceof THREE.Mesh) {
-							child.material = new THREE.MeshBasicMaterial({
-								color: 0x1a1a1a,
-								wireframe: true
-							});
-							scene.add(child);
-						}
-					});
-					renderer.render(scene, camera);
-				});
+			ScrollTrigger.create({
+				trigger: skillsBlock,
+				start: "top bottom",
+				end: "bottom top",
+				onEnter: () => {
+					isRendering = true;
+					renderLoop();
+				},
+				onEnterBack: () => {
+					isRendering = true;
+					renderLoop();
+				},
+				onLeave: () => {
+					isRendering = false;
+				},
+				onLeaveBack: () => {
+					isRendering = false;
+				}
+			});
 
-				const animate = () => {
-					requestAnimationFrame(animate);
-					scene.rotation.y += 0.003;
-					scene.rotation.x += 0.003;
-					renderer.render(scene, camera);
-				};
-				animate();
-
-				window.addEventListener("resize", () => {
-					if (!canvasElement) return;
-					camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
-					camera.updateProjectionMatrix();
-					renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
-				});
-			}
-		});
+			window.addEventListener("resize", () => {
+				if (!canvasElement) return;
+				camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
+			});
+		}
 
 		panelRefs.forEach((panel, index) => {
 			gsap.to(panel, {
@@ -190,25 +213,25 @@
 				}
 			});
 
+			let split = SplitText.create(panelTitleRefs[index], {
+				type: "words, lines",
+				mask: "lines"
+			});
+
+			gsap.from(split.words, {
+				yPercent: 110,
+				rotate: -3,
+				duration: 0.4,
+				ease: "power2.out",
+				stagger: 0.06,
+				scrollTrigger: {
+					trigger: panelTitleRefs[index],
+					start: "bottom bottom",
+					toggleActions: "play none none reverse"
+				}
+			});
+
 			if (index + 1 < panelRefs.length) {
-				let split = SplitText.create(panelTitleRefs[index], {
-					type: "words, lines", // only split into words and lines (not characters)
-					mask: "lines" // adds extra wrapper element around lines with overflow: clip (v3.13.0+)
-				});
-
-				gsap.from(split.words, {
-					yPercent: 110,
-					rotate: -3,
-					duration: 0.4,
-					ease: "power2.out",
-					stagger: 0.06,
-					scrollTrigger: {
-						trigger: panelTitleRefs[index],
-						start: "bottom bottom",
-						toggleActions: "play none none reverse"
-					}
-				});
-
 				const tl = gsap.timeline({
 					scrollTrigger: {
 						trigger: panel,
@@ -238,13 +261,16 @@
 	});
 </script>
 
-<div class="skills-content">
+<div class="skills-content" bind:this={skillsBlock}>
 	<div class="skills-sidecontent container-padding">
 		<canvas bind:this={canvasElement}></canvas>
 	</div>
 	<div class="panels-container">
 		{#each panels as panel, index (index)}
-			<div class="panel container-padding" bind:this={panelRefs[index]}>
+			<div
+				class="panel container-padding {index === panels.length - 1 ? 'panel-fix' : ''}"
+				bind:this={panelRefs[index]}
+			>
 				<ul class="skills-list">
 					{#each panel.panelCompetences as skill, index (index)}
 						<li>
@@ -267,6 +293,7 @@
 		position: sticky;
 		top: 0;
 		flex: 2;
+		border-bottom: 2px solid var(--color-black);
 	}
 	.skills-sidecontent canvas {
 		width: 100%;
@@ -292,8 +319,11 @@
 		align-items: center;
 		background-color: var(--color-white);
 		flex-direction: column;
+	}
+	.panel-fix {
 		position: relative;
 		z-index: 5;
+		border-bottom: 2px solid var(--color-black);
 	}
 	.panel-title {
 		padding-right: var(--side-content-size);
