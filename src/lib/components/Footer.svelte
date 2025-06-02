@@ -178,6 +178,7 @@
 		color: var(--color-white);
 		flex: 1;
 		gap: 5rem;
+		border-right: 2px solid var(--color-white);
 	}
 	.footer-top {
 		display: flex;

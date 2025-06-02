@@ -11,10 +11,10 @@
 </script>
 
 <button class="scrolltop-button" aria-label="scroll top" type="button" on:click={scrollToTop}>
-	<svg xmlns="http://www.w3.org/2000/svg" width="12" height="31" viewBox="0 0 12 31" fill="none">
+	<svg xmlns="http://www.w3.org/2000/svg" width="19" height="31" viewBox="0 0 19 31" fill="none">
 		<path
-			d="M7 1L7 6.55671e-08L5 -6.55671e-08L5 1L7 1ZM6 31L11.7735 21L0.226496 21L6 31ZM6 1L5 1L5 22L6 22L7 22L7 1L6 1Z"
-			fill="#FDFBF7"
+			d="M7.24785 31V14.4803L7.45259 5.54737L0 9.58553V5.01711L9.45905 0L19 5.01711V9.58553L11.3427 5.46579L11.5474 14.4803V31H7.24785Z"
+			fill="white"
 		/>
 	</svg>
 </button>
@@ -29,8 +29,8 @@
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-	}
-	.scrolltop-button svg {
-		transform: rotate(180deg);
+		color: var(--color-white);
+		font-size: 3rem;
+		position: relative;
 	}
 </style>

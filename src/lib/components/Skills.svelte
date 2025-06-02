@@ -215,7 +215,7 @@
 
 			let split = SplitText.create(panelTitleRefs[index], {
 				type: "words, lines",
-				mask: "lines"
+				mask: "words"
 			});
 
 			gsap.from(split.words, {
