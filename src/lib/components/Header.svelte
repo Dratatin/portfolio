@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { get } from "svelte/store";
-	import { lenisInstance } from "$lib/stores/lenis";
 	import { hoveredElement } from "$lib/stores/cursor";
 	export let sections: {
 		isVisible: boolean;
 		title: string;
-		id: string;
-		el: () => HTMLElement | undefined;
+		href: string;
 	}[] = [];
 
 	const hooksRefs: HTMLElement[] = [];
@@ -18,14 +15,6 @@
 	function onMouseLeave() {
 		hoveredElement.set(null);
 	}
-
-	function killScrollToNavigate() {
-		const lenis = get(lenisInstance);
-		if (lenis) {
-			lenis.stop();
-			lenis.start();
-		}
-	}
 </script>
 
 <header class="header">
@@ -35,11 +24,10 @@
 				{#if section.isVisible}
 					<li>
 						<a
-							href={section.id}
+							href={section.href}
 							class="nav-link"
 							on:mouseenter={() => onMouseEnter(hooksRefs[index])}
 							on:mouseleave={onMouseLeave}
-							on:click={killScrollToNavigate}
 						>
 							<div class="nav-link-hook-wrapper">
 								<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>

@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 	import * as THREE from "three";
 	import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-	import { SkillItem } from "$lib";
+	import SkillItem from "$lib/components/SkillItem.svelte";
 
 	const panels = [
 		{

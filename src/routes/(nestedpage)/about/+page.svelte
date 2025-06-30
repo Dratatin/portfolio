@@ -1,7 +1,7 @@
 <script lang="ts">
-	import relaxed from "../../assets/relaxed.jpg";
-	import pro from "../../assets/pro.jpg";
-	import cat from "../../assets/cat.jpg";
+	import relaxed from "$assets/relaxed.jpg";
+	import pro from "$assets/pro.jpg";
+	import cat from "$assets/cat.jpg";
 	import gsap from "gsap";
 	import { SplitText } from "gsap/SplitText";
 	import type SplitTextType from "gsap/SplitText";
@@ -244,7 +244,7 @@
 
 <style>
 	.about-container {
-		height: 100%;
+		height: 100svh;
 		display: flex;
 		overflow: hidden;
 	}

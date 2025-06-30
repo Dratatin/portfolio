@@ -4,6 +4,7 @@
 	import { onMount } from "svelte";
 	import Lenis from "lenis";
 	import { lenisInstance } from "$lib/stores/lenis";
+	import Sidebar from "$lib/components/Sidebar.svelte";
 
 	onMount(() => {
 		const lenis = new Lenis({
@@ -25,4 +26,7 @@
 	let { children } = $props();
 </script>
 
-{@render children()}
+<div>
+	<Sidebar />
+	{@render children()}
+</div>
