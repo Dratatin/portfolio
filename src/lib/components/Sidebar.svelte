@@ -112,7 +112,6 @@
 			<a href="/" download="" class="sidebar-link interactive-btn-font"> in </a>
 		</li>
 	</ul>
-	<span class="sidebar-section text-sm">Active page</span>
 </div>
 
 <style>
@@ -133,14 +132,6 @@
 		right: 0;
 		height: 100vh;
 		z-index: 15;
-	}
-	.sidebar-section {
-		text-orientation: mixed;
-		writing-mode: vertical-rl;
-		color: var(--color-white);
-		margin-bottom: auto;
-		padding-inline: 2rem;
-		text-transform: uppercase;
 	}
 	.sidebar-canvas,
 	.sidebar-link {

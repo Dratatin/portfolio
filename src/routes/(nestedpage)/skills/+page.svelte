@@ -1,15 +1,20 @@
 <script lang="ts">
-	import gsap from "gsap";
-	import { ScrollTrigger } from "gsap/ScrollTrigger";
-	import { SplitText } from "gsap/SplitText";
-	import { onMount } from "svelte";
-	import * as THREE from "three";
-	import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 	import SkillItem from "$lib/components/SkillItem.svelte";
+	import gsap from "gsap";
+	import { Draggable } from "gsap/Draggable";
+	import InertiaPlugin from "gsap/InertiaPlugin";
+	import { onMount } from "svelte";
+
+	let skillsDragContainer: HTMLElement;
+	let glitechItems: HTMLElement[] = [];
+	const skillsRefs: HTMLElement[] = [];
+
+	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	const panels = [
 		{
 			panelTitle: "Langages & Préprocesseurs",
+			id: "lang",
 			panelCompetences: [
 				{
 					iconName: "html",
@@ -39,6 +44,7 @@
 		},
 		{
 			panelTitle: "Frameworks & CMS",
+			id: "frame",
 			panelCompetences: [
 				{
 					iconName: "react",
@@ -64,6 +70,7 @@
 		},
 		{
 			panelTitle: "Librairies & Outils UI",
+			id: "lib",
 			panelCompetences: [
 				{
 					iconName: "tailwind",
@@ -71,7 +78,7 @@
 				},
 				{
 					iconName: "gsap",
-					skillName: "GSAP ScrollTrigger"
+					skillName: "GSAP"
 				},
 				{
 					iconName: "three",
@@ -81,6 +88,7 @@
 		},
 		{
 			panelTitle: "Outils & Bundlers",
+			id: "tools",
 			panelCompetences: [
 				{
 					iconName: "vite",
@@ -106,245 +114,151 @@
 		}
 	];
 
-	let skillsBlock: HTMLElement;
-	let canvasElement: HTMLCanvasElement | null = null;
-	let panelRefs: HTMLElement[] = [];
-	let panelTitleRefs: HTMLElement[] = [];
-	let separatorRefs: HTMLElement[] = [];
+	let glitchInterval: ReturnType<typeof setInterval>;
 
-	let morphMesh: THREE.Object3D<THREE.Object3DEventMap>;
-
-	function animateMorph(number: number) {
-		if (morphMesh instanceof THREE.Mesh && morphMesh.morphTargetInfluences) {
-			const influences = morphMesh.morphTargetInfluences;
-			gsap.to(influences, { [0]: 0, duration: 0.6, ease: "power2.out" });
-			gsap.to(influences, { [1]: 0, duration: 0.6, ease: "power2.out" });
-			gsap.to(influences, { [2]: 0, duration: 0.6, ease: "power2.out" });
-			if (number !== -1) {
-				gsap.to(influences, { [number]: 1, duration: 0.6, ease: "power2.out" });
-			}
-		}
-	}
+	const handleRickRollClick = (elem: HTMLElement) => {
+		gsap.set(elem, { display: "none" });
+	};
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger, SplitText);
+		gsap.registerPlugin(Draggable, InertiaPlugin);
 
-		let scene: THREE.Scene;
-		let camera: THREE.PerspectiveCamera;
-		let renderer: THREE.WebGLRenderer;
-		let isRendering = false;
-
-		if (canvasElement) {
-			const canvasWidth = canvasElement.clientWidth;
-			const canvasHeight = canvasElement.clientHeight;
-
-			scene = new THREE.Scene();
-			camera = new THREE.PerspectiveCamera(65, canvasWidth / canvasHeight, 1, 1000);
-			camera.position.z = 5;
-
-			renderer = new THREE.WebGLRenderer({
-				canvas: canvasElement,
-				antialias: true,
-				alpha: true
+		skillsRefs.forEach((panel) => {
+			Draggable.create(panel, {
+				type: "x,y",
+				bounds: skillsDragContainer,
+				inertia: true
 			});
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(canvasWidth, canvasHeight);
-
-			const loader = new GLTFLoader();
-			loader.load("/shapes.glb", (gltf) => {
-				gltf.scene.traverse((child) => {
-					morphMesh = child;
-					if (child instanceof THREE.Mesh) {
-						child.material = new THREE.MeshBasicMaterial({
-							color: 0x1a1a1a,
-							wireframe: true
-						});
-						scene.add(child);
-					}
-				});
-				renderer.render(scene, camera);
-			});
-
-			const renderLoop = () => {
-				if (!isRendering) return;
-				requestAnimationFrame(renderLoop);
-				scene.rotation.y += 0.003;
-				scene.rotation.x += 0.003;
-				renderer.render(scene, camera);
-			};
-
-			ScrollTrigger.create({
-				trigger: skillsBlock,
-				start: "top bottom",
-				end: "bottom top",
-				onEnter: () => {
-					isRendering = true;
-					renderLoop();
-				},
-				onEnterBack: () => {
-					isRendering = true;
-					renderLoop();
-				},
-				onLeave: () => {
-					isRendering = false;
-				},
-				onLeaveBack: () => {
-					isRendering = false;
-				}
-			});
-
-			window.addEventListener("resize", () => {
-				if (!canvasElement) return;
-				camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
-			});
-		}
-
-		panelRefs.forEach((panel, index) => {
-			gsap.to(panel, {
-				scrollTrigger: {
-					trigger: panel,
-					scrub: true,
-					start: "top center",
-					end: "bottom center",
-					onEnter: () => animateMorph(index - 1),
-					onEnterBack: () => animateMorph(index - 1)
-				}
-			});
-
-			let split = SplitText.create(panelTitleRefs[index], {
-				type: "words, lines",
-				mask: "words"
-			});
-
-			gsap.from(split.words, {
-				yPercent: 110,
-				rotate: -3,
-				duration: 0.4,
-				ease: "power2.out",
-				stagger: 0.06,
-				scrollTrigger: {
-					trigger: panelTitleRefs[index],
-					start: "bottom bottom",
-					toggleActions: "play none none reverse"
-				}
-			});
-
-			if (index + 1 < panelRefs.length) {
-				const tl = gsap.timeline({
-					scrollTrigger: {
-						trigger: panel,
-						scrub: true,
-						pin: true,
-						pinSpacing: false
-					}
-				});
-				tl.to(
-					panelTitleRefs[index],
-					{
-						y: `-${panel.offsetHeight}px`,
-						ease: "none"
-					},
-					0
-				);
-				tl.to(
-					separatorRefs[index],
-					{
-						y: `-${panel.offsetHeight}px`,
-						ease: "none"
-					},
-					0
-				);
-			}
 		});
+
+		clearInterval(glitchInterval);
+		glitchInterval = setInterval(() => {
+			glitechItems.forEach((item) => {
+				const originalText = item.innerText;
+				const jumpingText = originalText
+					.split("")
+					.map((char) => (char === " " ? " " : letters[Math.floor(Math.random() * 26)]))
+					.join("");
+
+				item.innerText = jumpingText;
+			});
+		}, 30);
 	});
 </script>
 
-<div class="skills-content" bind:this={skillsBlock}>
-	<div class="skills-sidecontent container-padding">
-		<canvas bind:this={canvasElement}></canvas>
+<div class="skills" bind:this={skillsDragContainer}>
+	<div class="skills-file" id="skills-rick" bind:this={skillsRefs[panels.length + 1]}>
+		<h3 class="skills-title" bind:this={glitechItems[0]}>Rickroll</h3>
+		<ul class="skills-list">
+			<li bind:this={glitechItems[1]} class="text-sm">Never gonna</li>
+			<li bind:this={glitechItems[2]} class="text-sm">run</li>
+			<li bind:this={glitechItems[3]} class="text-sm">around</li>
+			<li bind:this={glitechItems[4]} class="text-sm">and desert you</li>
+			<li>
+				<a
+					class="rickroll-link text-sm"
+					href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1&ab_channel=RickAstley"
+					target="_blank"
+					onclick={() => handleRickRollClick(skillsRefs[panels.length + 1])}
+				>
+					<span class="rickroll-text" bind:this={glitechItems[5]}>complémentaires</span>
+					<span class="rickroll-arrow">→</span>
+				</a>
+			</li>
+		</ul>
 	</div>
-	<div class="panels-container">
-		{#each panels as panel, index (index)}
-			<div
-				class="panel container-padding {index === panels.length - 1 ? 'panel-fix' : ''}"
-				bind:this={panelRefs[index]}
-			>
-				<ul class="skills-list">
-					{#each panel.panelCompetences as skill, index (index)}
-						<li>
-							<SkillItem skillName={skill.skillName} skillIcon={skill.iconName} />
-						</li>
-					{/each}
-				</ul>
-				<h3 class="panel-title" bind:this={panelTitleRefs[index]}>{panel.panelTitle}</h3>
-			</div>
-			<div class="separator" bind:this={separatorRefs[index]}></div>
-		{/each}
-	</div>
+	{#each panels as panel, index (index)}
+		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
+			<h3 class="skills-title">{panel.panelTitle}</h3>
+			<ul class="skills-list">
+				{#each panel.panelCompetences as skill, index (index)}
+					<li>
+						<SkillItem skillName={skill.skillName} skillIcon={skill.iconName} />
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/each}
 </div>
 
 <style>
-	.skills-sidecontent {
+	.skills {
 		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		position: sticky;
-		top: 0;
-		flex: 2;
-		border-bottom: 2px solid var(--color-black);
-	}
-	.skills-sidecontent canvas {
-		width: 100%;
-		height: 100%;
-		display: block;
-	}
-	.skills-content {
-		display: flex;
-		align-items: flex-start;
+		align-items: center;
+		justify-content: center;
 		position: relative;
+		height: 100%;
+		flex: 1;
+		overflow: hidden;
 	}
 	.skills-list {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
-		margin: auto;
-		width: 17rem;
-	}
-	.panel {
-		min-height: 100vh;
-		width: 100%;
-		display: flex;
-		align-items: center;
+		gap: 1rem;
+		border: 2px solid var(--color-black);
+		padding: 4rem 3rem;
+		min-width: 28rem;
 		background-color: var(--color-white);
-		flex-direction: column;
-	}
-	.panel-fix {
-		position: relative;
-		z-index: 5;
-		border-bottom: 2px solid var(--color-black);
-	}
-	.panel-title {
-		padding-right: var(--side-content-size);
-		font-weight: 800;
 		text-transform: uppercase;
-		font-size: 6rem;
-		line-height: 1.2;
-		text-align: right;
-		margin-top: auto;
-		align-self: flex-end;
 	}
-	.panels-container {
-		flex: 5;
+	.skills-file {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		z-index: 1;
 	}
-	.separator {
-		position: fixed;
+	#skills-frame {
+		margin-left: 16%;
+		margin-top: 7%;
+	}
+	#skills-tools {
+		margin-right: 6%;
+		margin-bottom: 9%;
+	}
+	#skills-lib {
+		margin-left: 13%;
+		margin-bottom: 20%;
+	}
+	#skills-rick,
+	#skills-lang {
+		margin-right: 18%;
+		margin-top: 12%;
+	}
+	.skills-title {
+		margin-left: 2rem;
+		padding: 0.7rem 1.5rem 0.5rem 1.5rem;
+		margin-right: auto;
+		position: relative;
+		top: 3px;
+		z-index: -1;
+		font-size: 20px;
+		text-transform: uppercase;
+		font-weight: 800;
+		perspective: 130px;
+	}
+	.skills-title:before {
+		content: "";
+		display: block;
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		border: 2px solid var(--color-black);
+		background-color: var(--color-white);
+		transform: rotateX(20deg) rotateY(0deg);
+		left: 0;
 		bottom: 0;
-		right: 0;
-		height: 2px;
-		width: 100vw;
-		z-index: 10;
-		background-color: var(--color-black);
+		z-index: -1;
+	}
+	.rickroll-link {
+		display: flex;
+		gap: 0.5rem;
+	}
+	.rickroll-text {
+		text-decoration: underline;
+	}
+	.rickroll-arrow {
+		transform: rotate(-45deg);
+		display: block;
+		font-size: 18px;
 	}
 </style>

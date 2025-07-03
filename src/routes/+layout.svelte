@@ -1,32 +1,39 @@
 <script lang="ts">
 	import "../app.css";
-	import "lenis/dist/lenis.css";
-	import { onMount } from "svelte";
-	import Lenis from "lenis";
-	import { lenisInstance } from "$lib/stores/lenis";
 	import Sidebar from "$lib/components/Sidebar.svelte";
+	import Header from "$lib/components/Header.svelte";
+	import MousePointer from "$lib/components/MousePointer.svelte";
 
-	onMount(() => {
-		const lenis = new Lenis({
-			autoRaf: true
-		});
-
-		lenisInstance.set(lenis);
-
-		// Listen for the scroll event and log the event data
-		lenis.on("scroll", () => {
-			// console.log(e);
-		});
-
-		return () => {
-			lenis.destroy();
-		};
-	});
+	const sections = [
+		{ isVisible: true, title: "À propos", href: "about" },
+		{ isVisible: true, title: "Liste des projets ", href: "projects" },
+		{ isVisible: true, title: "Savoir faire", href: "skills" }
+	];
 
 	let { children } = $props();
 </script>
 
 <div>
+	<MousePointer />
 	<Sidebar />
-	{@render children()}
+	<div class="site-content">
+		<Header {sections} />
+		<main class="main">
+			{@render children()}
+		</main>
+	</div>
 </div>
+
+<style>
+	.site-content {
+		padding-right: var(--side-content-size);
+	}
+	.main {
+		min-height: 100svh;
+		display: flex;
+		flex-direction: column;
+		border-left: 2px solid var(--color-black);
+		border-bottom: 2px solid var(--color-black);
+		border-top: 2px solid var(--color-black);
+	}
+</style>
