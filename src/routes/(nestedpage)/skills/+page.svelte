@@ -208,21 +208,21 @@
 		z-index: 1;
 	}
 	#skills-frame {
-		margin-left: 16%;
-		margin-top: 7%;
+		margin-left: 160px;
+		margin-top: 70px;
 	}
 	#skills-tools {
-		margin-right: 6%;
-		margin-bottom: 9%;
+		margin-right: 60px;
+		margin-bottom: 90px;
 	}
 	#skills-lib {
-		margin-left: 13%;
-		margin-bottom: 20%;
+		margin-left: 130px;
+		margin-bottom: 200px;
 	}
 	#skills-rick,
 	#skills-lang {
-		margin-right: 18%;
-		margin-top: 12%;
+		margin-right: 180px;
+		margin-top: 120px;
 	}
 	.skills-title {
 		margin-left: 2rem;

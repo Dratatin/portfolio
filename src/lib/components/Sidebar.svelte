@@ -1,90 +1,71 @@
-<script lang="ts">
-	import { onMount } from "svelte";
-	import * as THREE from "three";
-	import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-	import gsap from "gsap";
-
-	let canvasElement: HTMLCanvasElement | null = null;
-	let morphMesh: THREE.Object3D<THREE.Object3DEventMap>;
-
-	function animateMorph(number: number) {
-		if (morphMesh instanceof THREE.Mesh && morphMesh.morphTargetInfluences) {
-			const influences = morphMesh.morphTargetInfluences;
-			gsap.to(influences, { [0]: 0, duration: 0.6, ease: "power2.out" });
-			gsap.to(influences, { [1]: 0, duration: 0.6, ease: "power2.out" });
-			gsap.to(influences, { [2]: 0, duration: 0.6, ease: "power2.out" });
-			if (number !== -1) {
-				gsap.to(influences, { [number]: 1, duration: 0.6, ease: "power2.out" });
-			}
-		}
-	}
-
-	onMount(() => {
-		let scene: THREE.Scene;
-		let camera: THREE.PerspectiveCamera;
-		let renderer: THREE.WebGLRenderer;
-
-		if (canvasElement) {
-			const canvasWidth = canvasElement.offsetWidth;
-			const canvasHeight = canvasElement.clientHeight;
-
-			scene = new THREE.Scene();
-			camera = new THREE.PerspectiveCamera(65, canvasWidth / canvasHeight, 1, 1000);
-			camera.position.z = 5;
-
-			renderer = new THREE.WebGLRenderer({
-				canvas: canvasElement,
-				antialias: true,
-				alpha: true
-			});
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(canvasWidth, canvasHeight);
-
-			const loader = new GLTFLoader();
-			loader.load("/shapes.glb", (gltf) => {
-				gltf.scene.traverse((child) => {
-					morphMesh = child;
-					if (child instanceof THREE.Mesh) {
-						child.material = new THREE.MeshBasicMaterial({
-							color: 0x1a1a1a,
-							wireframe: true
-						});
-						scene.add(child);
-					}
-				});
-				renderer.render(scene, camera);
-			});
-
-			const renderLoop = () => {
-				requestAnimationFrame(renderLoop);
-				scene.rotation.y += 0.003;
-				scene.rotation.x += 0.003;
-				renderer.render(scene, camera);
-			};
-
-			window.addEventListener("resize", () => {
-				if (!canvasElement) return;
-				camera.aspect = canvasElement.clientWidth / canvasElement.clientHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
-			});
-
-			renderLoop();
-			animateMorph(1);
-		}
-	});
-</script>
-
 <div class="sidebar">
 	<ul class="link-list">
-		<li class="link-item">
-			<canvas class="sidebar-canvas" bind:this={canvasElement}></canvas>
+		<li>
+			<svg
+				class="sidebar-item avatar"
+				xmlns="http://www.w3.org/2000/svg"
+				width="49"
+				height="48"
+				viewBox="0 0 49 48"
+				fill="none"
+			>
+				<rect
+					x="2.76399"
+					y="16.5687"
+					width="23.8851"
+					height="29.6754"
+					rx="11.9425"
+					fill="#FDFBF7"
+					stroke="black"
+					stroke-width="2.89516"
+				/>
+				<rect
+					x="2.18683"
+					y="5.93973"
+					width="18.0947"
+					height="6.54323"
+					rx="3.27162"
+					transform="rotate(-10.4366 2.18683 5.93973)"
+					fill="#FDFBF7"
+					stroke="black"
+					stroke-width="2.89516"
+				/>
+				<rect
+					x="29.0678"
+					y="2.7364"
+					width="18.0947"
+					height="6.24575"
+					rx="3.12288"
+					transform="rotate(13.0153 29.0678 2.7364)"
+					fill="#FDFBF7"
+					stroke="black"
+					stroke-width="2.89516"
+				/>
+				<path
+					d="M9.27734 21.6348C13.6743 21.6348 17.2391 26.009 17.2393 31.4053C17.2393 32.7939 17.0007 34.1144 16.5752 35.3105L11.0879 33.9385L14.1836 39.0967C12.8311 40.3981 11.1292 41.1768 9.27734 41.1768C4.88038 41.1765 1.31641 36.8016 1.31641 31.4053C1.31659 26.0091 4.8805 21.635 9.27734 21.6348Z"
+					fill="black"
+				/>
+				<rect
+					x="22.306"
+					y="16.5687"
+					width="23.8851"
+					height="29.6754"
+					rx="11.9425"
+					fill="#FDFBF7"
+					stroke="black"
+					stroke-width="2.89516"
+				/>
+				<path
+					d="M28.8203 21.6348C33.2173 21.6348 36.782 26.009 36.7822 31.4053C36.7822 32.7939 36.5436 34.1144 36.1182 35.3105L30.6299 33.9385L33.7256 39.0986C32.3733 40.3993 30.6716 41.1768 28.8203 41.1768C24.4232 41.1767 20.8584 36.8017 20.8584 31.4053C20.8586 26.009 24.4233 21.6348 28.8203 21.6348Z"
+					fill="black"
+				/>
+			</svg>
 		</li>
-		<li class="link-item">
-			<a href="/" download="" class="sidebar-link interactive-btn-font"> CV </a>
+		<li>
+			<a href="/" download="" class="sidebar-item interactive-btn-font"> CV </a>
 		</li>
-		<li class="link-item">
-			<a href="/" download="" class="sidebar-link interactive-btn-font" aria-label="Mon github">
+		<li>
+			<a href="/" download="" class="sidebar-item interactive-btn-font" aria-label="Mon github">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="40"
@@ -108,8 +89,8 @@
 				</svg>
 			</a>
 		</li>
-		<li class="link-item">
-			<a href="/" download="" class="sidebar-link interactive-btn-font"> in </a>
+		<li>
+			<a href="/" download="" class="sidebar-item interactive-btn-font"> in </a>
 		</li>
 	</ul>
 </div>
@@ -133,8 +114,7 @@
 		height: 100vh;
 		z-index: 15;
 	}
-	.sidebar-canvas,
-	.sidebar-link {
+	.sidebar-item {
 		background-color: var(--color-white);
 		border-bottom: 2px solid var(--color-black);
 		border-left: 2px solid var(--color-black);
@@ -145,5 +125,8 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+	}
+	.avatar {
+		padding: 0.6rem;
 	}
 </style>
