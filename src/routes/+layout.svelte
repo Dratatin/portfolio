@@ -4,12 +4,6 @@
 	import Header from "$lib/components/Header.svelte";
 	import MousePointer from "$lib/components/MousePointer.svelte";
 
-	const sections = [
-		{ isVisible: true, title: "À propos", href: "about" },
-		{ isVisible: true, title: "Liste des projets ", href: "projects" },
-		{ isVisible: true, title: "Savoir faire", href: "skills" }
-	];
-
 	let { children } = $props();
 </script>
 
@@ -17,7 +11,7 @@
 	<MousePointer />
 	<Sidebar />
 	<div class="site-content">
-		<Header {sections} />
+		<Header />
 		<main class="main">
 			{@render children()}
 		</main>

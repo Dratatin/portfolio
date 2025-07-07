@@ -1,12 +1,20 @@
 <script lang="ts">
 	import { hoveredElement } from "$lib/stores/cursor";
-	export let sections: {
-		isVisible: boolean;
-		title: string;
-		href: string;
-	}[] = [];
+	import { page } from "$app/state";
+	import { afterNavigate } from "$app/navigation";
+	import gsap from "gsap";
+
+	let currentPath = $state(page.url.pathname);
+	const pages = [
+		{ title: "Accueil", href: "/" },
+		{ title: "À propos", href: "/about" },
+		{ title: "Liste des projets ", href: "/projects" },
+		{ title: "Savoir faire", href: "/skills" }
+	];
 
 	const hooksRefs: HTMLElement[] = [];
+	const navItemRefs: HTMLElement[] = [];
+	const linkItemRefs: HTMLElement[] = [];
 
 	function onMouseEnter(element: HTMLElement) {
 		hoveredElement.set(element);
@@ -15,27 +23,45 @@
 	function onMouseLeave() {
 		hoveredElement.set(null);
 	}
+
+	function handleNavigate() {
+		navItemRefs.forEach((item) => item.classList.remove("currentPage"));
+		const activeElemIndex = linkItemRefs.findIndex(
+			(elem) => elem.getAttribute("href") === currentPath
+		);
+		navItemRefs[activeElemIndex].classList.add("currentPage");
+	}
+
+	afterNavigate(() => {
+		currentPath = page.url.pathname;
+		const tl = gsap.timeline({
+			onComplete: handleNavigate
+		});
+		// fake timeline animation
+		tl.to(".nav-list", {
+			duration: 1
+		});
+	});
 </script>
 
 <header class="header">
 	<nav class="nav">
 		<ul class="nav-list">
-			{#each sections as section, index (index)}
-				{#if section.isVisible}
-					<li>
-						<a
-							href={section.href}
-							class="nav-link"
-							on:mouseenter={() => onMouseEnter(hooksRefs[index])}
-							on:mouseleave={onMouseLeave}
-						>
-							<div class="nav-link-hook-wrapper">
-								<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
-							</div>
-							<span class="nav-link-text text-sm">{section.title}</span>
-						</a>
-					</li>
-				{/if}
+			{#each pages as page, index (index)}
+				<li bind:this={navItemRefs[index]}>
+					<a
+						href={page.href}
+						class="nav-link"
+						bind:this={linkItemRefs[index]}
+						onmouseenter={() => onMouseEnter(hooksRefs[index])}
+						onmouseleave={onMouseLeave}
+					>
+						<div class="nav-link-hook-wrapper">
+							<span class="nav-link-hook" bind:this={hooksRefs[index]}></span>
+						</div>
+						<span class="nav-link-text text-sm">{page.title}</span>
+					</a>
+				</li>
 			{/each}
 		</ul>
 	</nav>
@@ -100,5 +126,10 @@
 	.nav-link:hover {
 		background-position: 100% 100%;
 		color: var(--color-white);
+	}
+	:global(.nav .currentPage) {
+		visibility: hidden;
+		opacity: 0;
+		position: absolute;
 	}
 </style>
