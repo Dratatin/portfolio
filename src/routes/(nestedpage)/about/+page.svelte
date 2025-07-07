@@ -191,7 +191,7 @@
 	});
 </script>
 
-<div class="about-container">
+<div class="about">
 	<div class="profile-wrapper">
 		<div class="profile-picture-wrapper">
 			{#each aboutContents as content, index (index)}
@@ -243,17 +243,18 @@
 </div>
 
 <style>
-	.about-container {
-		height: 100svh;
+	.about {
+		flex: 1;
+		height: 100%;
 		display: flex;
 		overflow: hidden;
+		border: 2px solid var(--color-black);
 	}
 	.profile-wrapper {
-		width: 33%;
-		height: 100%;
 		min-width: 27rem;
 		position: relative;
-		flex: none;
+		height: auto;
+		width: 33%;
 	}
 	.profile-picture-wrapper {
 		width: 100%;

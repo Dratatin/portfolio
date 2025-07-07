@@ -26,14 +26,11 @@
 
 <style>
 	.site-content {
-		padding-right: var(--side-content-size);
+		padding-right: calc(var(--side-content-size));
 	}
 	.main {
 		min-height: 100svh;
 		display: flex;
 		flex-direction: column;
-		border-left: 2px solid var(--color-black);
-		border-bottom: 2px solid var(--color-black);
-		border-top: 2px solid var(--color-black);
 	}
 </style>

@@ -117,7 +117,6 @@
 	.sidebar-item {
 		background-color: var(--color-white);
 		border-bottom: 2px solid var(--color-black);
-		border-left: 2px solid var(--color-black);
 		border-right: 2px solid var(--color-black);
 		width: var(--side-content-size);
 		height: var(--side-content-size);

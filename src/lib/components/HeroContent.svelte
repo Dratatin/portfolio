@@ -13,6 +13,9 @@
 		flex: 1;
 		position: relative;
 		z-index: 10;
+		border-left: 2px solid var(--color-black);
+		border-top: 2px solid var(--color-black);
+		border-right: 2px solid var(--color-black);
 	}
 	.hero-title {
 		margin-block: auto;

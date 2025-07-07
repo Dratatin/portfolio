@@ -3,7 +3,7 @@
 	import gsap from "gsap";
 	import { Draggable } from "gsap/Draggable";
 	import InertiaPlugin from "gsap/InertiaPlugin";
-	import { onMount } from "svelte";
+	import { onMount, onDestroy } from "svelte";
 
 	let skillsDragContainer: HTMLElement;
 	let glitechItems: HTMLElement[] = [];
@@ -144,6 +144,12 @@
 			});
 		}, 30);
 	});
+
+	onDestroy(() => {
+		if (glitchInterval) {
+			clearInterval(glitchInterval);
+		}
+	});
 </script>
 
 <div class="skills" bind:this={skillsDragContainer}>
@@ -190,6 +196,7 @@
 		height: 100%;
 		flex: 1;
 		overflow: hidden;
+		border: 2px solid var(--color-black);
 	}
 	.skills-list {
 		display: flex;
