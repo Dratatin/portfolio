@@ -40,11 +40,7 @@
 		<ul class="nav-list">
 			{#each pages as page, index (index)}
 				<li bind:this={navItemRefs[index]}>
-					<a
-						href={page.href}
-						class="nav-link"
-						bind:this={linkItemRefs[index]}
-					>
+					<a href={page.href} class="nav-link" bind:this={linkItemRefs[index]}>
 						<Ink name={page.title} />
 					</a>
 				</li>
