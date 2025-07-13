@@ -102,7 +102,7 @@
 	}
 	.sidebar {
 		background-color: var(--color-black);
-		border-top: 2px solid var(--color-black);
+		border-top: var(--border-weight) solid var(--color-black);
 		width: var(--side-content-size);
 		display: flex;
 		flex-direction: column;
@@ -116,8 +116,8 @@
 	}
 	.sidebar-item {
 		background-color: var(--color-white);
-		border-bottom: 2px solid var(--color-black);
-		border-right: 2px solid var(--color-black);
+		border-bottom: var(--border-weight) solid var(--color-black);
+		border-right: var(--border-weight) solid var(--color-black);
 		width: var(--side-content-size);
 		height: var(--side-content-size);
 		display: flex;

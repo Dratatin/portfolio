@@ -196,13 +196,13 @@
 		height: 100%;
 		flex: 1;
 		overflow: hidden;
-		border: 2px solid var(--color-black);
+		border: var(--border-weight) solid var(--color-black);
 	}
 	.skills-list {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		border: 2px solid var(--color-black);
+		border: var(--border-weight) solid var(--color-black);
 		padding: 4rem 3rem;
 		min-width: 28rem;
 		background-color: var(--color-white);
@@ -249,7 +249,7 @@
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		border: 2px solid var(--color-black);
+		border: var(--border-weight) solid var(--color-black);
 		background-color: var(--color-white);
 		transform: rotateX(20deg) rotateY(0deg);
 		left: 0;

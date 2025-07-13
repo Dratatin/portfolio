@@ -28,15 +28,15 @@
 		display: block;
 		width: 0.4rem;
 		height: 1.2rem;
-		border-top: 1px solid var(--color-white);
-		border-bottom: 1px solid var(--color-white);
+		border-top: var(--border-weight) solid var(--color-white);
+		border-bottom: var(--border-weight) solid var(--color-white);
 		mix-blend-mode: difference;
 	}
 	.skill-hook-wrapper::before {
-		border-left: 1px solid var(--color-white);
+		border-left: var(--border-weight) solid var(--color-white);
 	}
 	.skill-hook-wrapper::after {
-		border-right: 1px solid var(--color-white);
+		border-right: var(--border-weight) solid var(--color-white);
 	}
 	.skill-img {
 		width: 1.1rem;

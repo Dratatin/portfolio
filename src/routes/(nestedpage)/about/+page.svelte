@@ -206,7 +206,7 @@
 			{/each}
 		</div>
 
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div
 			class="profile-btns"
 			onmouseleave={() => {
@@ -248,7 +248,7 @@
 		height: 100%;
 		display: flex;
 		overflow: hidden;
-		border: 2px solid var(--color-black);
+		border: var(--border-weight) solid var(--color-black);
 	}
 	.profile-wrapper {
 		min-width: 27rem;
@@ -269,7 +269,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		border-right: 2px solid var(--color-black);
+		border-right: var(--border-weight) solid var(--color-black);
 	}
 	.about-content {
 		max-width: 29rem;
@@ -304,7 +304,7 @@
 		text-orientation: mixed;
 		writing-mode: vertical-rl;
 		padding: 3rem 0.75rem;
-		outline: 2px solid var(--color-black);
+		outline: var(--border-weight) solid var(--color-black);
 		text-align: center;
 		text-transform: uppercase;
 		position: relative;

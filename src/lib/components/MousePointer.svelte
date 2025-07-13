@@ -65,7 +65,7 @@
 <div class="mouse-pointer" style:transform="translate3d({position.x}px, {position.y}px, 0)">
 	<div
 		class="pointer"
-		style:transform={clicked ? "translate(-50%, -50%) scale(6)" : "translate(-50%, -50%) scale(1)"}
+		style:transform={clicked && !activeHovered ? "translate(-50%, -50%) scale(6)" : "translate(-50%, -50%) scale(1)"}
 		style:top={activeHovered ? "0" : "calc(-1 * var(--cursor-size))"}
 		style:left={activeHovered ? "0" : "calc(-1 * var(--cursor-size))"}
 		style:border-radius={activeHovered ? "0" : "var(--cursor-size)"}

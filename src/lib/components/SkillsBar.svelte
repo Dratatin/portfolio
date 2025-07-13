@@ -18,8 +18,8 @@
 		flex-wrap: wrap;
 		font-weight: 800;
 		text-transform: uppercase;
-		border-top: 2px solid var(--color-black);
-		border-left: 2px solid var(--color-black);
+		border-top: var(--border-weight) solid var(--color-black);
+		border-left: var(--border-weight) solid var(--color-black);
 	}
 	.keyword-item {
 		padding: 0.5rem 0.75rem;
@@ -27,8 +27,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-bottom: 2px solid var(--color-black);
-		border-right: 2px solid var(--color-black);
+		border-bottom: var(--border-weight) solid var(--color-black);
+		border-right: var(--border-weight) solid var(--color-black);
 		position: relative;
 		line-height: normal;
 	}
