@@ -6,9 +6,20 @@
 	let {
 		filterTitle,
 		filterList,
+		filterId,
+		openDropdown = toggleDrowpdown,
 		filterOpen = false
-	}: { filterTitle: string; filterList: Filter[]; filterOpen?: boolean } = $props();
-	let dropdownOpen = $state(filterOpen);
+	}: {
+		filterTitle: string;
+		filterList: Filter[];
+		filterId: string;
+		openDropdown?: (filterId: string) => void;
+		filterOpen?: boolean;
+	} = $props();
+
+	function toggleDrowpdown() {
+		filterOpen = !filterOpen;
+	}
 
 	function handleInputChange(filter: Filter) {
 		filterList = filterList.map((mapFilter) => {
@@ -21,9 +32,9 @@
 	}
 </script>
 
-<fieldset class="filter-group" class:open={dropdownOpen === true}>
+<fieldset class="filter-group" class:open={filterOpen}>
 	<legend class="filter-legend">
-		<button class="dropdown-button" onclick={() => (dropdownOpen = !dropdownOpen)}>
+		<button class="dropdown-button" onclick={() => openDropdown(filterId)}>
 			{filterTitle}
 			<svg
 				class="dropdown-arrow"
