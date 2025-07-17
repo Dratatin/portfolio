@@ -23,8 +23,9 @@
 		padding-right: calc(var(--side-content-size));
 	}
 	.main {
-		min-height: 100svh;
+		height: 100svh;
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
 	}
 </style>

@@ -91,6 +91,8 @@
 	}
 	.dropdown-button {
 		cursor: pointer;
+		white-space: nowrap;
+		font-weight: 400;
 	}
 	.dropdown-container {
 		display: grid;

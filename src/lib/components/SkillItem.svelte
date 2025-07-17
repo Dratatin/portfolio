@@ -1,14 +1,26 @@
 <script lang="ts">
-	export let skillName: string;
-	export let skillIcon: string;
+	import { technos } from "$lib/utils/hardskills";
+	import type { TechKey } from "$lib/utils/hardskills";
+
+	let { skill }: { skill: TechKey } = $props();
+
+	if (!technos[skill]) {
+		throw new Error(`Technologie inconnue : ${skill}`);
+	}
+
+	let skillDetails = technos[skill];
 </script>
 
 <div class="skill">
 	<div class="skill-hook-wrapper">
-		<img class="skill-img" src={`icons/${skillIcon}.svg`} alt={`${skillName} icon`} />
+		<img
+			class="skill-img"
+			src={`icons/${skillDetails.iconName}.svg`}
+			alt={`${skillDetails.skillName} icon`}
+		/>
 	</div>
 	<span class="skill-text text-sm">
-		{skillName}
+		{skillDetails.skillName}
 	</span>
 </div>
 

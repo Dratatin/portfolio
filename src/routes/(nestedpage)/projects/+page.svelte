@@ -1,5 +1,10 @@
 <script lang="ts">
 	import FilterGroup from "$lib/components/FilterGroup.svelte";
+	import ProjectsSlider from "$lib/components/ProjectsSlider.svelte";
+	import projet1 from "$assets/projects/project1.jpg";
+	import projet2 from "$assets/projects/project2.jpg";
+	import projet3 from "$assets/projects/project3.jpg";
+	import { type TechKey } from "$lib/utils/hardskills";
 
 	const filters = [
 		{
@@ -74,7 +79,33 @@
 		}
 	];
 
-	let filterOpen: string | null = $state("lang");
+	const projects: {
+		name: string;
+		projectid: string;
+		technos: TechKey[];
+		image: string;
+	}[] = [
+		{
+			name: "Coque de nacre",
+			projectid: "projet1",
+			technos: ["react", "tailwind"],
+			image: projet1
+		},
+		{
+			name: "Fidesio",
+			projectid: "projet2",
+			technos: ["twig", "symfony", "css", "javascript"],
+			image: projet2
+		},
+		{
+			name: "Millon",
+			projectid: "projet3",
+			technos: ["drupal", "twig", "scss"],
+			image: projet3
+		}
+	];
+
+	let filterOpen: string | null = $state(null);
 
 	function openDropdown(filterid: string) {
 		if (filterid === filterOpen) {
@@ -85,7 +116,7 @@
 	}
 </script>
 
-<section class="projects container-padding">
+<div class="projects container-inline-padding">
 	<div class="filters container-padding">
 		<h2 class="filters-title">Filtres</h2>
 		{#each filters as filter, index (index)}
@@ -98,8 +129,10 @@
 			/>
 		{/each}
 	</div>
-	<div class="projects-list"></div>
-</section>
+	<div class="projects-list-container container-inline-padding">
+		<ProjectsSlider {projects} />
+	</div>
+</div>
 
 <style>
 	.projects {
@@ -108,12 +141,15 @@
 		height: 100%;
 		display: flex;
 	}
+	.projects-list-container {
+		width: 100%;
+	}
 	.filters-title {
 		text-transform: uppercase;
 		font-weight: 800;
 	}
 	.filters {
-		margin-top: 4rem;
+		margin-top: 8rem;
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;

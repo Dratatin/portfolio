@@ -6,6 +6,19 @@
 		url("/fonts/StroyMonoTEST-Light.woff2") format("woff2"),
 		url("/fonts/StroyMonoTEST-Light.woff") format("woff"),
 		url("/fonts/StroyMonoTEST-Light.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "StroyMono";
+	src: url("/fonts/StroyMonoTEST-Regular.eot");
+	src:
+		url("/fonts/StroyMonoTEST-Regular.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/StroyMonoTEST-Regular.woff2") format("woff2"),
+		url("/fonts/StroyMonoTEST-Regular.woff") format("woff"),
+		url("/fonts/StroyMonoTEST-Regular.ttf") format("truetype");
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
