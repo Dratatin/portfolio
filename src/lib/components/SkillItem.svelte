@@ -3,12 +3,7 @@
 	import type { TechKey } from "$lib/utils/hardskills";
 
 	let { skill }: { skill: TechKey } = $props();
-
-	if (!technos[skill]) {
-		throw new Error(`Technologie inconnue : ${skill}`);
-	}
-
-	let skillDetails = technos[skill];
+	let skillDetails = $derived(technos[skill]);
 </script>
 
 <div class="skill">
@@ -33,6 +28,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		flex: none;
 	}
 	.skill-hook-wrapper::before,
 	.skill-hook-wrapper::after {

@@ -6,76 +6,25 @@
 	import projet3 from "$assets/projects/project3.jpg";
 	import { type TechKey } from "$lib/utils/hardskills";
 
-	const filters = [
+	const filters: {
+		filterid: string;
+		filterTitle: string;
+		filterTable: TechKey[];
+	}[] = [
 		{
 			filterid: "lang",
 			filterTitle: "Langages et Préprocesseurs",
-			filterTable: [
-				{
-					filterName: "HTML",
-					isActive: false
-				},
-				{
-					filterName: "CSS",
-					isActive: false
-				},
-				{
-					filterName: "Javascript",
-					isActive: false
-				},
-				{
-					filterName: "Typescript",
-					isActive: false
-				},
-				{
-					filterName: "Twig",
-					isActive: false
-				}
-			]
+			filterTable: ["html", "css", "javascript", "typescript", "twig"]
 		},
 		{
 			filterid: "fram",
 			filterTitle: "Frameworks et CMS",
-			filterTable: [
-				{
-					filterName: "React",
-					isActive: false
-				},
-				{
-					filterName: "Svelte",
-					isActive: false
-				},
-				{
-					filterName: "Symfony",
-					isActive: false
-				},
-				{
-					filterName: "Drupal",
-					isActive: false
-				},
-				{
-					filterName: "Wordpress",
-					isActive: false
-				}
-			]
+			filterTable: ["react", "svelte", "symfony", "drupal", "wordpress"]
 		},
 		{
 			filterid: "lib",
 			filterTitle: "Librairies & Outils UI",
-			filterTable: [
-				{
-					filterName: "Tailwind",
-					isActive: false
-				},
-				{
-					filterName: "Gsap",
-					isActive: false
-				},
-				{
-					filterName: "Three.js",
-					isActive: false
-				}
-			]
+			filterTable: ["tailwind", "gsap", "three"]
 		}
 	];
 
@@ -105,7 +54,10 @@
 		}
 	];
 
+	let selectedTechnosState: TechKey[] = $state([]);
+	let filteredProjects = $state(projects);
 	let filterOpen: string | null = $state(null);
+	let key = $state(Date.now());
 
 	function openDropdown(filterid: string) {
 		if (filterid === filterOpen) {
@@ -113,6 +65,23 @@
 		} else {
 			filterOpen = filterid;
 		}
+	}
+
+	function toggleFilter(table: TechKey[], value: TechKey) {
+		if (table.includes(value)) {
+			return table.filter((item) => item !== value);
+		} else {
+			return [...table, value];
+		}
+	}
+
+	function handleFilterChange(filter: TechKey) {
+		selectedTechnosState = toggleFilter(selectedTechnosState, filter);
+
+		filteredProjects = projects.filter((project) => {
+			return selectedTechnosState.every((tech) => project.technos.includes(tech));
+		});
+		key = Date.now();
 	}
 </script>
 
@@ -124,13 +93,21 @@
 				filterId={filter.filterid}
 				filterTitle={filter.filterTitle}
 				filterList={filter.filterTable}
-				{openDropdown}
 				filterOpen={filter.filterid === filterOpen}
+				selectedFilter={selectedTechnosState}
+				{openDropdown}
+				onChange={handleFilterChange}
 			/>
 		{/each}
 	</div>
 	<div class="projects-list-container container-inline-padding">
-		<ProjectsSlider {projects} />
+		{#if filteredProjects.length > 0}
+			{#key key}
+				<ProjectsSlider projects={filteredProjects} />
+			{/key}
+		{:else}
+			<span class="project-empty">Aucun projet ne correspond aux filtres sélectionnés</span>
+		{/if}
 	</div>
 </div>
 
@@ -142,6 +119,7 @@
 		display: flex;
 	}
 	.projects-list-container {
+		display: flex;
 		width: 100%;
 	}
 	.filters-title {
@@ -153,5 +131,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+	}
+	.project-empty {
+		margin: auto;
+		text-align: center;
+		padding: 5rem;
 	}
 </style>

@@ -1,34 +1,28 @@
 <script lang="ts">
 	import Ink from "./Ink.svelte";
-
-	type Filter = { filterName: string; isActive: boolean };
+	import { type TechKey } from "$lib/utils/hardskills";
+	import { technos } from "$lib/utils/hardskills";
 
 	let {
 		filterTitle,
 		filterList,
 		filterId,
 		openDropdown = toggleDrowpdown,
-		filterOpen = false
+		onChange,
+		filterOpen = false,
+		selectedFilter
 	}: {
 		filterTitle: string;
-		filterList: Filter[];
+		filterList: TechKey[];
 		filterId: string;
 		openDropdown?: (filterId: string) => void;
+		onChange: (filterValue: TechKey) => void;
 		filterOpen?: boolean;
+		selectedFilter: TechKey[];
 	} = $props();
 
 	function toggleDrowpdown() {
 		filterOpen = !filterOpen;
-	}
-
-	function handleInputChange(filter: Filter) {
-		filterList = filterList.map((mapFilter) => {
-			if (mapFilter === filter) {
-				return { ...mapFilter, isActive: !mapFilter.isActive };
-			} else {
-				return mapFilter;
-			}
-		});
 	}
 </script>
 
@@ -53,16 +47,19 @@
 			<ul class="filter-list">
 				{#each filterList as filter, index (index)}
 					<li>
-						<label class="filter-label" for={filter.filterName}>
-							<Ink name={filter.filterName} active={filter.isActive} />
+						<label class="filter-label" for={filter}>
+							<Ink name={technos[filter].skillName} active={selectedFilter.includes(filter)} />
 						</label>
 						<input
 							class="filter-input"
 							type="checkbox"
-							id={filter.filterName}
-							name={filter.filterName}
-							checked={filter.isActive}
-							onchange={() => handleInputChange(filter)}
+							id={filter}
+							value={filter}
+							onchange={(e) => {
+								const inputValue = e.currentTarget.value;
+								onChange(inputValue as TechKey);
+							}}
+							checked={selectedFilter.includes(filter)}
 						/>
 					</li>
 				{/each}
