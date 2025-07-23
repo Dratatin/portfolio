@@ -51,6 +51,7 @@
 <style>
 	.slider {
 		height: 100%;
+		width: 100%;
 		padding-top: calc(var(--container-padding) * 2);
 	}
 	.project-item {

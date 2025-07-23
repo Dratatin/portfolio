@@ -74,7 +74,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 		margin-left: 1rem;
-		margin-top: 2rem;
+		margin-top: 1.5rem;
 	}
 	.filter-label {
 		cursor: pointer;

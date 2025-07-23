@@ -21,11 +21,14 @@
 <style>
 	.site-content {
 		padding-right: calc(var(--side-content-size));
-	}
-	.main {
 		height: 100svh;
+		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
+	}
+	.main {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
 	}
 </style>

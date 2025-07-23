@@ -10,9 +10,9 @@
 
 <style>
 	.hero-section {
-		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		flex: 1;
 	}
 </style>

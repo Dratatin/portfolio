@@ -54,16 +54,15 @@
 		display: block;
 		width: 0.35rem;
 		height: 1rem;
-		border-top: var(--border-weight) solid var(--color-white);
-		border-bottom: var(--border-weight) solid var(--color-white);
-		mix-blend-mode: difference;
+		border-top: var(--border-weight) solid var(--color-black);
+		border-bottom: var(--border-weight) solid var(--color-black);
 		transition: transform 0.2s cubic-bezier(0, 1, 0.65, 1);
 	}
 	.ink .left-bracket {
-		border-left: var(--border-weight) solid var(--color-white);
+		border-left: var(--border-weight) solid var(--color-black);
 	}
 	.ink .right-bracket {
-		border-right: var(--border-weight) solid var(--color-white);
+		border-right: var(--border-weight) solid var(--color-black);
 	}
 	.ink-hook {
 		width: 0.5rem;
@@ -74,6 +73,10 @@
 	.ink:hover {
 		background-position: 100% 100%;
 		color: var(--color-white);
+	}
+	.ink:hover .right-bracket,
+	.ink:hover .left-bracket {
+		border-color: var(--color-white);
 	}
 	.ink.inkActive .ink-hook {
 		background-color: var(--color-black);

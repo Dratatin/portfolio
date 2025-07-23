@@ -127,10 +127,10 @@
 		font-weight: 800;
 	}
 	.filters {
-		margin-top: 8rem;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1.5rem;
+		margin-top: 4rem;
 	}
 	.project-empty {
 		margin: auto;
