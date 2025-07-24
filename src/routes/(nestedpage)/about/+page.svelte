@@ -2,7 +2,9 @@
 	import relaxed from "$assets/relaxed.jpg";
 	import pro from "$assets/pro.jpg";
 	import cat from "$assets/cat.jpg";
+	import texture from "$assets/textures/cloud.png";
 	import gsap from "gsap";
+	import ShaderTransition, { type ShaderTransitionInstance } from "$lib/utils/shaderTransition";
 	import { SplitText } from "gsap/SplitText";
 	import type SplitTextType from "gsap/SplitText";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,11 +13,9 @@
 	let buttons: HTMLButtonElement[] = [];
 	let buttonOrder: HTMLButtonElement[] = [];
 	let descriptions: HTMLElement[] = [];
-	let profilePictures: HTMLElement[] = [];
-	let profilePicturesOrder: HTMLElement[] = [];
 	let splitTexts: SplitTextType[] = [];
-	let isAnimating = false;
-	let isHovering = false;
+	let shaderContainer: HTMLElement;
+	let myAnimation: ShaderTransitionInstance;
 
 	const aboutContents = [
 		{
@@ -38,80 +38,25 @@
 		}
 	];
 
-	function animeText(words: Element[]) {
-		gsap.from(words, {
-			yPercent: 20,
-			rotate: 1,
+	function animeText(text: Element[]) {
+		gsap.from(text, {
+			yPercent: 150,
 			opacity: 0,
-			duration: 0.5,
-			ease: "power2.out",
-			stagger: 0.06
+			duration: 0.4,
+			ease: "back.out(1.5)",
+			stagger: 0.03
 		});
-	}
-
-	function animeProfilePicture(profilePicturesOrder: HTMLElement[], index: number) {
-		gsap.to(profilePicturesOrder[index], {
-			translateX: "50%",
-			ease: "power2.out",
-			duration: 0.3,
-			onComplete: () => {
-				const previousActiveElm = profilePicturesOrder.find((picture) =>
-					picture.classList.contains("active")
-				);
-				if (previousActiveElm) {
-					const previousActiveElmStyle = window.getComputedStyle(previousActiveElm);
-					const previousZindex = parseInt(previousActiveElmStyle.zIndex);
-					gsap.set(profilePicturesOrder[index], {
-						zIndex: previousZindex + 1
-					});
-					gsap.to(profilePicturesOrder[index], {
-						translateX: `0`,
-						ease: "power2.out",
-						duration: 0.3
-					});
-
-					profilePicturesOrder.forEach((picture) => {
-						picture.classList.remove("active");
-					});
-					profilePicturesOrder[index].classList.add("active");
-				}
-			}
-		});
-	}
-
-	function handleButtonMouseEnter() {
-		buttonOrder.forEach((button, index) => {
-			const translateValue =
-				button.getBoundingClientRect().right - profilePicturesOrder[index].offsetWidth;
-			gsap.to(profilePicturesOrder[index], {
-				translateX: translateValue,
-				duration: 0.3,
-				ease: "power2.out"
-			});
-		});
-		isHovering = true;
-	}
-
-	function resetPicturePosition() {
-		buttonOrder.forEach((_, index) => {
-			gsap.to(profilePicturesOrder[index], {
-				translateX: 0,
-				duration: 0.3,
-				ease: "power2.out"
-			});
-		});
-		isHovering = false;
 	}
 
 	function handleButtonClick(selectedButton: HTMLButtonElement, index: number) {
+		if (myAnimation.isCurrentlyTransitioning()) {
+			return;
+		}
+		myAnimation.swap(index);
 		const clickedIndex = buttonOrder.indexOf(selectedButton);
 		if (clickedIndex === 0) return;
 
 		const newOrder = [...buttonOrder];
-		const newPictureOrder = [...profilePicturesOrder];
-
-		resetPicturePosition();
-		animeProfilePicture(profilePicturesOrder, clickedIndex);
 
 		const swap = <T,>(arr: T[], i: number, j: number) => {
 			[arr[i], arr[j]] = [arr[j], arr[i]];
@@ -119,12 +64,9 @@
 
 		if (clickedIndex === 2) {
 			const [lastButton] = newOrder.splice(2, 1);
-			const [lastPicture] = newPictureOrder.splice(2, 1);
 			newOrder.unshift(lastButton);
-			newPictureOrder.unshift(lastPicture);
 		} else if (clickedIndex === 1) {
 			swap(newOrder, 0, 1);
-			swap(newPictureOrder, 0, 1);
 		}
 
 		newOrder.forEach((button, i) => {
@@ -133,93 +75,57 @@
 			gsap.to(button, {
 				duration: 0.6,
 				translateX: `${i * 100}%`,
-				ease: "power2.out",
-				onStart: () => {
-					isAnimating = true;
-				},
-				onComplete: () => {
-					isAnimating = false;
-				}
+				ease: "power2.out"
 			});
 		});
 
 		newOrder[0].classList.add("active");
 		buttonOrder = newOrder;
-		profilePicturesOrder = newPictureOrder;
 
 		const previousActiveIndex = descriptions.findIndex((d) => d.classList.contains("active"));
 		const previousDescription = descriptions[previousActiveIndex];
 		const newDescription = descriptions[index];
 
-		gsap.to(previousDescription, {
-			translateX: "60%",
-			opacity: 0,
-			duration: 0.3,
-			ease: "power2.out",
-			onComplete: () => {
-				gsap.set(previousDescription, { clearProps: true });
-				newDescription.classList.add("active");
-				previousDescription.classList.remove("active");
-				animeText(splitTexts[index].words);
-			}
-		});
+		gsap.set(previousDescription, { clearProps: true });
+		newDescription.classList.add("active");
+		previousDescription.classList.remove("active");
+		animeText(splitTexts[index].lines);
 	}
-
-	onMount(() => {
+	onMount(async () => {
 		gsap.registerPlugin(ScrollTrigger, SplitText);
+		await document.fonts.ready; //Need to fully load font before use splitText
+
+		console.log(document.fonts.ready);
 
 		descriptions.forEach((description, index) => {
 			splitTexts[index] = SplitText.create(description, {
-				type: "words"
+				type: "words, lines"
 			});
 		});
 
 		if (splitTexts.length > 0) {
-			gsap.timeline({
-				scrollTrigger: {
-					trigger: descriptions[0],
-					once: true,
-					start: "top bottom",
-					toggleActions: "play none none none",
-					onEnter: () => animeText(splitTexts[0].words)
-				}
-			});
+			animeText(splitTexts[0].lines);
 		}
+	});
 
+	onMount(() => {
 		buttonOrder = [...buttons];
-		profilePicturesOrder = [...profilePictures];
+
+		myAnimation = new ShaderTransition({
+			parent: shaderContainer,
+			intensity: 0.3,
+			images: [relaxed, cat, pro],
+			initialIndex: 0,
+			displacementImage: texture,
+			imagesRatio: 1200 / 800
+		});
 	});
 </script>
 
 <div class="about">
 	<div class="profile-wrapper">
-		<div class="profile-picture-wrapper">
-			{#each aboutContents as content, index (index)}
-				<img
-					class="profile-picture {index === 0 ? 'active' : ''}"
-					src={content.img}
-					alt="moi"
-					loading="lazy"
-					bind:this={profilePictures[index]}
-					style="z-index:{aboutContents.length - index}"
-				/>
-			{/each}
-		</div>
-
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div
-			class="profile-btns"
-			onmouseleave={() => {
-				if (!isAnimating) {
-					resetPicturePosition();
-				}
-			}}
-			onmouseenter={() => {
-				if (!isAnimating && !isHovering) {
-					handleButtonMouseEnter();
-				}
-			}}
-		>
+		<div class="profile-picture-wrapper" bind:this={shaderContainer}></div>
+		<div class="profile-btns">
 			{#each aboutContents as content, index (index)}
 				<button
 					class="about-button interactive-btn-font {index === 0 ? 'active' : ''}"
@@ -235,7 +141,10 @@
 	</div>
 	<div class="about-content">
 		{#each aboutContents as content, index (index)}
-			<p class="about-description {index === 0 ? 'active' : ''}" bind:this={descriptions[index]}>
+			<p
+				class="about-description container-padding {index === 0 ? 'active' : ''}"
+				bind:this={descriptions[index]}
+			>
 				{content.description}
 			</p>
 		{/each}
@@ -251,52 +160,42 @@
 		border: var(--border-weight) solid var(--color-black);
 	}
 	.profile-wrapper {
-		min-width: 27rem;
 		position: relative;
-		height: auto;
-		width: 33%;
+		aspect-ratio: 4/6;
+		border-right: var(--border-weight) solid var(--color-black);
 	}
 	.profile-picture-wrapper {
 		width: 100%;
 		height: 100%;
-		position: relative;
-		z-index: 1;
-	}
-	.profile-picture {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-right: var(--border-weight) solid var(--color-black);
 	}
 	.about-content {
-		max-width: 29rem;
-		min-width: 22rem;
-		width: 30%;
-		margin: auto;
 		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
 		flex-direction: column;
 		position: relative;
 	}
 	.about-description {
-		display: none;
-		width: 100%;
-		opacity: 0;
+		width: 50%;
+		max-width: 30rem;
+		min-width: 22rem;
 		visibility: hidden;
+		opacity: 0;
+		position: absolute;
 	}
 	.about-description.active {
 		display: block;
 		visibility: visible;
 		opacity: 1;
+		position: static;
 	}
 	.profile-btns {
 		display: grid;
 		grid-auto-flow: column;
 		position: absolute;
 		top: 10%;
-		left: 100%;
+		left: calc(100% + 1px);
 		transform: translateX(calc(-100% / 3));
 		z-index: 2;
 	}
@@ -322,29 +221,5 @@
 	}
 	.about-button.active:hover {
 		cursor: auto;
-	}
-	:global(.with-cursor) {
-		position: relative;
-	}
-
-	:global(.with-cursor::after) {
-		content: "|";
-		position: absolute;
-		right: -5px;
-		top: 0;
-		display: block;
-		animation: blink 0.8s steps(1) infinite;
-		color: currentColor;
-	}
-
-	@keyframes blink {
-		0%,
-		50% {
-			opacity: 1;
-		}
-		51%,
-		100% {
-			opacity: 0;
-		}
 	}
 </style>

@@ -37,6 +37,7 @@
 	.header {
 		border-left: var(--border-weight) solid var(--color-black);
 		border-right: var(--border-weight) solid var(--color-black);
+		border-top: var(--border-weight) solid var(--color-black);
 	}
 	.nav-list {
 		display: flex;
