@@ -96,10 +96,6 @@
 </div>
 
 <style>
-	.link-list {
-		display: flex;
-		flex-direction: column;
-	}
 	.sidebar {
 		background-color: var(--color-black);
 		border-top: var(--border-weight) solid var(--color-black);
@@ -118,12 +114,17 @@
 		background-color: var(--color-white);
 		border-bottom: var(--border-weight) solid var(--color-black);
 		border-right: var(--border-weight) solid var(--color-black);
+		border-left: var(--border-weight) solid var(--color-black);
 		width: var(--side-content-size);
 		height: var(--side-content-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+	}
+	.link-list {
+		display: flex;
+		flex-direction: column;
 	}
 	.avatar {
 		padding: 0.6rem;

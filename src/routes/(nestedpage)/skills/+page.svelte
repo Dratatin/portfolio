@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SkillItem from "$lib/components/SkillItem.svelte";
 	import gsap from "gsap";
-	import { Draggable } from "gsap/Draggable";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 
@@ -11,6 +10,7 @@
 	onMount(async () => {
 		// import onMount to prevent issues on page preload with InertiaPlugin
 		const { default: InertiaPlugin } = await import("gsap/InertiaPlugin");
+		const { default: Draggable } = await import("gsap/Draggable");
 
 		gsap.registerPlugin(Draggable, InertiaPlugin);
 
@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div class="skills" bind:this={skillsDragContainer}>
+<div class="skills page" bind:this={skillsDragContainer}>
 	{#each skills as panel, index (index)}
 		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
 			<h3 class="skills-title">{panel.panelTitle}</h3>
@@ -45,9 +45,6 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
-		height: 100%;
-		flex: 1;
-		overflow: hidden;
 		border: var(--border-weight) solid var(--color-black);
 	}
 	.skills-list {

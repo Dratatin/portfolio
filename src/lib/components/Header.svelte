@@ -35,9 +35,10 @@
 
 <style>
 	.header {
-		border-left: var(--border-weight) solid var(--color-black);
-		border-right: var(--border-weight) solid var(--color-black);
-		border-top: var(--border-weight) solid var(--color-black);
+		border: var(--border-weight) solid var(--color-black);
+		height: var(--header-height);
+		display: flex;
+		align-items: center;
 	}
 	.nav-list {
 		display: flex;

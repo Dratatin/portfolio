@@ -3,13 +3,13 @@
 	import SkillsBar from "$lib/components/SkillsBar.svelte";
 </script>
 
-<section class="hero-section" id="hero">
+<section class="hero page" id="hero">
 	<HeroContent />
 	<SkillsBar />
 </section>
 
 <style>
-	.hero-section {
+	.hero {
 		display: flex;
 		flex-direction: column;
 		position: relative;

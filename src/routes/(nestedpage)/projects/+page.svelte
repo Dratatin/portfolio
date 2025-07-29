@@ -85,7 +85,7 @@
 	}
 </script>
 
-<div class="projects container-inline-padding">
+<div class="projects page container-inline-padding">
 	<div class="filters container-padding">
 		<h2 class="filters-title">Filtres</h2>
 		{#each filters as filter, index (index)}
@@ -114,13 +114,14 @@
 <style>
 	.projects {
 		border: var(--border-weight) solid var(--color-black);
-		flex: 1;
-		height: 100%;
 		display: flex;
 	}
 	.projects-list-container {
 		display: flex;
+		align-items: center;
 		width: 100%;
+		max-width: 65%;
+		margin-inline: auto;
 	}
 	.filters-title {
 		text-transform: uppercase;
@@ -131,6 +132,7 @@
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 4rem;
+		margin-inline: auto;
 	}
 	.project-empty {
 		margin: auto;

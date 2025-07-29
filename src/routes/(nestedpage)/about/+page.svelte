@@ -42,8 +42,8 @@
 		gsap.from(text, {
 			yPercent: 150,
 			opacity: 0,
-			duration: 0.4,
-			ease: "back.out(1.5)",
+			duration: 0.5,
+			ease: "cubic.out(1.5)",
 			stagger: 0.03
 		});
 	}
@@ -95,8 +95,6 @@
 		gsap.registerPlugin(ScrollTrigger, SplitText);
 		await document.fonts.ready; //Need to fully load font before use splitText
 
-		console.log(document.fonts.ready);
-
 		descriptions.forEach((description, index) => {
 			splitTexts[index] = SplitText.create(description, {
 				type: "words, lines"
@@ -122,7 +120,7 @@
 	});
 </script>
 
-<div class="about">
+<div class="about page">
 	<div class="profile-wrapper">
 		<div class="profile-picture-wrapper" bind:this={shaderContainer}></div>
 		<div class="profile-btns">
@@ -153,8 +151,6 @@
 
 <style>
 	.about {
-		flex: 1;
-		height: 100%;
 		display: flex;
 		overflow: hidden;
 		border: var(--border-weight) solid var(--color-black);
@@ -178,7 +174,7 @@
 	}
 	.about-description {
 		width: 50%;
-		max-width: 30rem;
+		max-width: 36rem;
 		min-width: 22rem;
 		visibility: hidden;
 		opacity: 0;
