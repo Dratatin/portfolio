@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SkillItem from "$lib/components/SkillItem.svelte";
 	import gsap from "gsap";
-	import { Draggable } from "gsap/Draggable";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 
@@ -10,6 +9,7 @@
 
 	onMount(async () => {
 		// import onMount to prevent issues on page preload with InertiaPlugin
+		const { default: Draggable } = await import("gsap/Draggable");
 		const { default: InertiaPlugin } = await import("gsap/InertiaPlugin");
 
 		gsap.registerPlugin(Draggable, InertiaPlugin);
