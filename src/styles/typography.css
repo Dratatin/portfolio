@@ -1,4 +1,30 @@
 @font-face {
+	font-family: "ExatWide";
+	src: url("/fonts/ExatWide-ExtraBold.eot");
+	src:
+		url("/fonts/ExatWide-ExtraBold.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/ExatWide-ExtraBold.woff2") format("woff2"),
+		url("/fonts/ExatWide-ExtraBold.woff") format("woff"),
+		url("/fonts/ExatWide-ExtraBold.ttf") format("truetype");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "ExatWide";
+	src: url("/fonts/ExatWide-Bold.eot");
+	src:
+		url("/fonts/ExatWide-Bold.eot?#iefix") format("embedded-opentype"),
+		url("/fonts/ExatWide-Bold.woff2") format("woff2"),
+		url("/fonts/ExatWide-Bold.woff") format("woff"),
+		url("/fonts/ExatWide-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
 	font-family: "StroyMono";
 	src: url("/fonts/StroyMonoTEST-Light.eot");
 	src:
@@ -13,39 +39,13 @@
 
 @font-face {
 	font-family: "StroyMono";
-	src: url("/fonts/StroyMonoTEST-Regular.eot");
-	src:
-		url("/fonts/StroyMonoTEST-Regular.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/StroyMonoTEST-Regular.woff2") format("woff2"),
-		url("/fonts/StroyMonoTEST-Regular.woff") format("woff"),
-		url("/fonts/StroyMonoTEST-Regular.ttf") format("truetype");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "StroyMono";
-	src: url("/fonts/StroyMonoTEST-Bold.eot");
-	src:
-		url("/fonts/StroyMonoTEST-Bold.eot?#iefix") format("embedded-opentype"),
-		url("/fonts/StroyMonoTEST-Bold.woff2") format("woff2"),
-		url("/fonts/StroyMonoTEST-Bold.woff") format("woff"),
-		url("/fonts/StroyMonoTEST-Bold.ttf") format("truetype");
-	font-weight: 800;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "StroyMono";
 	src: url("/fonts/StroyMonoTEST-LightItalic.eot");
 	src:
 		url("/fonts/StroyMonoTEST-LightItalic.eot?#iefix") format("embedded-opentype"),
 		url("/fonts/StroyMonoTEST-LightItalic.woff2") format("woff2"),
 		url("/fonts/StroyMonoTEST-LightItalic.woff") format("woff"),
 		url("/fonts/StroyMonoTEST-LightItalic.ttf") format("truetype");
-	font-weight: 400;
+	font-weight: 300;
 	font-style: italic;
 	font-display: swap;
 }

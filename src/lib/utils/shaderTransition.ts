@@ -63,8 +63,6 @@ export class ShaderTransition {
 		this.currentIndex = this.options.initialIndex;
 		this.targetIndex = this.currentIndex;
 
-		console.log(this.parent.offsetWidth, this.parent.offsetHeight);
-
 		this.init();
 		this.setupEventListeners();
 	}

@@ -95,11 +95,12 @@
 		width: 100%;
 	}
 	.project-title {
-		font-weight: 400;
 		width: 33%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		text-wrap: nowrap;
+		font-family: "ExatWide";
+		text-transform: uppercase;
 	}
 	.project-technos-container {
 		display: flex;

@@ -7,7 +7,7 @@
 	--small-font-size: clamp(0.875rem, 0.8462rem + 0.1282vw, 1rem);
 	--base-font-size: clamp(1rem, 0.9423rem + 0.2564vw, 1.25rem);
 	--border-weight: 1px;
-	--header-height: 8rem;
+	--header-height: var(--side-content-size);
 }
 
 body {
@@ -44,26 +44,11 @@ body {
 	font-size: var(--base-font-size);
 }
 
-.hero-title {
-	font-size: clamp(2.625rem, 0.131rem + 10.9325vw, 13.25rem);
-	line-height: 85%;
-	text-transform: uppercase;
-	font-weight: 800;
-}
-
-.hero-suptitle {
-	font-size: clamp(1.125rem, 0.1274rem + 4.373vw, 5.375rem);
-	text-transform: uppercase;
-	font-weight: 400;
-}
-
 .interactive-btn-font {
-	font-size: clamp(1.25rem, 1.0153rem + 1.0289vw, 2.25rem);
-	font-weight: 800;
-}
-
-.italic {
-	font-style: italic;
+	font-size: clamp(1.25rem, 0.2857rem + 1.4286vw, 2rem);
+	font-family: "ExatWide";
+	font-weight: 700;
+	padding: 0.8rem;
 }
 
 .uppercase {

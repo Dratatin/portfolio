@@ -29,7 +29,7 @@
 <fieldset class="filter-group" class:open={filterOpen}>
 	<legend class="filter-legend">
 		<button class="dropdown-button" onclick={() => openDropdown(filterId)}>
-			{filterTitle}
+			<span class="dropdown-text">{filterTitle}</span>
 			<svg
 				class="dropdown-arrow"
 				xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,6 @@
 		flex-direction: column;
 		align-items: flex-start;
 		margin-left: 1rem;
-		margin-top: 1.5rem;
 	}
 	.filter-label {
 		cursor: pointer;
@@ -89,7 +88,10 @@
 	.dropdown-button {
 		cursor: pointer;
 		white-space: nowrap;
-		font-weight: 400;
+		padding-block: 1rem;
+	}
+	.dropdown-button:hover .dropdown-text {
+		text-decoration: underline;
 	}
 	.dropdown-container {
 		display: grid;

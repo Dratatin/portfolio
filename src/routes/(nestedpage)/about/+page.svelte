@@ -173,7 +173,7 @@
 		position: relative;
 	}
 	.about-description {
-		width: 50%;
+		width: 55%;
 		max-width: 36rem;
 		min-width: 22rem;
 		visibility: hidden;
@@ -198,7 +198,7 @@
 	.about-button {
 		text-orientation: mixed;
 		writing-mode: vertical-rl;
-		padding: 3rem 0.75rem;
+		padding: 3rem 0.8rem;
 		outline: var(--border-weight) solid var(--color-black);
 		text-align: center;
 		text-transform: uppercase;

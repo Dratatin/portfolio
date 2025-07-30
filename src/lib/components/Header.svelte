@@ -19,7 +19,7 @@
 	});
 </script>
 
-<header class="header container-padding">
+<header class="header container-inline-padding">
 	<nav class="nav">
 		<ul class="nav-list">
 			{#each pages as page, index (index)}

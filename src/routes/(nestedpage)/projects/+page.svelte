@@ -115,6 +115,7 @@
 	.projects {
 		border: var(--border-weight) solid var(--color-black);
 		display: flex;
+		gap: 4rem;
 	}
 	.projects-list-container {
 		display: flex;
@@ -125,12 +126,13 @@
 	}
 	.filters-title {
 		text-transform: uppercase;
-		font-weight: 800;
+		font-weight: 700;
+		font-family: "ExatWide";
+		margin-bottom: 1rem;
 	}
 	.filters {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
 		margin-top: 4rem;
 		margin-inline: auto;
 	}
@@ -138,5 +140,6 @@
 		margin: auto;
 		text-align: center;
 		padding: 5rem;
+		font-style: italic;
 	}
 </style>

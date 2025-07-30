@@ -2,7 +2,7 @@
 	<ul class="link-list">
 		<li>
 			<svg
-				class="sidebar-item avatar"
+				class="sidebar-item item-first"
 				xmlns="http://www.w3.org/2000/svg"
 				width="49"
 				height="48"
@@ -62,7 +62,7 @@
 			</svg>
 		</li>
 		<li>
-			<a href="/" download="" class="sidebar-item interactive-btn-font"> CV </a>
+			<a href="/" download="" class="sidebar-item interactive-btn-font"> cv </a>
 		</li>
 		<li>
 			<a href="/" download="" class="sidebar-item interactive-btn-font" aria-label="Mon github">
@@ -121,12 +121,15 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+		padding: 0.8rem;
+		position: relative;
+		top: calc(var(--border-weight) * -1);
+	}
+	.sidebar-item.item-first {
+		border-top: var(--border-weight) solid var(--color-black);
 	}
 	.link-list {
 		display: flex;
 		flex-direction: column;
-	}
-	.avatar {
-		padding: 0.6rem;
 	}
 </style>

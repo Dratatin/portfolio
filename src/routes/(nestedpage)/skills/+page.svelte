@@ -1,6 +1,7 @@
 <script lang="ts">
 	import SkillItem from "$lib/components/SkillItem.svelte";
 	import gsap from "gsap";
+	import { Draggable } from "gsap/Draggable";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 
@@ -10,7 +11,6 @@
 	onMount(async () => {
 		// import onMount to prevent issues on page preload with InertiaPlugin
 		const { default: InertiaPlugin } = await import("gsap/InertiaPlugin");
-		const { default: Draggable } = await import("gsap/Draggable");
 
 		gsap.registerPlugin(Draggable, InertiaPlugin);
 
@@ -53,7 +53,7 @@
 		gap: 1rem;
 		border: var(--border-weight) solid var(--color-black);
 		padding: 4rem 3rem;
-		min-width: 28rem;
+		min-width: 30rem;
 		background-color: var(--color-white);
 		text-transform: uppercase;
 	}
@@ -82,14 +82,15 @@
 	}
 	.skills-title {
 		margin-left: 2rem;
-		padding: 0.7rem 1.5rem 0.5rem 1.5rem;
+		padding: 0.7rem 1.5rem 0.7rem 1.5rem;
 		margin-right: auto;
 		position: relative;
 		top: 3px;
 		z-index: -1;
-		font-size: 20px;
+		font-size: 18px;
 		text-transform: uppercase;
-		font-weight: 800;
+		font-weight: 700;
+		font-family: "ExatWide";
 		perspective: 130px;
 	}
 	.skills-title:before {

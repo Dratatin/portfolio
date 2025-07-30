@@ -16,13 +16,12 @@
 	.keywords-list {
 		display: flex;
 		flex-wrap: wrap;
-		font-weight: 800;
+		font-weight: 900;
 		text-transform: uppercase;
 		border-top: var(--border-weight) solid var(--color-black);
 		border-left: var(--border-weight) solid var(--color-black);
 	}
 	.keyword-item {
-		padding: 0.5rem 0.75rem;
 		flex: auto;
 		display: flex;
 		align-items: center;
