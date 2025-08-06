@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { hoveredElement } from "$lib/stores/cursor";
+	import { hoveredElement } from "$lib/stores/store";
 
 	let position = $state({ x: 0, y: 0 });
 	let clicked = $state(false);

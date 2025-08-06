@@ -115,7 +115,6 @@
 	.projects {
 		border: var(--border-weight) solid var(--color-black);
 		display: flex;
-		gap: 4rem;
 	}
 	.projects-list-container {
 		display: flex;

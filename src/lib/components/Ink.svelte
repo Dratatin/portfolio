@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { hoveredElement } from "$lib/stores/cursor";
+	import { hoveredElement } from "$lib/stores/store";
 	let { name, active = false }: { name: string; active?: boolean } = $props();
 
 	let hookRef: HTMLElement;

@@ -21,19 +21,25 @@
 		{
 			id: "all",
 			type: "pour tous",
-			description: `Salut ! Bienvenue sur mon portfolio. Je suis développeur front-end, passionné par le design d’interaction et les animations web. J’aime créer des interfaces fluides, vivantes, et bien pensées.`,
+			description: `Bienvenue sur mon portfolio.
+Je suis développeur front-end, passionné par le design d’interaction et les animations web. J’aime créer des interfaces fluides, vivantes et bien pensées.
+Bonne visite !`,
 			img: relaxed
 		},
 		{
 			id: "recruiters",
 			type: "recruteurs",
-			description: `Je crée des expériences web innovantes qui captent l’attention. Avec 2 ans d’expérience en agence, mener plusieurs projets de front ne m’empêche jamais de le faire avec passion et précision.`,
+			description: `Bonjour, et merci de votre visite.
+Développeur front-end, je conçois des interfaces modernes, accessibles et centrées sur l’expérience utilisateur.
+Si mon profil vous intéresse, n’hésitez pas à me contacter.`,
 			img: pro
 		},
 		{
 			id: "friends",
 			type: "amis",
-			description: `Toujours partant pour des projets qui bougent ! J’apporte ma bonne humeur, ma rigueur et mon sens du détails pour créer des interfaces qui ont du peps.`,
+			description: `Bienvenue à toi, ami(e) curieux(se).
+Ce portfolio présente mon travail côté front-end. Des projets pros, un peu de R&D visuelle, et pas mal de soin dans les détails.
+Tu connais la personne, voici le pro.`,
 			img: cat
 		}
 	];
