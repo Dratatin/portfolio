@@ -2,6 +2,7 @@
 	import { pageTransitionDuration, hasPageTransition } from "$lib/stores/store";
 	import SkillItem from "$lib/components/SkillItem.svelte";
 	import gsap from "gsap";
+	import { Draggable } from "gsap/Draggable";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 	import { get } from "svelte/store";
@@ -11,11 +12,9 @@
 	const delay = get(hasPageTransition) ? get(pageTransitionDuration) : 0;
 
 	onMount(async () => {
-		const { default: Draggable } = await import("gsap/Draggable");
 		const { default: InertiaPlugin } = await import("gsap/InertiaPlugin");
-
 		gsap.registerPlugin(Draggable, InertiaPlugin);
-
+		
 		setTimeout(() => {
 			skillsRefs.forEach((panel) => {
 				let currentX = 0;
@@ -54,6 +53,7 @@
 				}
 
 				let floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration, delay);
+				floatTimeline.restart();
 
 				const draggable = Draggable.create(panel, {
 					type: "x,y",
