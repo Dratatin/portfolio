@@ -1,103 +1,99 @@
 <script lang="ts">
-	import { pageTransitionDuration, hasPageTransition } from "$lib/stores/store";
 	import SkillItem from "$lib/components/SkillItem.svelte";
 	import gsap from "gsap";
 	import { Draggable } from "gsap/Draggable";
+	import InertiaPlugin from "gsap/InertiaPlugin";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
-	import { get } from "svelte/store";
+	import { tick } from "svelte";
 
 	let skillsDragContainer: HTMLElement;
 	const skillsRefs: HTMLElement[] = [];
-	const delay = get(hasPageTransition) ? get(pageTransitionDuration) : 0;
 
 	onMount(async () => {
-		const { default: InertiaPlugin } = await import("gsap/InertiaPlugin");
+		await tick();
 		gsap.registerPlugin(Draggable, InertiaPlugin);
-		
-		setTimeout(() => {
-			skillsRefs.forEach((panel) => {
-				let currentX = 0;
-				let currentY = 0;
 
-				let xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
-				let yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
+		skillsRefs.forEach((panel) => {
+			let currentX = 0;
+			let currentY = 0;
 
-				function updateQuickTo(x: number, y: number) {
-					currentX = x;
-					currentY = y;
+			let xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
+			let yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 
-					xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
-					yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
+			function updateQuickTo(x: number, y: number) {
+				currentX = x;
+				currentY = y;
+
+				xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
+				yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
+			}
+
+			const amplitudeX = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
+			const amplitudeY = (4 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1);
+			const duration = 1.8 + Math.random() * 1.5;
+
+			function createFloatTimeline(
+				panel: HTMLElement,
+				amplitudeX: number,
+				amplitudeY: number,
+				duration: number
+			) {
+				const tl = gsap.timeline({ repeat: -1, yoyo: true, paused: false });
+				tl.to(panel, {
+					y: `+=${amplitudeY}`,
+					x: `-=${amplitudeX}`,
+					duration,
+					ease: "sine.inOut"
+				});
+				return tl;
+			}
+
+			let floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration);
+			floatTimeline.restart();
+
+			const draggable = Draggable.create(panel, {
+				type: "x,y",
+				bounds: skillsDragContainer,
+				inertia: true,
+				onDragStart() {
+					floatTimeline.kill();
+				},
+				onClick() {
+					updateQuickTo(this.x, this.y);
+				},
+				onThrowComplete() {
+					updateQuickTo(this.x, this.y);
+					floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration);
+					floatTimeline.restart();
 				}
+			})[0];
 
-				const amplitudeX = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
-				const amplitudeY = (4 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1);
-				const duration = 1.8 + Math.random() * 1.5;
+			const magnetize = (e: MouseEvent) => {
+				if (!draggable.isDragging && !draggable.isThrowing) {
+					const bounds = panel.getBoundingClientRect();
+					const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;
+					const offsetY = (e.clientY - bounds.top - bounds.height / 2) * 0.2;
 
-				function createFloatTimeline(
-					panel: HTMLElement,
-					amplitudeX: number,
-					amplitudeY: number,
-					duration: number,
-					delay: number
-				) {
-					const tl = gsap.timeline({ repeat: -1, yoyo: true, paused: false, delay });
-					tl.to(panel, {
-						y: `+=${amplitudeY}`,
-						x: `-=${amplitudeX}`,
-						duration,
-						ease: "sine.inOut"
-					});
-					return tl;
+					floatTimeline.pause();
+
+					xTo(currentX + offsetX);
+					yTo(currentY + offsetY);
 				}
+			};
 
-				let floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration, delay);
-				floatTimeline.restart();
-
-				const draggable = Draggable.create(panel, {
-					type: "x,y",
-					bounds: skillsDragContainer,
-					inertia: true,
-					onDragStart() {
-						floatTimeline.kill();
-					},
-					onClick() {
-						updateQuickTo(this.x, this.y);
-					},
-					onThrowComplete() {
-						updateQuickTo(this.x, this.y);
-						floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration, delay);
+			const demagnetize = () => {
+				if (!draggable.isDragging && !draggable.isThrowing) {
+					xTo(currentX);
+					yTo(currentY).then(() => {
 						floatTimeline.restart();
-					}
-				})[0];
+					});
+				}
+			};
 
-				const magnetize = (e: MouseEvent) => {
-					if (!draggable.isDragging && !draggable.isThrowing) {
-						const bounds = panel.getBoundingClientRect();
-						const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;
-						const offsetY = (e.clientY - bounds.top - bounds.height / 2) * 0.2;
-
-						floatTimeline.pause();
-
-						xTo(currentX + offsetX);
-						yTo(currentY + offsetY);
-					}
-				};
-
-				const demagnetize = () => {
-					if (!draggable.isDragging && !draggable.isThrowing) {
-						xTo(currentX);
-						yTo(currentY).then(() => {
-							floatTimeline.restart();
-						});
-					}
-				};
-
-				panel.addEventListener("mousemove", magnetize);
-				panel.addEventListener("mouseleave", demagnetize);
-			});
-		}, delay);
+			panel.addEventListener("mousemove", magnetize);
+			panel.addEventListener("mouseleave", demagnetize);
+		});
 	});
 </script>
 

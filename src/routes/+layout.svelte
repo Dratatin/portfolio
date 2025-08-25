@@ -6,9 +6,6 @@
 	import { fly, type EasingFunction, type TransitionConfig } from "svelte/transition";
 	import { cubicIn, cubicOut } from "svelte/easing";
 	import { page } from "$app/state";
-	import { hasPageTransition, pageTransitionDuration } from "$lib/stores/store";
-	import { get } from "svelte/store";
-	import { beforeNavigate } from "$app/navigation";
 
 	let { children } = $props();
 
@@ -20,7 +17,7 @@
 
 	function pageOut(
 		node: HTMLElement,
-		{ delay = 0, duration = get(pageTransitionDuration), easing = cubicIn }: PageOutParams = {}
+		{ delay = 0, duration = 1200, easing = cubicIn }: PageOutParams = {}
 	): TransitionConfig {
 		return {
 			delay,
@@ -38,10 +35,6 @@
 			}
 		};
 	}
-
-	beforeNavigate(() => {
-		hasPageTransition.set(true);
-	});
 </script>
 
 <div>
@@ -54,12 +47,12 @@
 				class="main"
 				in:fly={{
 					y: window.innerHeight,
-					duration: get(pageTransitionDuration) / 2,
+					duration: 1200 / 2,
 					opacity: 1,
-					delay: get(pageTransitionDuration) / 2,
+					delay: 1200 / 2,
 					easing: cubicOut
 				}}
-				out:pageOut={{ duration: get(pageTransitionDuration) }}
+				out:pageOut={{ duration: 1200 }}
 			>
 				{@render children()}
 			</main>

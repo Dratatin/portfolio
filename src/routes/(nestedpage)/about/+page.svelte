@@ -2,7 +2,7 @@
 	import relaxed from "$assets/relaxed.jpg";
 	import pro from "$assets/pro.jpg";
 	import cat from "$assets/cat.jpg";
-	import texture from "$assets/textures/cloud.png";
+	import texture from "$assets/texture.jpg";
 	import gsap from "gsap";
 	import ShaderTransition, { type ShaderTransitionInstance } from "$lib/utils/shaderTransition";
 	import { SplitText } from "gsap/SplitText";
@@ -97,9 +97,26 @@ Tu connais la personne, voici le pro.`,
 		previousDescription.classList.remove("active");
 		animeText(splitTexts[index].lines);
 	}
+
+	// function handlebuttonHover(index: number) {
+	// 	myAnimation.swap(index);
+	// }
+
 	onMount(async () => {
+		await document.fonts.ready;
 		gsap.registerPlugin(ScrollTrigger, SplitText);
-		await document.fonts.ready; //Need to fully load font before use splitText
+
+		buttonOrder = [...buttons];
+
+		myAnimation = new ShaderTransition({
+			parent: shaderContainer,
+			intensity: 0.3,
+			images: [relaxed, cat, pro],
+			initialIndex: 0,
+			displacementImage: texture,
+			speed: 1.4,
+			imagesRatio: 1200 / 800
+		});
 
 		descriptions.forEach((description, index) => {
 			splitTexts[index] = SplitText.create(description, {
@@ -110,19 +127,6 @@ Tu connais la personne, voici le pro.`,
 		if (splitTexts.length > 0) {
 			animeText(splitTexts[0].lines);
 		}
-	});
-
-	onMount(() => {
-		buttonOrder = [...buttons];
-
-		myAnimation = new ShaderTransition({
-			parent: shaderContainer,
-			intensity: 0.3,
-			images: [relaxed, cat, pro],
-			initialIndex: 0,
-			displacementImage: texture,
-			imagesRatio: 1200 / 800
-		});
 	});
 </script>
 
