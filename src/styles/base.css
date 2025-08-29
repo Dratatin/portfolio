@@ -1,13 +1,14 @@
 :root {
-	--main-font: "StroyMono", sans-serif;
+	--main-font: "Stroymono", sans-serif;
 	--color-black: #1a1a1a;
 	--color-white: #fdfbf7;
 	--container-padding: 2.5rem;
-	--side-content-size: 4.5rem;
-	--small-font-size: clamp(0.875rem, 0.8462rem + 0.1282vw, 1rem);
-	--base-font-size: clamp(1rem, 0.9423rem + 0.2564vw, 1.25rem);
+	--side-content-size: 4.4rem;
+	--small-font-size: 14px;
+	--base-font-size: 16px;
 	--border-weight: 1px;
 	--header-height: var(--side-content-size);
+	--btn-padding: 1rem;
 }
 
 body {
@@ -44,11 +45,12 @@ body {
 	font-size: var(--base-font-size);
 }
 
-.interactive-btn-font {
-	font-size: clamp(1.25rem, 0.2857rem + 1.4286vw, 2rem);
+.btn-decorated {
+	font-size: 20px;
 	font-family: "ExatWide";
 	font-weight: 700;
-	padding: 0.8rem;
+	padding: var(--btn-padding);
+	text-transform: uppercase;
 }
 
 .uppercase {

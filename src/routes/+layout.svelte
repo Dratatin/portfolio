@@ -3,11 +3,15 @@
 	import Sidebar from "$lib/components/Sidebar.svelte";
 	import Header from "$lib/components/Header.svelte";
 	import MousePointer from "$lib/components/MousePointer.svelte";
+	import { firstPageLoadTimeline } from "$lib/stores/store";
 	import { fly, type EasingFunction, type TransitionConfig } from "svelte/transition";
 	import { cubicIn, cubicOut } from "svelte/easing";
 	import { page } from "$app/state";
+	import { onMount } from "svelte";
+	import gsap from "gsap";
 
 	let { children } = $props();
+	let main: HTMLElement | null = $state(null);
 
 	type PageOutParams = {
 		delay?: number;
@@ -35,6 +39,23 @@
 			}
 		};
 	}
+
+	onMount(() => {
+		firstPageLoadTimeline.subscribe((pageTimeline) => {
+			if (pageTimeline) {
+				pageTimeline.from(
+					main,
+					{
+						yPercent: 100,
+						ease: "power4.out",
+						duration: 0.9
+					},
+					2
+				);
+			}
+		});
+		firstPageLoadTimeline.set(gsap.timeline({}));
+	});
 </script>
 
 <div>
@@ -53,6 +74,7 @@
 					easing: cubicOut
 				}}
 				out:pageOut={{ duration: 1200 }}
+				bind:this={main}
 			>
 				{@render children()}
 			</main>

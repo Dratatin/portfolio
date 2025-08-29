@@ -46,11 +46,11 @@ Tu connais la personne, voici le pro.`,
 
 	function animeText(text: Element[]) {
 		gsap.from(text, {
-			yPercent: 150,
+			yPercent: 100,
 			opacity: 0,
-			duration: 0.5,
-			ease: "cubic.out(1.5)",
-			stagger: 0.03
+			duration: 0.4,
+			stagger: 0.04,
+			ease: "power.out(4)"
 		});
 	}
 
@@ -136,7 +136,7 @@ Tu connais la personne, voici le pro.`,
 		<div class="profile-btns">
 			{#each aboutContents as content, index (index)}
 				<button
-					class="about-button interactive-btn-font {index === 0 ? 'active' : ''}"
+					class="about-button btn-decorated {index === 0 ? 'active' : ''}"
 					style:transform="translateX({100 * index}%)"
 					style:left="{-100 * index}%"
 					bind:this={buttons[index]}
@@ -149,10 +149,7 @@ Tu connais la personne, voici le pro.`,
 	</div>
 	<div class="about-content">
 		{#each aboutContents as content, index (index)}
-			<p
-				class="about-description container-padding {index === 0 ? 'active' : ''}"
-				bind:this={descriptions[index]}
-			>
+			<p class="about-description {index === 0 ? 'active' : ''}" bind:this={descriptions[index]}>
 				{content.description}
 			</p>
 		{/each}
@@ -183,12 +180,12 @@ Tu connais la personne, voici le pro.`,
 		position: relative;
 	}
 	.about-description {
-		width: 55%;
-		max-width: 36rem;
-		min-width: 22rem;
+		max-width: 45rem;
 		visibility: hidden;
 		opacity: 0;
 		position: absolute;
+		padding: 9rem;
+		line-height: 1.6;
 	}
 	.about-description.active {
 		display: block;
@@ -208,7 +205,7 @@ Tu connais la personne, voici le pro.`,
 	.about-button {
 		text-orientation: mixed;
 		writing-mode: vertical-rl;
-		padding: 3rem 0.8rem;
+		padding-inline: 4rem;
 		outline: var(--border-weight) solid var(--color-black);
 		text-align: center;
 		text-transform: uppercase;

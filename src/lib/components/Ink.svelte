@@ -1,15 +1,17 @@
 <script lang="ts">
-	import { hoveredElement } from "$lib/stores/store";
+	import { hoveredElement, hoverFormat } from "$lib/stores/store";
 	let { name, active = false }: { name: string; active?: boolean } = $props();
 
 	let hookRef: HTMLElement;
 
 	function onMouseEnter() {
 		hoveredElement.set(hookRef);
+		hoverFormat.set("check");
 	}
 
 	function onMouseLeave() {
 		hoveredElement.set(null);
+		hoverFormat.set(null);
 	}
 </script>
 
@@ -36,12 +38,13 @@
 		align-items: center;
 		background: linear-gradient(
 			var(--color-white),
-			var(--color-white) 50%,
-			var(--color-black) 50%,
+			var(--color-white) 51%,
+			var(--color-black) 51%,
 			var(--color-black)
 		);
-		background-size: 100% 200%;
+		background-size: 101% 200%;
 		transition: background 0.3s cubic-bezier(0, 1, 0.65, 1);
+		overflow: hidden;
 	}
 	.ink-hook-wrapper {
 		display: flex;

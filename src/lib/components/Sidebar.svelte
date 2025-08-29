@@ -1,6 +1,53 @@
-<div class="sidebar">
+<script lang="ts">
+	import { firstPageLoadTimeline } from "$lib/stores/store";
+	import { hoveredElement, hoverFormat } from "$lib/stores/store";
+	import { onMount } from "svelte";
+
+	const sidebarItem: HTMLElement[] = [];
+	let sidebar: HTMLElement;
+
+	function handleLinkMouseEnter(linkElm: HTMLElement) {
+		hoveredElement.set(linkElm);
+		hoverFormat.set("interactive");
+	}
+
+	function handleLinkMouseLeave() {
+		hoveredElement.set(null);
+		hoverFormat.set(null);
+	}
+
+	onMount(() => {
+		firstPageLoadTimeline.subscribe((pageTimeline) => {
+			if (pageTimeline) {
+				pageTimeline.from(
+					sidebar,
+					{
+						yPercent: 100,
+						duration: 0.8,
+						delay: 0.1,
+						ease: "power3.out"
+					},
+					0
+				);
+
+				pageTimeline.from(
+					sidebarItem,
+					{
+						xPercent: 150,
+						stagger: 0.1,
+						duration: 0.6,
+						ease: "back.out(1)"
+					},
+					0.8
+				);
+			}
+		});
+	});
+</script>
+
+<div class="sidebar" bind:this={sidebar}>
 	<ul class="link-list">
-		<li>
+		<li bind:this={sidebarItem[0]}>
 			<svg
 				class="sidebar-item item-first"
 				xmlns="http://www.w3.org/2000/svg"
@@ -61,36 +108,59 @@
 				/>
 			</svg>
 		</li>
-		<li>
-			<a href="/" download="" class="sidebar-item interactive-btn-font"> cv </a>
+		<li bind:this={sidebarItem[1]}>
+			<a
+				href="/"
+				download=""
+				class="sidebar-item btn-decorated"
+				onmouseenter={() => handleLinkMouseEnter(sidebarItem[1])}
+				onmouseleave={handleLinkMouseLeave}
+			>
+				cv
+			</a>
 		</li>
-		<li>
-			<a href="/" download="" class="sidebar-item interactive-btn-font" aria-label="Mon github">
+		<li bind:this={sidebarItem[2]}>
+			<a
+				href="/"
+				download=""
+				class="sidebar-item btn-decorated"
+				aria-label="Mon github"
+				onmouseenter={() => handleLinkMouseEnter(sidebarItem[2])}
+				onmouseleave={handleLinkMouseLeave}
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="40"
-					height="39"
-					viewBox="0 0 40 39"
+					width="37"
+					height="36"
+					viewBox="0 0 37 36"
 					fill="none"
 				>
-					<g clip-path="url(#clip0_748_115)">
+					<g clip-path="url(#clip0_1477_625)">
 						<path
 							fill-rule="evenodd"
 							clip-rule="evenodd"
-							d="M19.9404 0C8.91388 0 0 8.9375 0 19.9944C0 28.8328 5.71143 36.3143 13.6347 38.9622C14.6253 39.1613 14.9882 38.532 14.9882 38.0027C14.9882 37.5391 14.9555 35.9503 14.9555 34.2948C9.40857 35.4867 8.25347 31.9113 8.25347 31.9113C7.36204 29.5941 6.04122 28.9985 6.04122 28.9985C4.22571 27.7737 6.17347 27.7737 6.17347 27.7737C8.18735 27.9061 9.24408 29.8261 9.24408 29.8261C11.0265 32.8713 13.8988 32.0109 15.0543 31.4811C15.2192 30.1901 15.7478 29.2963 16.309 28.7999C11.8849 28.3363 7.2302 26.6151 7.2302 18.9349C7.2302 16.7501 8.02204 14.9626 9.27673 13.5724C9.07878 13.076 8.38531 11.0232 9.4751 8.27572C9.4751 8.27572 11.1588 7.74597 14.9551 10.3281C16.5804 9.89043 18.2566 9.66778 19.9404 9.66591C21.6241 9.66591 23.3404 9.89788 24.9253 10.3281C28.722 7.74597 30.4057 8.27572 30.4057 8.27572C31.4955 11.0232 30.8016 13.076 30.6037 13.5724C31.8914 14.9626 32.6506 16.7501 32.6506 18.9349C32.6506 26.6151 27.9959 28.303 23.5388 28.7999C24.2653 29.4287 24.8922 30.6203 24.8922 32.5073C24.8922 35.1886 24.8596 37.3405 24.8596 38.0022C24.8596 38.532 25.2229 39.1613 26.2131 38.9626C34.1363 36.3139 39.8478 28.8328 39.8478 19.9944C39.8804 8.9375 30.9339 0 19.9404 0Z"
+							d="M18.4449 0C8.24534 0 0 8.25 0 18.4564C0 26.6149 5.28307 33.5209 12.6121 35.9651C13.5284 36.1489 13.8641 35.568 13.8641 35.0794C13.8641 34.6515 13.8338 33.1849 13.8338 31.6567C8.70293 32.757 7.63446 29.4566 7.63446 29.4566C6.80989 27.3176 5.58813 26.7679 5.58813 26.7679C3.90879 25.6372 5.71046 25.6372 5.71046 25.6372C7.5733 25.7595 8.55078 27.5317 8.55078 27.5317C10.1995 30.3427 12.8564 29.5485 13.9252 29.0595C14.0777 27.8677 14.5667 27.0427 15.0858 26.5845C10.9935 26.1566 6.68794 24.5678 6.68794 17.4784C6.68794 15.4616 7.42039 13.8116 8.58098 12.5284C8.39787 12.0701 7.75641 10.1753 8.76447 7.63913C8.76447 7.63913 10.3219 7.15013 13.8335 9.53363C15.3369 9.12962 16.8874 8.92411 18.4449 8.92237C20.0023 8.92237 21.5899 9.1365 23.0559 9.53363C26.5679 7.15013 28.1253 7.63913 28.1253 7.63913C29.1333 10.1753 28.4915 12.0701 28.3084 12.5284C29.4996 13.8116 30.2018 15.4616 30.2018 17.4784C30.2018 24.5678 25.8962 26.1259 21.7734 26.5845C22.4454 27.165 23.0253 28.2649 23.0253 30.0067C23.0253 32.4817 22.9951 34.4681 22.9951 35.079C22.9951 35.568 23.3311 36.1489 24.2471 35.9655C31.5761 33.5205 36.8592 26.6149 36.8592 18.4564C36.8894 8.25 28.6138 0 18.4449 0Z"
 							fill="#1A1A1A"
 						/>
 					</g>
 					<defs>
-						<clipPath id="clip0_748_115">
-							<rect width="40" height="39" fill="white" />
+						<clipPath id="clip0_1477_625">
+							<rect width="37" height="36" fill="white" />
 						</clipPath>
 					</defs>
 				</svg>
 			</a>
 		</li>
-		<li>
-			<a href="/" download="" class="sidebar-item interactive-btn-font"> in </a>
+		<li bind:this={sidebarItem[3]}>
+			<a
+				href="/"
+				download=""
+				class="sidebar-item btn-decorated linkedin"
+				onmouseenter={() => handleLinkMouseEnter(sidebarItem[3])}
+				onmouseleave={handleLinkMouseLeave}
+			>
+				in
+			</a>
 		</li>
 	</ul>
 </div>
@@ -121,7 +191,7 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		padding: 0.8rem;
+		padding: var(--btn-padding);
 		position: relative;
 		top: calc(var(--border-weight) * -1);
 	}
@@ -131,5 +201,9 @@
 	.link-list {
 		display: flex;
 		flex-direction: column;
+	}
+	.linkedin {
+		text-transform: lowercase;
+		font-size: 24px;
 	}
 </style>

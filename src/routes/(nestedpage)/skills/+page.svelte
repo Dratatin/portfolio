@@ -29,8 +29,8 @@
 				yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 			}
 
-			const amplitudeX = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
-			const amplitudeY = (4 + Math.random() * 6) * (Math.random() < 0.5 ? -1 : 1);
+			const amplitudeX = (2 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
+			const amplitudeY = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
 			const duration = 1.8 + Math.random() * 1.5;
 
 			function createFloatTimeline(
@@ -125,8 +125,8 @@
 		flex-direction: column;
 		gap: 1rem;
 		border: var(--border-weight) solid var(--color-black);
-		padding: 4rem 3rem;
-		min-width: 30rem;
+		padding: 3rem;
+		min-width: 29rem;
 		background-color: var(--color-white);
 		text-transform: uppercase;
 	}
@@ -155,12 +155,12 @@
 	}
 	.skills-title {
 		margin-left: 2rem;
-		padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
 		margin-right: auto;
 		position: relative;
 		top: 3px;
 		z-index: -1;
-		font-size: 18px;
+		font-size: 16px;
 		text-transform: uppercase;
 		font-weight: 700;
 		font-family: "ExatWide";

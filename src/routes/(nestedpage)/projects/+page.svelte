@@ -4,6 +4,7 @@
 	import projet1 from "$assets/projects/project1.jpg";
 	import projet2 from "$assets/projects/project2.jpg";
 	import projet3 from "$assets/projects/project3.jpg";
+	import { selectedTechnos } from "$lib/stores/store";
 	import { type TechKey } from "$lib/utils/hardskills";
 
 	const filters: {
@@ -14,7 +15,7 @@
 		{
 			filterid: "lang",
 			filterTitle: "Langages et Préprocesseurs",
-			filterTable: ["html", "css", "javascript", "typescript", "twig"]
+			filterTable: ["html", "css", "scss", "javascript", "typescript", "twig"]
 		},
 		{
 			filterid: "fram",
@@ -28,12 +29,14 @@
 		}
 	];
 
-	const projects: {
+	type Project = {
 		name: string;
 		projectid: string;
 		technos: TechKey[];
 		image: string;
-	}[] = [
+	};
+
+	const projects: Project[] = [
 		{
 			name: "Coque de nacre",
 			projectid: "projet1",
@@ -43,7 +46,7 @@
 		{
 			name: "Fidesio",
 			projectid: "projet2",
-			technos: ["twig", "symfony", "css", "javascript"],
+			technos: ["twig", "symfony", "scss", "javascript"],
 			image: projet2
 		},
 		{
@@ -54,8 +57,8 @@
 		}
 	];
 
-	let selectedTechnosState: TechKey[] = $state([]);
 	let filteredProjects = $state(projects);
+	let prevfilteredProjects: Project[] = $derived([]);
 	let filterOpen: string | null = $state(null);
 	let key = $state(Date.now());
 
@@ -67,36 +70,29 @@
 		}
 	}
 
-	function toggleFilter(table: TechKey[], value: TechKey) {
-		if (table.includes(value)) {
-			return table.filter((item) => item !== value);
-		} else {
-			return [...table, value];
-		}
-	}
-
-	function handleFilterChange(filter: TechKey) {
-		selectedTechnosState = toggleFilter(selectedTechnosState, filter);
-
+	selectedTechnos.subscribe((technos) => {
 		filteredProjects = projects.filter((project) => {
-			return selectedTechnosState.every((tech) => project.technos.includes(tech));
+			return technos.every((tech) => project.technos.includes(tech));
 		});
-		key = Date.now();
-	}
+		if (JSON.stringify(filteredProjects) !== JSON.stringify(prevfilteredProjects)) {
+			key = Date.now();
+		}
+		prevfilteredProjects = [...filteredProjects];
+	});
 </script>
 
-<div class="projects page container-inline-padding">
-	<div class="filters container-padding">
-		<h2 class="filters-title">Filtres</h2>
+<div class="projects page">
+	<div class="filters">
+		<div class="filters-title-wrapper btn-decorated">
+			<h2 class="filters-title">Filtrer les projets</h2>
+		</div>
 		{#each filters as filter, index (index)}
 			<FilterGroup
 				filterId={filter.filterid}
 				filterTitle={filter.filterTitle}
 				filterList={filter.filterTable}
 				filterOpen={filter.filterid === filterOpen}
-				selectedFilter={selectedTechnosState}
 				{openDropdown}
-				onChange={handleFilterChange}
 			/>
 		{/each}
 	</div>
@@ -120,20 +116,23 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
-		max-width: 65%;
+		max-width: 55%;
 		margin-inline: auto;
+	}
+	.filters-title-wrapper {
+		border-bottom: var(--border-weight) solid var(--color-black);
 	}
 	.filters-title {
 		text-transform: uppercase;
 		font-weight: 700;
 		font-family: "ExatWide";
-		margin-bottom: 1rem;
+		text-align: center;
+		font-size: 16px;
 	}
 	.filters {
 		display: flex;
 		flex-direction: column;
-		margin-top: 4rem;
-		margin-inline: auto;
+		border-right: var(--border-weight) solid var(--color-black);
 	}
 	.project-empty {
 		margin: auto;

@@ -28,7 +28,9 @@
 </script>
 
 <div class="project-content">
-	<img class="project-img" src={image} alt="projet" />
+	<div class="project-media">
+		<img class="project-img" src={image} alt="projet" />
+	</div>
 	<div class="project-details">
 		<h2 class="project-title">{name}</h2>
 		<div class="project-technos-container">
@@ -80,19 +82,21 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.project-img {
-		aspect-ratio: 1.54;
-		object-fit: cover;
+	.project-media {
+		aspect-ratio: 16/9;
 		border: 1px solid var(--color-black);
+		width: 100%;
+	}
+	.project-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 	.project-details {
 		display: flex;
 		justify-content: space-between;
-		margin-top: 1.5rem;
+		margin-top: 1rem;
 		position: relative;
-	}
-	.project-img {
-		width: 100%;
 	}
 	.project-title {
 		width: 33%;
@@ -101,6 +105,7 @@
 		text-wrap: nowrap;
 		font-family: "ExatWide";
 		text-transform: uppercase;
+		font-size: 16px;
 	}
 	.project-technos-container {
 		display: flex;
@@ -135,9 +140,9 @@
 	.technos-tooltip-container {
 		opacity: 0;
 		transition: all 0.4s cubic-bezier(0, 1, 0.65, 1);
-		transform: translateY(1.5rem);
+		transform: translateY(1rem);
 		pointer-events: none;
-		padding-bottom: 1.5rem;
+		padding-bottom: 1rem;
 		position: absolute;
 		bottom: 100%;
 		right: 0;

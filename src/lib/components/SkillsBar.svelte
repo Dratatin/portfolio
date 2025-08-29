@@ -1,11 +1,11 @@
 <script lang="ts">
-	const keywords = ["3D", "Accessibilité", "Performance", "Modularité", "Intéractivité"];
+	const keywords = ["3D", "accessibilité", "performance", "modularité", "intéractivité"];
 </script>
 
 <ul class="keywords-list">
 	{#each keywords as keyword, index (index)}
 		<li class="keyword-item">
-			<span class="interactive-btn-font">
+			<span class="btn-decorated">
 				{keyword}
 			</span>
 		</li>
@@ -17,9 +17,9 @@
 		display: flex;
 		flex-wrap: wrap;
 		font-weight: 900;
-		text-transform: uppercase;
 		border-top: var(--border-weight) solid var(--color-black);
 		border-left: var(--border-weight) solid var(--color-black);
+		background-color: var(--color-black);
 	}
 	.keyword-item {
 		flex: auto;
@@ -30,5 +30,6 @@
 		border-right: var(--border-weight) solid var(--color-black);
 		position: relative;
 		line-height: normal;
+		background-color: var(--color-white);
 	}
 </style>

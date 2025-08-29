@@ -1,24 +1,32 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { hoveredElement } from "$lib/stores/store";
+	import { hoveredElement, hoverFormat } from "$lib/stores/store";
 
 	let position = $state({ x: 0, y: 0 });
 	let clicked = $state(false);
 	let activeHovered = $state<HTMLElement | null>(null);
+	let mouseFormat = $state<"check" | "interactive" | null>(null);
 
 	let targetX = 0;
 	let targetY = 0;
 	let animationFrameId: number;
 
-	// Subscribe to the hoveredElement store
-	hoveredElement.subscribe((elem) => {
-		activeHovered = elem;
+	onMount(() => {
+		const unsubHovered = hoveredElement.subscribe((el) => {
+			activeHovered = el;
+		});
+
+		const unsubFormat = hoverFormat.subscribe((format) => {
+			mouseFormat = format;
+		});
+
+		return () => {
+			unsubHovered();
+			unsubFormat();
+		};
 	});
 
 	onMount(() => {
-		// Initialize position to current mouse position
-		position = { x: targetX, y: targetY };
-
 		const handleMouseMove = (e: MouseEvent) => {
 			if (activeHovered) {
 				const rect = activeHovered.getBoundingClientRect();
@@ -33,7 +41,6 @@
 		const handleMouseDown = () => {
 			clicked = true;
 		};
-
 		const handleMouseUp = () => {
 			clicked = false;
 		};
@@ -44,15 +51,11 @@
 			animationFrameId = requestAnimationFrame(animate);
 		};
 
-		// Add event listeners
 		window.addEventListener("mousemove", handleMouseMove);
 		window.addEventListener("mousedown", handleMouseDown);
 		window.addEventListener("mouseup", handleMouseUp);
-
-		// Start animation loop
 		animationFrameId = requestAnimationFrame(animate);
 
-		// Cleanup when component is destroyed
 		return () => {
 			window.removeEventListener("mousemove", handleMouseMove);
 			window.removeEventListener("mousedown", handleMouseDown);
@@ -60,17 +63,56 @@
 			cancelAnimationFrame(animationFrameId);
 		};
 	});
+
+	type PointerStyle = {
+		transform: string;
+		top: string;
+		left: string;
+		borderRadius: string;
+	};
+
+	const mode = $derived<"clicked" | "interactive" | "check" | "default">(
+		mouseFormat ? mouseFormat : clicked ? "clicked" : "default"
+	);
+
+	const STYLES: Record<"clicked" | "interactive" | "check" | "default", PointerStyle> = {
+		interactive: {
+			transform: "translate(-50%, -50%) scale(6)",
+			top: "0",
+			left: "0",
+			borderRadius: "var(--cursor-size)"
+		},
+		check: {
+			transform: "translate(-50%, -50%) scale(1)",
+			top: "0",
+			left: "0",
+			borderRadius: "0"
+		},
+		clicked: {
+			transform: "translate(-50%, -50%) scale(6)",
+			top: "calc(-1 * var(--cursor-size))",
+			left: "calc(-1 * var(--cursor-size))",
+			borderRadius: "var(--cursor-size)"
+		},
+		default: {
+			transform: "translate(-50%, -50%) scale(1)",
+			top: "calc(-1 * var(--cursor-size))",
+			left: "calc(-1 * var(--cursor-size))",
+			borderRadius: "var(--cursor-size)"
+		}
+	};
+
+	const pointerStyle = $derived(STYLES[mode]);
+	const containerTransform = $derived(`translate3d(${position.x}px, ${position.y}px, 0)`);
 </script>
 
-<div class="mouse-pointer" style:transform="translate3d({position.x}px, {position.y}px, 0)">
+<div class="mouse-pointer" style:transform={containerTransform}>
 	<div
 		class="pointer"
-		style:transform={clicked && !activeHovered
-			? "translate(-50%, -50%) scale(6)"
-			: "translate(-50%, -50%) scale(1)"}
-		style:top={activeHovered ? "0" : "calc(-1 * var(--cursor-size))"}
-		style:left={activeHovered ? "0" : "calc(-1 * var(--cursor-size))"}
-		style:border-radius={activeHovered ? "0" : "var(--cursor-size)"}
+		style:transform={pointerStyle.transform}
+		style:top={pointerStyle.top}
+		style:left={pointerStyle.left}
+		style:border-radius={pointerStyle.borderRadius}
 	></div>
 </div>
 
