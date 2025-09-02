@@ -4,7 +4,7 @@
 	import { FreeMode } from "swiper/modules";
 	import ProjectSlide from "./ProjectSlide.svelte";
 	import gsap from "gsap";
-	import { type TechKey } from "$lib/utils/hardskills";
+	import { type Project } from "$lib/utils/projects";
 	import "swiper/css";
 
 	let slider: HTMLElement;
@@ -14,12 +14,7 @@
 	let {
 		projects
 	}: {
-		projects: {
-			name: string;
-			projectid: string;
-			technos: TechKey[];
-			image: string;
-		}[];
+		projects: Project[];
 	} = $props();
 
 	function bindSlide(node: HTMLElement, index: number) {
@@ -40,6 +35,7 @@
 			yPercent: 50,
 			ease: "power3.out",
 			stagger: 0.1,
+			opacity: 0,
 			duration: 0.6
 		});
 	});
@@ -55,7 +51,12 @@
 	<ul class="project-list swiper-wrapper">
 		{#each projects as project, index (project.projectid)}
 			<li class="project-item swiper-slide" use:bindSlide={index}>
-				<ProjectSlide image={project.image} name={project.name} technos={project.technos} />
+				<ProjectSlide
+					image={project.image}
+					name={project.name}
+					technos={project.technos}
+					hidden={project.private}
+				/>
 			</li>
 		{/each}
 	</ul>

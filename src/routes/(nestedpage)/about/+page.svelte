@@ -1,7 +1,7 @@
 <script lang="ts">
-	import relaxed from "$assets/relaxed.jpg";
-	import pro from "$assets/pro.jpg";
-	import cat from "$assets/cat.jpg";
+	import recruteur from "$assets/recruteur.png";
+	import tous from "$assets/tous.png";
+	import amis from "$assets/amis.png";
 	import texture from "$assets/texture.jpg";
 	import gsap from "gsap";
 	import ShaderTransition, { type ShaderTransitionInstance } from "$lib/utils/shaderTransition";
@@ -9,6 +9,7 @@
 	import type SplitTextType from "gsap/SplitText";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { onMount } from "svelte";
+	import { hoverFormat } from "$lib/stores/store";
 
 	let buttons: HTMLButtonElement[] = [];
 	let buttonOrder: HTMLButtonElement[] = [];
@@ -23,24 +24,21 @@
 			type: "pour tous",
 			description: `Bienvenue sur mon portfolio.
 Je suis développeur front-end, passionné par le design d’interaction et les animations web. J’aime créer des interfaces fluides, vivantes et bien pensées.
-Bonne visite !`,
-			img: relaxed
+Bonne visite !`
 		},
 		{
 			id: "recruiters",
 			type: "recruteurs",
 			description: `Bonjour, et merci de votre visite.
 Développeur front-end, je conçois des interfaces modernes, accessibles et centrées sur l’expérience utilisateur.
-Si mon profil vous intéresse, n’hésitez pas à me contacter.`,
-			img: pro
+Si mon profil vous intéresse, n’hésitez pas à me contacter.`
 		},
 		{
 			id: "friends",
 			type: "amis",
 			description: `Bienvenue à toi, ami(e) curieux(se).
 Ce portfolio présente mon travail côté front-end. Des projets pros, un peu de R&D visuelle, et pas mal de soin dans les détails.
-Tu connais la personne, voici le pro.`,
-			img: cat
+Tu connais la personne, voici le pro.`
 		}
 	];
 
@@ -98,9 +96,13 @@ Tu connais la personne, voici le pro.`,
 		animeText(splitTexts[index].lines);
 	}
 
-	// function handlebuttonHover(index: number) {
-	// 	myAnimation.swap(index);
-	// }
+	function handleButtonMouseEnter() {
+		hoverFormat.set("interactive");
+	}
+
+	function handleButtonMouseLeave() {
+		hoverFormat.set(null);
+	}
 
 	onMount(async () => {
 		await document.fonts.ready;
@@ -111,7 +113,7 @@ Tu connais la personne, voici le pro.`,
 		myAnimation = new ShaderTransition({
 			parent: shaderContainer,
 			intensity: 0.3,
-			images: [relaxed, cat, pro],
+			images: [recruteur, tous, amis],
 			initialIndex: 0,
 			displacementImage: texture,
 			speed: 1.4,
@@ -141,6 +143,8 @@ Tu connais la personne, voici le pro.`,
 					style:left="{-100 * index}%"
 					bind:this={buttons[index]}
 					onclick={() => handleButtonClick(buttons[index], index)}
+					onmouseenter={handleButtonMouseEnter}
+					onmouseleave={handleButtonMouseLeave}
 				>
 					{content.type}
 				</button>

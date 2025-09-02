@@ -7,3 +7,5 @@ export const hoverFormat = writable<"check" | "interactive" | null>(null);
 export const firstPageLoadTimeline = writable<gsap.core.Timeline | null>(null);
 
 export const selectedTechnos = writable<TechKey[]>([]);
+
+export const avatarEmotion = writable<"normal" | "angry" | "happy">("normal");

@@ -139,7 +139,7 @@
 		left: 0;
 		transform: translate(-50%, -50%) scale(1);
 		transition:
-			transform 0.8s cubic-bezier(0, 1, 0.65, 1),
+			transform 0.6s cubic-bezier(0, 1, 0.65, 1),
 			border-radius 0.3s ease,
 			top 0.3s ease,
 			left 0.3s ease;

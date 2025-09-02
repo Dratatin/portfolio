@@ -3,21 +3,17 @@
 	import { type TechKey } from "$lib/utils/hardskills";
 	import { technos } from "$lib/utils/hardskills";
 	import { selectedTechnos } from "$lib/stores/store";
-	import { hoveredElement, hoverFormat } from "$lib/stores/store";
-
-	let buttonRef: HTMLElement;
+	import { hoverFormat } from "$lib/stores/store";
 
 	function defaultOpenDropdown() {
 		filterOpen = !filterOpen;
 	}
 
 	function handleFilterMouseEnter() {
-		hoveredElement.set(buttonRef);
 		hoverFormat.set("interactive");
 	}
 
 	function handleFilterMouseLeave() {
-		hoveredElement.set(null);
 		hoverFormat.set(null);
 	}
 
@@ -39,7 +35,6 @@
 <fieldset class="filter-group" class:open={filterOpen}>
 	<button
 		class="dropdown-button"
-		bind:this={buttonRef}
 		onclick={() => openDropdown(filterId)}
 		onmouseenter={handleFilterMouseEnter}
 		onmouseleave={handleFilterMouseLeave}

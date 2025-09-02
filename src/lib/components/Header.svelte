@@ -41,11 +41,11 @@
 					{
 						opacity: 0,
 						yPercent: -100,
-						stagger: 0.13,
-						duration: 0.4,
+						stagger: 0.1,
+						duration: 0.6,
 						ease: "power3.out"
 					},
-					1.3
+					1.2
 				);
 			}
 		});

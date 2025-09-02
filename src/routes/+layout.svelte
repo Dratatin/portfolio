@@ -3,15 +3,20 @@
 	import Sidebar from "$lib/components/Sidebar.svelte";
 	import Header from "$lib/components/Header.svelte";
 	import MousePointer from "$lib/components/MousePointer.svelte";
+	import Loader from "$lib/components/Loader.svelte";
 	import { firstPageLoadTimeline } from "$lib/stores/store";
 	import { fly, type EasingFunction, type TransitionConfig } from "svelte/transition";
 	import { cubicIn, cubicOut } from "svelte/easing";
 	import { page } from "$app/state";
 	import { onMount } from "svelte";
-	import gsap from "gsap";
+	import { get } from "svelte/store";
+	import { hoverFormat } from "$lib/stores/store";
+	import { avatarEmotion } from "$lib/stores/store";
 
 	let { children } = $props();
 	let main: HTMLElement | null = $state(null);
+	let loading = $state(true);
+	let emotionChangeTimeout: ReturnType<typeof setTimeout>;
 
 	type PageOutParams = {
 		delay?: number;
@@ -40,25 +45,48 @@
 		};
 	}
 
+	function handleLoaded() {
+		loading = false;
+		avatarEmotion.set("normal");
+	}
+
 	onMount(() => {
-		firstPageLoadTimeline.subscribe((pageTimeline) => {
-			if (pageTimeline) {
+		const unsubscribePageLoad = firstPageLoadTimeline.subscribe((pageTimeline) => {
+			if (pageTimeline && main) {
 				pageTimeline.from(
 					main,
 					{
 						yPercent: 100,
-						ease: "power4.out",
+						ease: "power3.out",
 						duration: 0.9
 					},
-					2
+					1.7
 				);
 			}
 		});
-		firstPageLoadTimeline.set(gsap.timeline({}));
+
+		const unsubscribeHoverFormat = hoverFormat.subscribe((value) => {
+			clearTimeout(emotionChangeTimeout);
+			emotionChangeTimeout = setTimeout(() => {
+				if (value) {
+					avatarEmotion.set("happy");
+				} else if (get(avatarEmotion) !== "angry") {
+					avatarEmotion.set("normal");
+				}
+			}, 100);
+		});
+
+		return () => {
+			unsubscribeHoverFormat();
+			unsubscribePageLoad();
+		};
 	});
 </script>
 
 <div>
+	{#if loading}
+		<Loader ondone={handleLoaded} />
+	{/if}
 	<MousePointer />
 	<Sidebar />
 	<div class="site-content">

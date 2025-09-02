@@ -5,11 +5,13 @@
 	let {
 		name,
 		technos,
-		image
+		image,
+		hidden
 	}: {
 		name: string;
 		technos: TechKey[];
 		image: string;
+		hidden: boolean;
 	} = $props();
 
 	let showTooltip = $state(false);
@@ -28,7 +30,7 @@
 </script>
 
 <div class="project-content">
-	<div class="project-media">
+	<div class="project-media" class:blur={hidden === true}>
 		<img class="project-img" src={image} alt="projet" />
 	</div>
 	<div class="project-details">
@@ -86,11 +88,15 @@
 		aspect-ratio: 16/9;
 		border: 1px solid var(--color-black);
 		width: 100%;
+		overflow: hidden;
 	}
 	.project-img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+	.project-media.blur .project-img {
+		filter: blur(2rem);
 	}
 	.project-details {
 		display: flex;
@@ -140,7 +146,8 @@
 	.technos-tooltip-container {
 		opacity: 0;
 		transition: all 0.4s cubic-bezier(0, 1, 0.65, 1);
-		transform: translateY(1rem);
+		transform: translate3d(0, 1rem, 0);
+		will-change: transform;
 		pointer-events: none;
 		padding-bottom: 1rem;
 		position: absolute;
@@ -150,6 +157,6 @@
 	.technos-tooltip-container.visible {
 		opacity: 1;
 		pointer-events: auto;
-		transform: translateY(0px);
+		transform: translateY(0);
 	}
 </style>

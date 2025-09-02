@@ -21,14 +21,14 @@
 		margin-block: auto;
 	}
 	.hero-title {
-		font-size: 116px;
+		font-size: 186px;
 		line-height: 85%;
 		text-transform: uppercase;
 		font-weight: 900;
 		font-family: "ExatWide";
 	}
 	.hero-suptitle {
-		font-size: 32px;
+		font-size: 42px;
 		text-transform: uppercase;
 		font-weight: 300;
 	}

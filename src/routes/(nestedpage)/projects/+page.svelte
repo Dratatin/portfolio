@@ -1,11 +1,9 @@
 <script lang="ts">
 	import FilterGroup from "$lib/components/FilterGroup.svelte";
 	import ProjectsSlider from "$lib/components/ProjectsSlider.svelte";
-	import projet1 from "$assets/projects/project1.jpg";
-	import projet2 from "$assets/projects/project2.jpg";
-	import projet3 from "$assets/projects/project3.jpg";
 	import { selectedTechnos } from "$lib/stores/store";
 	import { type TechKey } from "$lib/utils/hardskills";
+	import { type Project, projects } from "$lib/utils/projects";
 
 	const filters: {
 		filterid: string;
@@ -26,34 +24,6 @@
 			filterid: "lib",
 			filterTitle: "Librairies & Outils UI",
 			filterTable: ["tailwind", "gsap", "three"]
-		}
-	];
-
-	type Project = {
-		name: string;
-		projectid: string;
-		technos: TechKey[];
-		image: string;
-	};
-
-	const projects: Project[] = [
-		{
-			name: "Coque de nacre",
-			projectid: "projet1",
-			technos: ["react", "tailwind"],
-			image: projet1
-		},
-		{
-			name: "Fidesio",
-			projectid: "projet2",
-			technos: ["twig", "symfony", "scss", "javascript"],
-			image: projet2
-		},
-		{
-			name: "Millon",
-			projectid: "projet3",
-			technos: ["drupal", "twig", "scss"],
-			image: projet3
 		}
 	];
 
@@ -84,7 +54,7 @@
 <div class="projects page">
 	<div class="filters">
 		<div class="filters-title-wrapper btn-decorated">
-			<h2 class="filters-title">Filtrer les projets</h2>
+			<h2 class="filters-title">Filtres</h2>
 		</div>
 		{#each filters as filter, index (index)}
 			<FilterGroup
@@ -95,6 +65,9 @@
 				{openDropdown}
 			/>
 		{/each}
+		<p class="filters-result">
+			({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})
+		</p>
 	</div>
 	<div class="projects-list-container container-inline-padding">
 		{#if filteredProjects.length > 0}
@@ -128,6 +101,12 @@
 		font-family: "ExatWide";
 		text-align: center;
 		font-size: 16px;
+	}
+	.filters-result {
+		font-size: 14px;
+		text-align: center;
+		margin: 1rem;
+		margin-top: auto;
 	}
 	.filters {
 		display: flex;
