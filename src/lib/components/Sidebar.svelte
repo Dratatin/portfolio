@@ -3,6 +3,7 @@
 	import { hoverFormat } from "$lib/stores/store";
 	import { onMount } from "svelte";
 	import Avatar from "./Avatar.svelte";
+	import { LinkHandler } from "$lib/utils/linkHandler";
 
 	const sidebarItems: HTMLElement[] = [];
 	let sidebar: HTMLElement;
@@ -53,7 +54,7 @@
 		</li>
 		<li bind:this={sidebarItems[1]}>
 			<a
-				href="/"
+				href={LinkHandler("/")}
 				download=""
 				class="sidebar-item btn-decorated"
 				onmouseenter={handleLinkMouseEnter}
@@ -64,7 +65,7 @@
 		</li>
 		<li bind:this={sidebarItems[2]}>
 			<a
-				href="/"
+				href={LinkHandler("/")}
 				download=""
 				class="sidebar-item btn-decorated"
 				aria-label="Mon github"
@@ -96,7 +97,7 @@
 		</li>
 		<li bind:this={sidebarItems[3]}>
 			<a
-				href="/"
+				href={LinkHandler("/")}
 				download=""
 				class="sidebar-item btn-decorated linkedin"
 				onmouseenter={handleLinkMouseEnter}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type TechKey } from "$lib/utils/hardskills";
 	import SkillItem from "./SkillItem.svelte";
+	import { LinkHandler } from "$lib/utils/linkHandler";
 
 	let {
 		name,
@@ -31,7 +32,7 @@
 
 <div class="project-content">
 	<div class="project-media" class:blur={hidden === true}>
-		<img class="project-img" src={image} alt="projet" />
+		<img class="project-img" src={LinkHandler(image)} alt="projet" />
 	</div>
 	<div class="project-details">
 		<h2 class="project-title">{name}</h2>

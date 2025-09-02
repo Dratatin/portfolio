@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { technos } from "$lib/utils/hardskills";
 	import type { TechKey } from "$lib/utils/hardskills";
+	import { LinkHandler } from "$lib/utils/linkHandler";
 
 	let { skill }: { skill: TechKey } = $props();
 	let skillDetails = $derived(technos[skill]);
@@ -10,7 +11,7 @@
 	<div class="skill-hook-wrapper">
 		<img
 			class="skill-img"
-			src={`icons/${skillDetails.iconName}.svg`}
+			src={LinkHandler(`/icons/${skillDetails.iconName}.svg`)}
 			alt={`${skillDetails.skillName} icon`}
 		/>
 	</div>

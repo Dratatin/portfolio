@@ -4,6 +4,7 @@
 	import Ink from "./Ink.svelte";
 	import { firstPageLoadTimeline } from "$lib/stores/store";
 	import { onMount } from "svelte";
+	import { LinkHandler } from "$lib/utils/linkHandler";
 
 	const navItemRefs: HTMLElement[] = $state([]);
 	const linkItemRefs: HTMLElement[] = $state([]);
@@ -57,7 +58,7 @@
 		<ul class="nav-list">
 			{#each pages as page, index (index)}
 				<li bind:this={navItemRefs[index]} class="nav-link-wrapper">
-					<a href={page.href} class="nav-link" bind:this={linkItemRefs[index]}>
+					<a href={LinkHandler(page.href)} class="nav-link" bind:this={linkItemRefs[index]}>
 						<Ink name={page.title} active={currentPath === page.href} />
 					</a>
 				</li>
