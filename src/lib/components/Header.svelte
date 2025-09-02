@@ -59,7 +59,7 @@
 			{#each pages as page, index (index)}
 				<li bind:this={navItemRefs[index]} class="nav-link-wrapper">
 					<a href={LinkHandler(page.href)} class="nav-link" bind:this={linkItemRefs[index]}>
-						<Ink name={page.title} active={currentPath === page.href} />
+						<Ink name={page.title} active={currentPath === LinkHandler(page.href)} />
 					</a>
 				</li>
 			{/each}

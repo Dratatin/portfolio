@@ -213,7 +213,7 @@
 		border: 3px solid var(--color-black);
 		background-color: var(--color-white);
 		position: absolute;
-		top: -100%;
+		top: -105%;
 		left: -50%;
 		width: 200%;
 		height: 100%;
