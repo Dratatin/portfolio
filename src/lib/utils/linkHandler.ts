@@ -1,12 +1,13 @@
+import { base } from "$app/paths";
+
 export const LinkHandler = (link: string) => {
-	// if (import.meta.env.MODE === "development") {
-	// 	return link;
-	// }
+	if (import.meta.env.MODE === "development") {
+		return link;
+	}
 
-	// if (link === "/") {
-	// 	return base;
-	// }
+	if (link === "/") {
+		return base;
+	}
 
-	// return base + link;
-	return link
+	return base + link;
 };
