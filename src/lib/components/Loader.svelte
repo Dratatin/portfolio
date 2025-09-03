@@ -40,6 +40,7 @@
 		<Avatar />
 	</div>
 	<div class="loader-text">
+		Automatique deployment test
 		Mise en tension <div class="loading-point-wrapper">
 			<span class="loading-point"></span><span class="loading-point"></span><span
 				class="loading-point"
