@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { hoveredElement, hoverFormat } from "$lib/stores/store";
+	import { hoveredElement, hoverFormat, mouseDragPos } from "$lib/stores/store";
 
 	let position = $state({ x: 0, y: 0 });
 	let clicked = $state(false);
@@ -12,6 +12,13 @@
 	let animationFrameId: number;
 
 	onMount(() => {
+		const unsubMouseDragPos = mouseDragPos.subscribe((value) => {
+			if (value) {
+				targetX = value.posX;
+				targetY = value.posY;
+			}
+		});
+
 		const unsubHovered = hoveredElement.subscribe((el) => {
 			activeHovered = el;
 		});
@@ -20,13 +27,6 @@
 			mouseFormat = format;
 		});
 
-		return () => {
-			unsubHovered();
-			unsubFormat();
-		};
-	});
-
-	onMount(() => {
 		const handleMouseMove = (e: MouseEvent) => {
 			if (activeHovered) {
 				const rect = activeHovered.getBoundingClientRect();
@@ -57,6 +57,9 @@
 		animationFrameId = requestAnimationFrame(animate);
 
 		return () => {
+			unsubMouseDragPos();
+			unsubHovered();
+			unsubFormat();
 			window.removeEventListener("mousemove", handleMouseMove);
 			window.removeEventListener("mousedown", handleMouseDown);
 			window.removeEventListener("mouseup", handleMouseUp);

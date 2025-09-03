@@ -1,19 +1,10 @@
 <script lang="ts">
-	import { type TechKey } from "$lib/utils/hardskills";
+	import { type Project } from "$lib/utils/projects";
 	import SkillItem from "./SkillItem.svelte";
 	import { LinkHandler } from "$lib/utils/linkHandler";
+	import { hoverFormat } from "$lib/stores/store";
 
-	let {
-		name,
-		technos,
-		image,
-		hidden
-	}: {
-		name: string;
-		technos: TechKey[];
-		image: string;
-		hidden: boolean;
-	} = $props();
+	let { name, technos, secret, link, image }: Project = $props();
 
 	let showTooltip = $state(false);
 	let mouseLeaveTimeout: ReturnType<typeof setTimeout>;
@@ -28,10 +19,41 @@
 			showTooltip = false;
 		}, 200);
 	}
+
+	function handleMouseEnterLink() {
+		hoverFormat.set("interactive");
+	}
+
+	function handleMouseLeaveLink() {
+		hoverFormat.set(null);
+	}
 </script>
 
 <div class="project-content">
-	<div class="project-media" class:blur={hidden === true}>
+	<div class="project-media" class:blur={secret === true}>
+		{#if link}
+			<a
+				title={link}
+				class="project-link"
+				href={link}
+				target="_blank"
+				onmouseenter={handleMouseEnterLink}
+				onmouseleave={handleMouseLeaveLink}
+				aria-label="visiter le site"
+			>
+				<svg
+					class="redirection-arrow"
+					xmlns="http://www.w3.org/2000/svg"
+					width="18"
+					height="18"
+					viewBox="0 0 18 18"
+					fill="none"
+				>
+					<path d="M8.84375 0.84375L17.0007 9.00072L8.84375 17.1577" stroke="black" />
+					<path d="M17.0007 9.00072H0.68678" stroke="black" />
+				</svg>
+			</a>
+		{/if}
 		<img class="project-img" src={LinkHandler(image)} alt="projet" />
 	</div>
 	<div class="project-details">
@@ -90,6 +112,25 @@
 		border: 1px solid var(--color-black);
 		width: 100%;
 		overflow: hidden;
+		position: relative;
+	}
+	.project-link {
+		background-color: var(--color-white);
+		border: var(--border-weight) solid var(--color-black);
+		position: absolute;
+		top: calc(-1 * var(--border-weight));
+		right: calc(-1 * var(--border-weight));
+		width: 2.5rem;
+		height: 2.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.redirection-arrow {
+		transition: transform 0.3s cubic-bezier(0, 1, 0.65, 1);
+	}
+	.project-link:hover .redirection-arrow {
+		transform: rotate(-45deg);
 	}
 	.project-img {
 		width: 100%;

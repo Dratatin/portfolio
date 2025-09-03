@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { preloadCode } from "$app/navigation";
-	import { firstPageLoadTimeline } from "$lib/stores/store";
 	import { fade } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
 	import Avatar from "./Avatar.svelte";
-	import gsap from "gsap";
 
 	let { ondone } = $props();
 
@@ -26,7 +24,6 @@
 
 		Promise.all([siteReady, minDelay, preloadAll]).then(() => {
 			ondone?.();
-			firstPageLoadTimeline.set(gsap.timeline({}));
 		});
 	});
 </script>
@@ -43,13 +40,13 @@
 		<Avatar />
 	</div>
 	<div class="loader-text">
-		Mise en tention du site <div class="loading-point-wrapper">
+		Mise en tension <div class="loading-point-wrapper">
 			<span class="loading-point"></span><span class="loading-point"></span><span
 				class="loading-point"
 			></span>
 		</div>
 	</div>
-	<p class="loader-info">Ce site est encore en cours de développement</p>
+	<p class="loader-info">Ce site est en cours de développement</p>
 </div>
 
 <style>
@@ -84,33 +81,39 @@
 	.loader-text {
 		display: flex;
 		align-items: baseline;
-		gap: 0.8rem;
+		gap: 0.2rem;
 		animation: 0.4s ease-out both appear;
 	}
 	.loading-point-wrapper {
-		display: flex;
-		gap: 0.4rem;
+		flex: none;
 	}
 	.loading-point {
 		background-color: var(--color-black);
-		width: 0.3rem;
-		height: 0.3rem;
+		width: 7px;
+		height: 7px;
+		border-radius: 999px;
+		display: inline-block;
+		margin-left: 0.4rem;
 	}
 	.loading-point:nth-child(1) {
-		animation: 0.6s ease-out 0.1s infinite both load;
+		animation: 0.8s ease-in-out 0.1s infinite both load;
 	}
 	.loading-point:nth-child(2) {
-		animation: 0.6s ease-out 0.25s infinite both load;
+		animation: 0.8s ease-in-out 0.25s infinite both load;
 	}
 	.loading-point:nth-child(3) {
-		animation: 0.6s ease-out 0.4s infinite both load;
+		animation: 0.8s ease-in-out 0.4s infinite both load;
 	}
 	@keyframes load {
-		from {
-			opacity: 0;
+		0%,
+		40% {
+			transform: translateY(0);
 		}
-		to {
-			opacity: 1;
+		80% {
+			transform: translateY(-5px);
+		}
+		100% {
+			transform: translateY(0);
 		}
 	}
 	@keyframes appear {

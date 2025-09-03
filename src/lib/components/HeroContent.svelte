@@ -1,7 +1,7 @@
 <div class="hero-content">
 	<div class="container-padding hero-title-wrapper">
 		<h1 class="hero-title">Mathys<br /> Chirouze</h1>
-		<h2 class="hero-suptitle">Développeur front end</h2>
+		<h2 class="hero-subtitle">Développeur front end</h2>
 	</div>
 </div>
 
@@ -21,14 +21,14 @@
 		margin-block: auto;
 	}
 	.hero-title {
-		font-size: 186px;
+		font-size: clamp(2.625rem, 0.5481rem + 9.2308vw, 11.625rem);
 		line-height: 85%;
 		text-transform: uppercase;
 		font-weight: 900;
 		font-family: "ExatWide";
 	}
-	.hero-suptitle {
-		font-size: 42px;
+	.hero-subtitle {
+		font-size: clamp(1.125rem, 0.7788rem + 1.5385vw, 2.625rem);
 		text-transform: uppercase;
 		font-weight: 300;
 	}

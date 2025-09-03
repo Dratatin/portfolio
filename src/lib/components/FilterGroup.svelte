@@ -5,10 +5,6 @@
 	import { selectedTechnos } from "$lib/stores/store";
 	import { hoverFormat } from "$lib/stores/store";
 
-	function defaultOpenDropdown() {
-		filterOpen = !filterOpen;
-	}
-
 	function handleFilterMouseEnter() {
 		hoverFormat.set("interactive");
 	}
@@ -21,13 +17,13 @@
 		filterTitle,
 		filterList,
 		filterId,
-		openDropdown = defaultOpenDropdown,
+		toggleDropdown,
 		filterOpen = false
 	}: {
 		filterTitle: string;
 		filterList: TechKey[];
 		filterId: string;
-		openDropdown?: (filterId: string) => void;
+		toggleDropdown: (filterId: string) => void;
 		filterOpen?: boolean;
 	} = $props();
 </script>
@@ -35,7 +31,7 @@
 <fieldset class="filter-group" class:open={filterOpen}>
 	<button
 		class="dropdown-button"
-		onclick={() => openDropdown(filterId)}
+		onclick={() => toggleDropdown(filterId)}
 		onmouseenter={handleFilterMouseEnter}
 		onmouseleave={handleFilterMouseLeave}
 	>

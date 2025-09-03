@@ -13,10 +13,10 @@
 	let header: HTMLElement;
 
 	const pages = [
-		{ title: "Accueil", href: "/" },
-		{ title: "À propos", href: "/about" },
-		{ title: "Liste des projets ", href: "/projects" },
-		{ title: "Savoir faire", href: "/skills" }
+		{ title: "Accueil", href: LinkHandler("/") },
+		{ title: "À propos", href: LinkHandler("/about") },
+		{ title: "Liste des projets ", href: LinkHandler("/projects") },
+		{ title: "Savoir faire", href: LinkHandler("/skills") }
 	];
 
 	afterNavigate(() => {
@@ -58,8 +58,8 @@
 		<ul class="nav-list">
 			{#each pages as page, index (index)}
 				<li bind:this={navItemRefs[index]} class="nav-link-wrapper">
-					<a href={LinkHandler(page.href)} class="nav-link" bind:this={linkItemRefs[index]}>
-						<Ink name={page.title} active={currentPath === LinkHandler(page.href)} />
+					<a href={page.href} class="nav-link" bind:this={linkItemRefs[index]}>
+						<Ink name={page.title} active={currentPath === page.href} />
 					</a>
 				</li>
 			{/each}

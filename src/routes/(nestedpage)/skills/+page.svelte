@@ -6,6 +6,7 @@
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 	import { tick } from "svelte";
+	import { mouseDragPos, hoverFormat } from "$lib/stores/store";
 
 	let skillsDragContainer: HTMLElement;
 	const skillsRefs: HTMLElement[] = [];
@@ -66,6 +67,14 @@
 					updateQuickTo(this.x, this.y);
 					floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration);
 					floatTimeline.restart();
+				},
+				onDrag(e) {
+					mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
+					hoverFormat.set("interactive");
+				},
+				onDragEnd() {
+					mouseDragPos.set(null);
+					hoverFormat.set(null);
 				}
 			})[0];
 

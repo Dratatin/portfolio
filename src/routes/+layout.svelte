@@ -12,6 +12,7 @@
 	import { get } from "svelte/store";
 	import { hoverFormat } from "$lib/stores/store";
 	import { avatarEmotion } from "$lib/stores/store";
+	import gsap from "gsap";
 
 	let { children } = $props();
 	let main: HTMLElement | null = $state(null);
@@ -48,6 +49,7 @@
 	function handleLoaded() {
 		loading = false;
 		avatarEmotion.set("normal");
+		firstPageLoadTimeline.set(gsap.timeline({}));
 	}
 
 	onMount(() => {

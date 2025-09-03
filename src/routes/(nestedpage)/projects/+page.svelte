@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FilterGroup from "$lib/components/FilterGroup.svelte";
 	import ProjectsSlider from "$lib/components/ProjectsSlider.svelte";
-	import { selectedTechnos } from "$lib/stores/store";
+	import { selectedTechnos, filterOpen } from "$lib/stores/store";
 	import { type TechKey } from "$lib/utils/hardskills";
 	import { type Project, projects } from "$lib/utils/projects";
 
@@ -27,18 +27,22 @@
 		}
 	];
 
+	let filterOpenId = $state<string | null>(null);
 	let filteredProjects = $state(projects);
 	let prevfilteredProjects: Project[] = $derived([]);
-	let filterOpen: string | null = $state(null);
 	let key = $state(Date.now());
 
-	function openDropdown(filterid: string) {
-		if (filterid === filterOpen) {
-			filterOpen = null;
+	function toggleDropdown(filterid: string) {
+		if (filterid === filterOpenId) {
+			filterOpen.set(null);
 		} else {
-			filterOpen = filterid;
+			filterOpen.set(filterid);
 		}
 	}
+
+	filterOpen.subscribe((value) => {
+		filterOpenId = value;
+	});
 
 	selectedTechnos.subscribe((technos) => {
 		filteredProjects = projects.filter((project) => {
@@ -61,8 +65,8 @@
 				filterId={filter.filterid}
 				filterTitle={filter.filterTitle}
 				filterList={filter.filterTable}
-				filterOpen={filter.filterid === filterOpen}
-				{openDropdown}
+				filterOpen={filter.filterid === filterOpenId}
+				{toggleDropdown}
 			/>
 		{/each}
 		<p class="filters-result">
