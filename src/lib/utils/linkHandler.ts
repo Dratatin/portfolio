@@ -6,7 +6,12 @@ export const LinkHandler = (link: string) => {
 	}
 
 	if (link === "/") {
-		return base;
+		if (base) {
+			return base;
+		}
+		else {
+			return link;
+		}
 	}
 
 	return base + link;
