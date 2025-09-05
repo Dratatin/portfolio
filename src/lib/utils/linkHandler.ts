@@ -8,8 +8,7 @@ export const LinkHandler = (link: string) => {
 	if (link === "/") {
 		if (base) {
 			return base;
-		}
-		else {
+		} else {
 			return link;
 		}
 	}

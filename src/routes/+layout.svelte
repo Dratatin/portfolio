@@ -10,8 +10,9 @@
 	import { page } from "$app/state";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { hoverFormat } from "$lib/stores/store";
-	import { avatarEmotion } from "$lib/stores/store";
+	import { hoverFormat, mobileMenuOpen, avatarEmotion } from "$lib/stores/store";
+	import { largeScreen } from "$lib/stores/store";
+	import { afterNavigate } from "$app/navigation";
 	import gsap from "gsap";
 
 	let { children } = $props();
@@ -52,6 +53,10 @@
 		firstPageLoadTimeline.set(gsap.timeline({}));
 	}
 
+	afterNavigate(() => {
+		mobileMenuOpen.set(false);
+	});
+
 	onMount(() => {
 		const unsubscribePageLoad = firstPageLoadTimeline.subscribe((pageTimeline) => {
 			if (pageTimeline && main) {
@@ -89,7 +94,9 @@
 	{#if loading}
 		<Loader ondone={handleLoaded} />
 	{/if}
-	<MousePointer />
+	{#if largeScreen}
+		<MousePointer />
+	{/if}
 	<Sidebar />
 	<div class="site-content">
 		<Header />
@@ -124,5 +131,11 @@
 		position: relative;
 		width: 100%;
 		z-index: 1;
+	}
+	@media screen and (max-width: 992px) {
+		.site-content {
+			margin-right: 0;
+			margin-top: calc(var(--side-content-size) - 1px);
+		}
 	}
 </style>

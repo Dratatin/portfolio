@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { hoveredElement, hoverFormat } from "$lib/stores/store";
-	let { name, active = false }: { name: string; active?: boolean } = $props();
+	let {
+		name,
+		headerInk = false,
+		active = false
+	}: { name: string; headerInk?: boolean; active?: boolean } = $props();
 
 	let hookRef: HTMLElement;
 
@@ -19,6 +23,7 @@
 <div
 	class="ink"
 	class:inkActive={active === true}
+	class:headerInk
 	onmouseenter={onMouseEnter}
 	onmouseleave={onMouseLeave}
 >
@@ -27,7 +32,7 @@
 		<span class="ink-hook" bind:this={hookRef}></span>
 		<div class="right-bracket"></div>
 	</div>
-	<span class="ink-text text-sm">{name}</span>
+	<span class="ink-text">{name}</span>
 </div>
 
 <style>
@@ -73,6 +78,9 @@
 		margin: 0 0.4rem;
 		display: block;
 	}
+	.ink-text {
+		font-size: var(--small-font-size);
+	}
 	.ink:hover {
 		background-position: 100% 100%;
 		color: var(--color-white);
@@ -89,5 +97,19 @@
 	}
 	.ink.inkActive .right-bracket {
 		transform: translateX(-5px);
+	}
+	@media screen and (max-width: 992px) {
+		.headerInk .ink-hook-wrapper {
+			display: none;
+		}
+		.headerInk.inkActive {
+			background-position: 100% 100%;
+			color: var(--color-white);
+		}
+	}
+	@media screen and (max-width: 576px) {
+		.headerInk .ink-text {
+			font-size: 24px;
+		}
 	}
 </style>

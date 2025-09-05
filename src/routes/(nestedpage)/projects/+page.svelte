@@ -1,9 +1,10 @@
 <script lang="ts">
 	import FilterGroup from "$lib/components/FilterGroup.svelte";
 	import ProjectsSlider from "$lib/components/ProjectsSlider.svelte";
-	import { selectedTechnos, filterOpen } from "$lib/stores/store";
+	import { selectedTechnos, filterOpen, hoverFormat } from "$lib/stores/store";
 	import { type TechKey } from "$lib/utils/hardskills";
 	import { type Project, projects } from "$lib/utils/projects";
+	import { technos } from "$lib/utils/hardskills";
 
 	const filters: {
 		filterid: string;
@@ -28,6 +29,7 @@
 	];
 
 	let filterOpenId = $state<string | null>(null);
+	let activeFilters = $state<TechKey[]>([]);
 	let filteredProjects = $state(projects);
 	let prevfilteredProjects: Project[] = $derived([]);
 	let key = $state(Date.now());
@@ -40,11 +42,19 @@
 		}
 	}
 
+	function handleDeleteFilter(techno: TechKey) {
+		hoverFormat.set(null);
+		selectedTechnos.update((items) => {
+			return items.filter((item) => item !== techno);
+		});
+	}
+
 	filterOpen.subscribe((value) => {
 		filterOpenId = value;
 	});
 
 	selectedTechnos.subscribe((technos) => {
+		activeFilters = technos;
 		filteredProjects = projects.filter((project) => {
 			return technos.every((tech) => project.technos.includes(tech));
 		});
@@ -59,6 +69,9 @@
 	<div class="filters">
 		<div class="filters-title-wrapper btn-decorated">
 			<h2 class="filters-title">Filtres</h2>
+			<span class="filters-result">
+				({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})</span
+			>
 		</div>
 		{#each filters as filter, index (index)}
 			<FilterGroup
@@ -69,9 +82,34 @@
 				{toggleDropdown}
 			/>
 		{/each}
-		<p class="filters-result">
-			({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})
-		</p>
+		<ul class="filters-active" class:active={activeFilters.length > 0}>
+			{#if activeFilters.length === 0}
+				<li class="filter-active filter-empty">empty</li>
+			{/if}
+			{#each activeFilters as techno, index (index)}
+				<li class="filter-active">
+					<button
+						class="delete-filter-button"
+						onclick={() => handleDeleteFilter(techno)}
+						onmousemove={() => hoverFormat.set("interactive")}
+						onmouseleave={() => hoverFormat.set(null)}
+					>
+						<svg
+							class="delete-cross"
+							xmlns="http://www.w3.org/2000/svg"
+							width="23"
+							height="24"
+							viewBox="0 0 23 24"
+							fill="none"
+						>
+							<path class="x-line" d="M5.66113 6.34473L16.9748 17.6584" stroke="black" />
+							<path class="y-line" d="M16.9746 6.35254L5.6609 17.6662" stroke="black" />
+						</svg>
+						{technos[techno].skillName}
+					</button>
+				</li>
+			{/each}
+		</ul>
 	</div>
 	<div class="projects-list-container container-inline-padding">
 		{#if filteredProjects.length > 0}
@@ -94,33 +132,101 @@
 		align-items: center;
 		width: 100%;
 		max-width: 55%;
+		flex: 1;
 		margin-inline: auto;
 	}
 	.filters-title-wrapper {
 		border-bottom: var(--border-weight) solid var(--color-black);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
 	}
 	.filters-title {
 		text-transform: uppercase;
-		font-weight: 700;
-		font-family: "ExatWide";
 		text-align: center;
 		font-size: 16px;
 	}
 	.filters-result {
 		font-size: 14px;
 		text-align: center;
-		margin: 1rem;
-		margin-top: auto;
+		font-family: "Stroymono", sans-serif;
+		font-weight: 400;
 	}
 	.filters {
 		display: flex;
 		flex-direction: column;
 		border-right: var(--border-weight) solid var(--color-black);
+		flex: 0;
 	}
 	.project-empty {
 		margin: auto;
 		text-align: center;
 		padding: 5rem;
 		font-style: italic;
+	}
+	.filters-active {
+		display: flex;
+		flex-wrap: wrap;
+		padding: var(--btn-padding);
+		row-gap: 1rem;
+		column-gap: 1.5rem;
+		background-color: var(--color-white);
+	}
+	.delete-filter-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+	.delete-cross {
+		transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+		will-change: transform;
+	}
+	.delete-filter-button .x-line {
+		transform-origin: center center;
+		transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+	}
+	.delete-filter-button .y-line {
+		transform-origin: center center;
+		transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+	}
+	.delete-filter-button:hover .x-line {
+		transform: rotate(135deg);
+	}
+	.delete-filter-button:hover .y-line {
+		transform: rotate(45deg);
+	}
+	.filter-empty {
+		opacity: 0;
+		visibility: hidden;
+	}
+	@media screen and (max-width: 1200px) {
+		.projects-list-container {
+			max-width: 100%;
+		}
+	}
+	@media screen and (max-width: 992px) {
+		.projects {
+			flex-direction: column;
+		}
+		.filters {
+			border-right: none;
+		}
+		.projects-list-container {
+			max-width: 100%;
+		}
+		.filters-active {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			transform: translateY(100%);
+			border: var(--border-weight) solid var(--color-black);
+			z-index: 5;
+			transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+		}
+		.filters-active.active {
+			transform: translateY(var(--border-weight));
+		}
 	}
 </style>

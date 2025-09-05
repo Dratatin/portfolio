@@ -91,12 +91,17 @@
 		padding-top: calc(var(--container-padding) * 2);
 	}
 	.project-item {
-		padding-bottom: 4rem;
+		padding-bottom: var(--container-padding);
 	}
 	.project-list {
 		cursor: grab;
 	}
 	.project-list.draging {
 		cursor: grabbing;
+	}
+	@media screen and (max-width: 1200px) {
+		.slider {
+			padding-top: var(--container-padding);
+		}
 	}
 </style>

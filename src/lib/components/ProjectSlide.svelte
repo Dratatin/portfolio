@@ -201,4 +201,15 @@
 		pointer-events: auto;
 		transform: translateY(0);
 	}
+
+	@media screen and (max-width: 576px) {
+		.project-details {
+			flex-direction: column;
+			gap: 0.5rem;
+			margin-top: 0.5rem;
+		}
+		.project-title {
+			width: 100%;
+		}
+	}
 </style>

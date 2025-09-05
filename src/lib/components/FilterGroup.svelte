@@ -5,6 +5,18 @@
 	import { selectedTechnos } from "$lib/stores/store";
 	import { hoverFormat } from "$lib/stores/store";
 
+	let localSelected: TechKey[] = $state([]);
+
+	function handleChange(filter: TechKey) {
+		selectedTechnos.update((items) => {
+			if (items.includes(filter)) {
+				return items.filter((i) => i !== filter);
+			} else {
+				return [...items, filter];
+			}
+		});
+	}
+
 	function handleFilterMouseEnter() {
 		hoverFormat.set("interactive");
 	}
@@ -61,7 +73,8 @@
 							type="checkbox"
 							id={`filter-${filter}`}
 							value={filter}
-							bind:group={$selectedTechnos}
+							checked={localSelected.includes(filter)}
+							onchange={() => handleChange(filter)}
 						/>
 					</li>
 				{/each}

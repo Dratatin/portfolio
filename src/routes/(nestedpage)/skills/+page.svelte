@@ -70,11 +70,13 @@
 				},
 				onDrag(e) {
 					mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
-					hoverFormat.set("interactive");
 				},
 				onDragEnd() {
 					mouseDragPos.set(null);
 					hoverFormat.set(null);
+				},
+				onPress() {
+					hoverFormat.set("interactive");
 				}
 			})[0];
 

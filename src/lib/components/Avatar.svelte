@@ -138,7 +138,6 @@
 		background-color: var(--color-white);
 		aspect-ratio: 1/1;
 		width: 100%;
-		padding: 0.8rem;
 	}
 	.avatar-wrapper {
 		position: relative;

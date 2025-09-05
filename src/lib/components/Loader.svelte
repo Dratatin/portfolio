@@ -71,6 +71,7 @@
 		width: var(--side-content-size);
 		height: var(--side-content-size);
 		animation: 0.4s ease-out both appear;
+		padding: 0.8rem;
 	}
 	.loader-info {
 		font-style: italic;
@@ -104,6 +105,12 @@
 	.loading-point:nth-child(3) {
 		animation: 0.8s ease-in-out 0.4s infinite both load;
 	}
+	@media screen and (max-width: 992px) {
+		.avatar-wrapper {
+			padding: 0.4rem;
+		}
+	}
+
 	@keyframes load {
 		0%,
 		40% {
