@@ -67,12 +67,6 @@
 
 <div class="projects page">
 	<div class="filters">
-		<div class="filters-title-wrapper btn-decorated">
-			<h2 class="filters-title">Filtres</h2>
-			<span class="filters-result">
-				({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})</span
-			>
-		</div>
 		{#each filters as filter, index (index)}
 			<FilterGroup
 				filterId={filter.filterid}
@@ -83,9 +77,9 @@
 			/>
 		{/each}
 		<ul class="filters-active" class:active={activeFilters.length > 0}>
-			{#if activeFilters.length === 0}
-				<li class="filter-active filter-empty">empty</li>
-			{/if}
+			<span class="filters-result">
+				({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})
+			</span>
 			{#each activeFilters as techno, index (index)}
 				<li class="filter-active">
 					<button
@@ -135,23 +129,11 @@
 		flex: 1;
 		margin-inline: auto;
 	}
-	.filters-title-wrapper {
-		border-bottom: var(--border-weight) solid var(--color-black);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 1rem;
-	}
-	.filters-title {
-		text-transform: uppercase;
-		text-align: center;
-		font-size: 16px;
-	}
 	.filters-result {
 		font-size: 14px;
 		text-align: center;
 		font-family: "Stroymono", sans-serif;
-		font-weight: 400;
+		font-weight: 700;
 	}
 	.filters {
 		display: flex;
@@ -167,11 +149,14 @@
 	}
 	.filters-active {
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
 		padding: var(--btn-padding);
 		row-gap: 1rem;
 		column-gap: 1.5rem;
 		background-color: var(--color-white);
+		font-size: 14px;
+		line-height: 1.7;
 	}
 	.delete-filter-button {
 		display: flex;
@@ -196,10 +181,6 @@
 	}
 	.delete-filter-button:hover .y-line {
 		transform: rotate(45deg);
-	}
-	.filter-empty {
-		opacity: 0;
-		visibility: hidden;
 	}
 	@media screen and (max-width: 1200px) {
 		.projects-list-container {

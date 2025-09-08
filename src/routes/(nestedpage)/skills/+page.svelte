@@ -5,14 +5,12 @@
 	import InertiaPlugin from "gsap/InertiaPlugin";
 	import { onMount } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
-	import { tick } from "svelte";
-	import { mouseDragPos, hoverFormat } from "$lib/stores/store";
+	import { mouseDragPos, hoverFormat, largeScreen } from "$lib/stores/store";
 
 	let skillsDragContainer: HTMLElement;
 	const skillsRefs: HTMLElement[] = [];
 
-	onMount(async () => {
-		await tick();
+	onMount(() => {
 		gsap.registerPlugin(Draggable, InertiaPlugin);
 
 		skillsRefs.forEach((panel) => {
@@ -102,16 +100,26 @@
 				}
 			};
 
-			panel.addEventListener("mousemove", magnetize);
-			panel.addEventListener("mouseleave", demagnetize);
+			if (largeScreen) {
+				panel.addEventListener("mousemove", magnetize);
+				panel.addEventListener("mouseleave", demagnetize);
+			}
 		});
 	});
 </script>
 
 <div class="skills page" bind:this={skillsDragContainer}>
 	{#each skills as panel, index (index)}
+		{@const words = panel.panelTitle.split("&")}
+
 		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
-			<h3 class="skills-title">{panel.panelTitle}</h3>
+			<h3 class="skills-title">
+				{#each words as word, index (index)}
+					<span class="skills-word">
+						{word}{index < words.length - 1 ? " &\u00A0" : ""}
+					</span>
+				{/each}
+			</h3>
 			<ul class="skills-list">
 				{#each panel.panelCompetences as skill, index (index)}
 					<li>
@@ -189,5 +197,41 @@
 		left: 0;
 		bottom: 0;
 		z-index: -1;
+	}
+	@media screen and (max-width: 992px) {
+		.skills-list {
+			min-width: 22rem;
+		}
+		.skills-title {
+			margin-right: 2rem;
+		}
+		.skills-word:last-child {
+			display: block;
+		}
+	}
+	@media screen and (max-width: 576px) {
+		.skills-list {
+			min-width: 18rem;
+		}
+		#skills-frame {
+			margin-left: 50px;
+			margin-top: 70px;
+		}
+		#skills-tools {
+			margin-right: 30px;
+			margin-bottom: 90px;
+		}
+		#skills-lib {
+			margin-left: 30px;
+			margin-bottom: 240px;
+		}
+		#skills-rick {
+			margin-right: 70px;
+			margin-top: 120px;
+		}
+		#skills-lang {
+			margin-right: 35px;
+			margin-top: 110px;
+		}
 	}
 </style>

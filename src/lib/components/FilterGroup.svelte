@@ -86,6 +86,7 @@
 <style>
 	.filter-group {
 		border-bottom: var(--border-weight) solid var(--color-black);
+		background-color: var(--color-white);
 	}
 	.filter-list {
 		display: flex;

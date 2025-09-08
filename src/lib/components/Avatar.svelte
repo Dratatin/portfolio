@@ -2,8 +2,11 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { avatarEmotion } from "$lib/stores/store";
+	import { largeScreen } from "$lib/stores/store";
 
 	let avatarEl: HTMLDivElement;
+	let pupilTimeline: gsap.core.Tween | null = null;
+	let { reversed = false } = $props();
 
 	function handleMouseMove(e: MouseEvent) {
 		let x = (e.clientX / window.innerWidth - 0.5) * 4;
@@ -34,7 +37,28 @@
 				.to(".eyebrow", { y: -2, repeat: -1, yoyo: true, duration: 1.5, ease: "sine.inOut" })
 				.play();
 
-			document.addEventListener("mousemove", handleMouseMove);
+			function animatePupilsRandomly() {
+				function movePupil() {
+					let x = gsap.utils.random(-2, 2, 0.1);
+					let y = gsap.utils.random(-2, 2, 0.1);
+
+					pupilTimeline = gsap.to(".pupil", {
+						x,
+						y,
+						duration: gsap.utils.random(1, 2),
+						ease: "sine.inOut",
+						onComplete: movePupil
+					});
+				}
+				movePupil();
+			}
+
+			if (largeScreen) {
+				document.addEventListener("mousemove", handleMouseMove);
+			} else {
+				// 👉 Activer les mouvements naturels sur mobile
+				animatePupilsRandomly();
+			}
 
 			unsubscribe = avatarEmotion.subscribe((emotion) => {
 				switch (emotion) {
@@ -99,7 +123,11 @@
 		}, avatarEl);
 
 		return () => {
-			document.removeEventListener("mousemove", handleMouseMove);
+			if (largeScreen) {
+				document.removeEventListener("mousemove", handleMouseMove);
+			} else {
+				if (pupilTimeline) pupilTimeline.kill();
+			}
 			context.revert();
 			if (unsubscribe) unsubscribe();
 		};
@@ -110,6 +138,7 @@
 <div
 	bind:this={avatarEl}
 	class="avatar"
+	class:reversed
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 >
@@ -234,5 +263,21 @@
 	}
 	.avatar-left .top-eyelid {
 		transform: rotate(12deg);
+	}
+	.avatar.reversed .avatar-left {
+		z-index: 10;
+	}
+	.avatar.reversed .avatar-right {
+		z-index: 5;
+	}
+	.avatar.reversed .pupil {
+		right: 0;
+	}
+	.avatar.reversed .pupil::after {
+		border-left: 7px solid var(--color-white);
+		border-right: 0;
+		left: 0;
+		right: auto;
+		transform: rotate(-35deg);
 	}
 </style>

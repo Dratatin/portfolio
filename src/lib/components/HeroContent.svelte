@@ -21,14 +21,14 @@
 		margin-block: auto;
 	}
 	.hero-title {
-		font-size: clamp(2.625rem, 0.5481rem + 9.2308vw, 11.625rem);
+		font-size: clamp(2.875rem, 0.8558rem + 8.9744vw, 11.625rem);
 		line-height: 85%;
 		text-transform: uppercase;
 		font-weight: 900;
 		font-family: "ExatWide";
 	}
 	.hero-subtitle {
-		font-size: clamp(1.125rem, 0.7788rem + 1.5385vw, 2.625rem);
+		font-size: clamp(1.4375rem, 1.1635rem + 1.2179vw, 2.625rem);
 		text-transform: uppercase;
 		font-weight: 300;
 	}

@@ -3,6 +3,7 @@
 	import SkillItem from "./SkillItem.svelte";
 	import { LinkHandler } from "$lib/utils/linkHandler";
 	import { hoverFormat } from "$lib/stores/store";
+	import { mediumScreen } from "$lib/stores/store";
 
 	let { name, technos, secret, link, image }: Project = $props();
 
@@ -59,16 +60,18 @@
 	<div class="project-details">
 		<h2 class="project-title">{name}</h2>
 		<div class="project-technos-container">
-			<ul class="project-technos">
-				{#each technos as techno, technoIndex (technoIndex)}
-					{#if technoIndex <= 1}
-						<li>
-							<SkillItem skill={techno} />
-						</li>
-					{/if}
-				{/each}
-			</ul>
-			{#if technos.length > 2}
+			{#if mediumScreen}
+				<ul class="project-technos">
+					{#each technos as techno, technoIndex (technoIndex)}
+						{#if technoIndex <= 1}
+							<li>
+								<SkillItem skill={techno} />
+							</li>
+						{/if}
+					{/each}
+				</ul>
+			{/if}
+			{#if technos.length > 2 || !mediumScreen}
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
 					class="tooltip-container"
@@ -90,7 +93,7 @@
 					>
 						<ul class="technos-tooltip">
 							{#each technos as techno, technoIndex (technoIndex)}
-								{#if technoIndex > 1}
+								{#if technoIndex > 1 || !mediumScreen}
 									<li><SkillItem skill={techno} /></li>
 								{/if}
 							{/each}
@@ -204,12 +207,16 @@
 
 	@media screen and (max-width: 576px) {
 		.project-details {
-			flex-direction: column;
-			gap: 0.5rem;
 			margin-top: 0.5rem;
 		}
 		.project-title {
 			width: 100%;
+		}
+		.technos-tooltip-container {
+			padding-bottom: 0.5rem;
+		}
+		.project-link .redirection-arrow {
+			transform: rotate(-45deg);
 		}
 	}
 </style>

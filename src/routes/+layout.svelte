@@ -135,7 +135,7 @@
 	@media screen and (max-width: 992px) {
 		.site-content {
 			margin-right: 0;
-			margin-top: calc(var(--side-content-size) - 1px);
+			padding-top: calc(var(--side-content-size) - 1px);
 		}
 	}
 </style>

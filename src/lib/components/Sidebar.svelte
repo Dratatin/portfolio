@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { firstPageLoadTimeline } from "$lib/stores/store";
+	import { firstPageLoadTimeline, mediumScreen } from "$lib/stores/store";
 	import { hoverFormat, mobileMenuOpen } from "$lib/stores/store";
 	import { onMount } from "svelte";
 	import Avatar from "./Avatar.svelte";
@@ -64,7 +64,7 @@
 	<ul class="link-list">
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[0]}>
 			<div class="sidebar-item item-first">
-				<Avatar />
+				<Avatar reversed={!mediumScreen ? true : false} />
 			</div>
 		</li>
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[1]}>

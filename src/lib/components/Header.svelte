@@ -87,7 +87,6 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
-		transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 	}
 	.nav-list {
 		display: flex;
@@ -102,6 +101,10 @@
 			z-index: 5;
 			border-right: var(--border-weight) solid var(--color-black);
 			transform: translateY(-100%);
+			transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+		}
+		.header.mobileOpen {
+			transform: translateY(0%);
 		}
 		.nav-list {
 			gap: 1rem;
@@ -113,9 +116,6 @@
 			height: auto;
 			padding: 1rem;
 			justify-content: flex-start;
-		}
-		.header.mobileOpen {
-			transform: translateY(0%);
 		}
 		.nav-list {
 			flex-direction: column;

@@ -106,10 +106,8 @@
 			background-position: 100% 100%;
 			color: var(--color-white);
 		}
-	}
-	@media screen and (max-width: 576px) {
-		.headerInk .ink-text {
-			font-size: 24px;
+		.ink:active .ink-hook {
+			background-color: var(--color-white);
 		}
 	}
 </style>

@@ -69,7 +69,7 @@ body {
 }
 
 .page {
-	height: calc(100svh - (var(--header-height) - var(--border-weight)));
+	height: calc(100dvh - (var(--header-height) - var(--border-weight)));
 	position: relative;
 	top: calc(var(--border-weight) * -1);
 	background-color: var(--color-white);
@@ -81,7 +81,7 @@ body {
 		--btn-padding: 0.7rem;
 	}
 	.page {
-		height: calc(100svh - var(--side-content-size));
+		height: calc(100dvh - var(--side-content-size));
 	}
 }
 
