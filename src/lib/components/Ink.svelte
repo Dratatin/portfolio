@@ -81,14 +81,6 @@
 	.ink-text {
 		font-size: var(--small-font-size);
 	}
-	.ink:hover {
-		background-position: 100% 100%;
-		color: var(--color-white);
-	}
-	.ink:hover .right-bracket,
-	.ink:hover .left-bracket {
-		border-color: var(--color-white);
-	}
 	.ink.inkActive .ink-hook {
 		background-color: var(--color-black);
 	}
@@ -98,6 +90,16 @@
 	.ink.inkActive .right-bracket {
 		transform: translateX(-5px);
 	}
+	@media (hover: hover) and (pointer: fine) {
+		.ink:hover {
+			background-position: 100% 100%;
+			color: var(--color-white);
+		}
+		.ink:hover .right-bracket,
+		.ink:hover .left-bracket {
+			border-color: var(--color-white);
+		}
+	}
 	@media screen and (max-width: 992px) {
 		.headerInk .ink-hook-wrapper {
 			display: none;
@@ -106,7 +108,9 @@
 			background-position: 100% 100%;
 			color: var(--color-white);
 		}
-		.ink:active .ink-hook {
+	}
+	@media (hover: hover) and (pointer: fine) and (max-width: 992px) {
+		.ink:hover .ink-hook {
 			background-color: var(--color-white);
 		}
 	}

@@ -5,6 +5,7 @@
 	import { type TechKey } from "$lib/utils/hardskills";
 	import { type Project, projects } from "$lib/utils/projects";
 	import { technos } from "$lib/utils/hardskills";
+	import { tick } from "svelte";
 
 	const filters: {
 		filterid: string;
@@ -33,6 +34,8 @@
 	let filteredProjects = $state(projects);
 	let prevfilteredProjects: Project[] = $derived([]);
 	let key = $state(Date.now());
+	let activeFiltersRef: HTMLElement | null = $state(null);
+	let activeFiltersHeight = $state(0);
 
 	function toggleDropdown(filterid: string) {
 		if (filterid === filterOpenId) {
@@ -53,7 +56,7 @@
 		filterOpenId = value;
 	});
 
-	selectedTechnos.subscribe((technos) => {
+	selectedTechnos.subscribe(async (technos) => {
 		activeFilters = technos;
 		filteredProjects = projects.filter((project) => {
 			return technos.every((tech) => project.technos.includes(tech));
@@ -62,6 +65,10 @@
 			key = Date.now();
 		}
 		prevfilteredProjects = [...filteredProjects];
+		await tick();
+		if (activeFiltersRef) {
+			activeFiltersHeight = activeFiltersRef.offsetHeight;
+		}
 	});
 </script>
 
@@ -76,7 +83,7 @@
 				{toggleDropdown}
 			/>
 		{/each}
-		<ul class="filters-active" class:active={activeFilters.length > 0}>
+		<ul class="filters-active" class:active={activeFilters.length > 0} bind:this={activeFiltersRef}>
 			<span class="filters-result">
 				({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})
 			</span>
@@ -111,7 +118,9 @@
 				<ProjectsSlider projects={filteredProjects} />
 			{/key}
 		{:else}
-			<span class="project-empty">Aucun projet ne correspond aux filtres sélectionnés</span>
+			<span class="project-empty" style="margin-bottom: {activeFiltersHeight}px;"
+				>Aucun projet ne correspond aux filtres sélectionnés</span
+			>
 		{/if}
 	</div>
 </div>
@@ -134,6 +143,7 @@
 		text-align: center;
 		font-family: "Stroymono", sans-serif;
 		font-weight: 700;
+		line-height: 1.8;
 	}
 	.filters {
 		display: flex;
@@ -142,21 +152,20 @@
 		flex: 0;
 	}
 	.project-empty {
-		margin: auto;
 		text-align: center;
 		padding: 5rem;
 		font-style: italic;
+		width: 100%;
 	}
 	.filters-active {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 		padding: var(--btn-padding);
-		row-gap: 1rem;
+		row-gap: 0.5rem;
 		column-gap: 1.5rem;
 		background-color: var(--color-white);
 		font-size: 14px;
-		line-height: 1.7;
 	}
 	.delete-filter-button {
 		display: flex;
@@ -208,6 +217,9 @@
 		}
 		.filters-active.active {
 			transform: translateY(var(--border-weight));
+		}
+		.project-empty {
+			padding: 0;
 		}
 	}
 </style>

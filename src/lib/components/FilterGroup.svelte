@@ -127,15 +127,6 @@
 		transform-origin: center center;
 		transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
 	}
-	.dropdown-button:hover .dropdown-cross {
-		transform: rotate(45deg);
-	}
-	.dropdown-button:hover .x-line {
-		transform: rotate(45deg);
-	}
-	.dropdown-button:hover .y-line {
-		transform: translate(40%, -10%);
-	}
 	.dropdown-container {
 		display: grid;
 		overflow: hidden;
@@ -156,5 +147,19 @@
 	}
 	.filter-group.open .dropdown-cross .y-line {
 		transform: unset;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.dropdown-button:hover .dropdown-cross {
+			transform: rotate(45deg);
+		}
+		.dropdown-button:hover .x-line {
+			transform: rotate(45deg);
+		}
+		.dropdown-button:hover .y-line {
+			transform: translate(40%, -10%);
+		}
+		.filter-group.open .dropdown-button:hover .dropdown-cross {
+			transform: rotate(90deg);
+		}
 	}
 </style>

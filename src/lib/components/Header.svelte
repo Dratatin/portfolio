@@ -100,6 +100,7 @@
 			top: var(--side-content-size);
 			z-index: 5;
 			border-right: var(--border-weight) solid var(--color-black);
+			border-top: 0;
 			transform: translateY(-100%);
 			transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		}

@@ -3,14 +3,15 @@
 	import gsap from "gsap";
 	import { Draggable } from "gsap/Draggable";
 	import InertiaPlugin from "gsap/InertiaPlugin";
-	import { onMount } from "svelte";
+	import { onMount, tick } from "svelte";
 	import { skills } from "$lib/utils/hardskills";
 	import { mouseDragPos, hoverFormat, largeScreen } from "$lib/stores/store";
 
 	let skillsDragContainer: HTMLElement;
 	const skillsRefs: HTMLElement[] = [];
 
-	onMount(() => {
+	onMount(async () => {
+		await tick();
 		gsap.registerPlugin(Draggable, InertiaPlugin);
 
 		skillsRefs.forEach((panel) => {

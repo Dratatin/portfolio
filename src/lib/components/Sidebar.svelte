@@ -69,8 +69,8 @@
 		</li>
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[1]}>
 			<a
-				href={LinkHandler("/")}
-				download=""
+				href={LinkHandler("/CV.pdf")}
+				download
 				class="sidebar-item btn-decorated"
 				onmouseenter={handleLinkMouseEnter}
 				onmouseleave={handleLinkMouseLeave}
@@ -80,10 +80,11 @@
 		</li>
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[2]}>
 			<a
-				href={LinkHandler("/")}
-				download=""
+				href="https://github.com/Dratatin"
+				title="Mon github"
 				class="sidebar-item btn-decorated"
 				aria-label="Mon github"
+				target="_blank"
 				onmouseenter={handleLinkMouseEnter}
 				onmouseleave={handleLinkMouseLeave}
 			>
@@ -112,9 +113,11 @@
 		</li>
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[3]}>
 			<a
-				href={LinkHandler("/")}
-				download=""
+				href="https://www.linkedin.com/in/mathys-chirouze/"
+				title="Mon linkedin"
 				class="sidebar-item btn-decorated linkedin"
+				aria-label="Mon linkedin"
+				target="_blank"
 				onmouseenter={handleLinkMouseEnter}
 				onmouseleave={handleLinkMouseLeave}
 			>
@@ -208,6 +211,7 @@
 			left: 0;
 			flex-direction: row;
 			justify-content: space-between;
+			border-top: 0;
 		}
 		.sidebar-item {
 			top: 0;

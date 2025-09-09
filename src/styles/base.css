@@ -23,6 +23,15 @@ body {
 	overflow: hidden;
 }
 
+label,
+input,
+textarea,
+button,
+select,
+a {
+	-webkit-tap-highlight-color: transparent;
+}
+
 /* Container style */
 .container-inline-padding {
 	padding-inline: var(--container-padding);

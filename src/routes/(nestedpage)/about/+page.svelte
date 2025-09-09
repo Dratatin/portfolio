@@ -135,7 +135,9 @@ Tu connais la personne, voici le pro.`
 <div class="about page">
 	<div class="profile-wrapper">
 		<div class="profile-picture-wrapper" bind:this={shaderContainer}></div>
-		<div class="profile-btns">
+	</div>
+	<div class="about-content">
+		<div class="about-btns">
 			{#each aboutContents as content, index (index)}
 				<button
 					class="about-button btn-decorated {index === 0 ? 'active' : ''}"
@@ -150,13 +152,13 @@ Tu connais la personne, voici le pro.`
 				</button>
 			{/each}
 		</div>
-	</div>
-	<div class="about-content">
-		{#each aboutContents as content, index (index)}
-			<p class="about-description {index === 0 ? 'active' : ''}" bind:this={descriptions[index]}>
-				{content.description}
-			</p>
-		{/each}
+		<div class="about-description-wrapper">
+			{#each aboutContents as content, index (index)}
+				<p class="about-description {index === 0 ? 'active' : ''}" bind:this={descriptions[index]}>
+					{content.description}
+				</p>
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -197,13 +199,13 @@ Tu connais la personne, voici le pro.`
 		opacity: 1;
 		position: static;
 	}
-	.profile-btns {
+	.about-btns {
 		display: grid;
 		grid-auto-flow: column;
 		position: absolute;
 		top: 10%;
-		left: calc(100% + 1px);
-		transform: translateX(calc(-100% / 3));
+		right: 100%;
+		transform: translateX(calc((100% / 3) * 2));
 		z-index: 2;
 	}
 	.about-button {
