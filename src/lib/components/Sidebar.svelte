@@ -224,5 +224,8 @@
 		.link-list {
 			flex-direction: row;
 		}
+		.linkedin {
+			font-size: 22px;
+		}
 	}
 </style>

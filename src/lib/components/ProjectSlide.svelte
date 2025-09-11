@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div class="project-content">
+<article class="project-content">
 	<div class="project-media" class:blur={secret === true}>
 		{#if link}
 			<a
@@ -103,12 +103,15 @@
 			{/if}
 		</div>
 	</div>
-</div>
+</article>
 
 <style>
 	.project-content {
 		display: flex;
 		flex-direction: column;
+		contain: layout style;
+		transform: translateZ(0);
+		backface-visibility: hidden;
 	}
 	.project-media {
 		aspect-ratio: 16/9;
@@ -128,6 +131,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		z-index: 5;
 	}
 	.redirection-arrow {
 		transition: transform 0.3s cubic-bezier(0, 1, 0.65, 1);
@@ -139,6 +143,10 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		transform: translateZ(0);
+		backface-visibility: hidden;
+		display: block;
+		contain: layout style;
 	}
 	.project-media.blur .project-img {
 		filter: blur(2rem);
@@ -165,7 +173,7 @@
 	}
 	.project-technos {
 		display: flex;
-		gap: 1rem;
+		gap: 2rem;
 		background-color: var(--color-white);
 	}
 	.tooltip-container {
@@ -214,6 +222,9 @@
 		}
 		.technos-tooltip-container {
 			padding-bottom: 0.5rem;
+		}
+		.tooltip-container {
+			padding: 0.5rem;
 		}
 		.project-link .redirection-arrow {
 			transform: rotate(-45deg);

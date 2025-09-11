@@ -108,7 +108,8 @@
 			transform: translateY(0%);
 		}
 		.nav-list {
-			gap: 1rem;
+			column-gap: 1rem;
+			row-gap: 0.5rem;
 			justify-content: space-between;
 		}
 	}

@@ -1,4 +1,11 @@
 import { type TechKey } from "./hardskills";
+import coquedenacre from "$assets/projects/coquedenacre.png";
+import fidesio from "$assets/projects/fidesio.png";
+import millon from "$assets/projects/millon.png";
+import richard from "$assets/projects/vinsrichard.png";
+import airliquide from "$assets/projects/airliquide.png";
+import kerialis from "$assets/projects/kerialis.png";
+import fake from "$assets/projects/fake-project.jpg";
 
 export type Project = {
 	name: string;
@@ -16,7 +23,7 @@ export const projects: Project[] = [
 		technos: ["twig", "html", "scss", "css", "gsap"],
 		secret: false,
 		link: "https://www.bijouxcn.com/",
-		image: "/projects/coquedenacre.png"
+		image: coquedenacre
 	},
 	{
 		name: "Fidesio",
@@ -24,7 +31,7 @@ export const projects: Project[] = [
 		technos: ["twig", "html", "drupal", "scss", "css", "javascript", "gsap", "three", "tailwind"],
 		secret: false,
 		link: "https://www.fidesio.com/",
-		image: "/projects/fidesio.png"
+		image: fidesio
 	},
 	{
 		name: "Millon",
@@ -32,7 +39,7 @@ export const projects: Project[] = [
 		technos: ["drupal", "twig", "html", "scss", "css", "javascript"],
 		secret: false,
 		link: "https://www.millon.com/",
-		image: "/projects/millon.png"
+		image: millon
 	},
 	{
 		name: "Maisons Richard",
@@ -40,7 +47,7 @@ export const projects: Project[] = [
 		technos: ["symfony", "twig", "html", "scss", "css", "javascript"],
 		secret: false,
 		link: "https://pro.vinsrichard.fr/",
-		image: "/projects/vinsrichard.png"
+		image: richard
 	},
 	{
 		name: "Air liquide",
@@ -48,7 +55,7 @@ export const projects: Project[] = [
 		technos: ["drupal", "twig", "html", "css", "javascript"],
 		secret: false,
 		link: "https://www.makingdiabeteseasier.com/",
-		image: "/projects/airliquide.png"
+		image: airliquide
 	},
 	{
 		name: "Kerialis",
@@ -56,7 +63,7 @@ export const projects: Project[] = [
 		technos: ["wordpress", "twig", "html", "scss", "css", "javascript"],
 		secret: false,
 		link: "https://kerialis.fr/",
-		image: "/projects/kerialis.png"
+		image: kerialis
 	},
 	{
 		name: "Ici & La",
@@ -64,7 +71,7 @@ export const projects: Project[] = [
 		technos: ["react", "typescript", "scss", "css"],
 		secret: false,
 		link: null,
-		image: "/projects/fake-project.jpg"
+		image: fake
 	},
 	{
 		name: "La défense",
@@ -72,6 +79,6 @@ export const projects: Project[] = [
 		technos: ["twig", "html", "drupal", "scss", "css", "javascript", "gsap", "three", "tailwind"],
 		secret: true,
 		link: null,
-		image: "/projects/fake-project.jpg"
+		image: fake
 	}
 ];

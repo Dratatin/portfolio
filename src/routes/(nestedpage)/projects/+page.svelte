@@ -5,7 +5,7 @@
 	import { type TechKey } from "$lib/utils/hardskills";
 	import { type Project, projects } from "$lib/utils/projects";
 	import { technos } from "$lib/utils/hardskills";
-	import { tick } from "svelte";
+	import { tick, onMount } from "svelte";
 
 	const filters: {
 		filterid: string;
@@ -32,10 +32,15 @@
 	let filterOpenId = $state<string | null>(null);
 	let activeFilters = $state<TechKey[]>([]);
 	let filteredProjects = $state(projects);
-	let prevfilteredProjects: Project[] = $derived([]);
-	let key = $state(Date.now());
 	let activeFiltersRef: HTMLElement | null = $state(null);
 	let activeFiltersHeight = $state(0);
+
+	function calculateFilteredProjects(technos: TechKey[]): Project[] {
+		if (technos.length === 0) return projects;
+		return projects.filter((project) => {
+			return technos.every((tech) => project.technos.includes(tech));
+		});
+	}
 
 	function toggleDropdown(filterid: string) {
 		if (filterid === filterOpenId) {
@@ -52,23 +57,28 @@
 		});
 	}
 
-	filterOpen.subscribe((value) => {
-		filterOpenId = value;
-	});
-
-	selectedTechnos.subscribe(async (technos) => {
-		activeFilters = technos;
-		filteredProjects = projects.filter((project) => {
-			return technos.every((tech) => project.technos.includes(tech));
-		});
-		if (JSON.stringify(filteredProjects) !== JSON.stringify(prevfilteredProjects)) {
-			key = Date.now();
-		}
-		prevfilteredProjects = [...filteredProjects];
-		await tick();
+	onMount(() => {
 		if (activeFiltersRef) {
 			activeFiltersHeight = activeFiltersRef.offsetHeight;
 		}
+
+		const unsubscribeFilterOpen = filterOpen.subscribe((value) => {
+			filterOpenId = value;
+		});
+
+		const unsubscribeSelectedTechnos = selectedTechnos.subscribe(async (technos) => {
+			activeFilters = technos;
+			filteredProjects = calculateFilteredProjects(technos);
+			await tick();
+			if (activeFiltersRef) {
+				activeFiltersHeight = activeFiltersRef.offsetHeight;
+			}
+		});
+
+		return () => {
+			unsubscribeFilterOpen();
+			unsubscribeSelectedTechnos();
+		};
 	});
 </script>
 
@@ -114,7 +124,7 @@
 	</div>
 	<div class="projects-list-container container-inline-padding">
 		{#if filteredProjects.length > 0}
-			{#key key}
+			{#key filteredProjects.map((project) => project.projectid).join("-")}
 				<ProjectsSlider projects={filteredProjects} />
 			{/key}
 		{:else}

@@ -111,16 +111,12 @@
 
 <div class="skills page" bind:this={skillsDragContainer}>
 	{#each skills as panel, index (index)}
-		{@const words = panel.panelTitle.split("&")}
-
 		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
-			<h3 class="skills-title">
-				{#each words as word, index (index)}
-					<span class="skills-word">
-						{word}{index < words.length - 1 ? " &\u00A0" : ""}
-					</span>
-				{/each}
-			</h3>
+			<div class="skills-title-wrapper">
+				<h3 class="skills-title">
+					{panel.panelTitle}
+				</h3>
+			</div>
 			<ul class="skills-list">
 				{#each panel.panelCompetences as skill, index (index)}
 					<li>
@@ -168,15 +164,21 @@
 		margin-left: 130px;
 		margin-bottom: 200px;
 	}
-	#skills-rick,
+	#skills-rick {
+		margin-right: 140px;
+		margin-top: 130px;
+	}
 	#skills-lang {
-		margin-right: 180px;
+		margin-right: 120px;
 		margin-top: 120px;
 	}
+	.skills-title-wrapper {
+		padding-inline: 2rem;
+		display: flex;
+		align-items: flex-start;
+	}
 	.skills-title {
-		margin-left: 2rem;
 		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
-		margin-right: auto;
 		position: relative;
 		top: 3px;
 		z-index: -1;
@@ -201,37 +203,44 @@
 	}
 	@media screen and (max-width: 992px) {
 		.skills-list {
-			min-width: 22rem;
-		}
-		.skills-title {
-			margin-right: 2rem;
-		}
-		.skills-word:last-child {
-			display: block;
+			min-width: 24rem;
 		}
 	}
 	@media screen and (max-width: 576px) {
+		.skills-title-wrapper {
+			padding-inline: 0;
+		}
+		.skills-title {
+			top: 1px;
+			padding: 0.8rem 1.4rem 0.8rem 1.4rem;
+			font-size: 14px;
+			width: 100%;
+		}
+		.skills-title:before {
+			transform: unset;
+		}
 		.skills-list {
 			min-width: 18rem;
+			padding: 1rem;
 		}
 		#skills-frame {
 			margin-left: 50px;
 			margin-top: 70px;
 		}
 		#skills-tools {
-			margin-right: 30px;
+			margin-right: 10px;
 			margin-bottom: 90px;
 		}
 		#skills-lib {
-			margin-left: 30px;
-			margin-bottom: 240px;
+			margin-left: 15px;
+			margin-bottom: 230px;
 		}
 		#skills-rick {
 			margin-right: 70px;
 			margin-top: 120px;
 		}
 		#skills-lang {
-			margin-right: 35px;
+			margin-right: 0;
 			margin-top: 110px;
 		}
 	}

@@ -78,7 +78,7 @@ a {
 }
 
 .page {
-	height: calc(100dvh - (var(--header-height) - var(--border-weight)));
+	height: calc(100svh - (var(--header-height) - var(--border-weight)));
 	position: relative;
 	top: calc(var(--border-weight) * -1);
 	background-color: var(--color-white);
@@ -86,11 +86,14 @@ a {
 
 @media screen and (max-width: 992px) {
 	:root {
-		--side-content-size: 3.5rem;
+		--side-content-size: 3.2rem;
 		--btn-padding: 0.7rem;
 	}
 	.page {
-		height: calc(100dvh - var(--side-content-size));
+		height: calc(100svh - var(--side-content-size));
+	}
+	.btn-decorated {
+		font-size: 18px;
 	}
 }
 

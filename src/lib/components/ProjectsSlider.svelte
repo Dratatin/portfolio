@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, onMount } from "svelte";
+	import { onMount } from "svelte";
 	import Swiper from "swiper";
 	import { FreeMode, Mousewheel } from "swiper/modules";
 	import ProjectSlide from "./ProjectSlide.svelte";
@@ -15,7 +15,6 @@
 	} = $props();
 
 	let slider: HTMLElement;
-	let sliderInstance: Swiper;
 	let slides: HTMLElement[] = [];
 	let drag = $state(false);
 
@@ -24,7 +23,7 @@
 	}
 
 	onMount(() => {
-		sliderInstance = new Swiper(slider, {
+		const sliderInstance = new Swiper(slider, {
 			direction: "vertical",
 			slidesPerView: "auto",
 			autoHeight: true,
@@ -65,12 +64,11 @@
 			stagger: 0.15,
 			duration: 0.8
 		});
-	});
 
-	onDestroy(() => {
-		if (sliderInstance) {
+		return () => {
 			sliderInstance.destroy();
-		}
+			gsap.killTweensOf(slides);
+		};
 	});
 </script>
 
@@ -89,16 +87,28 @@
 		height: 100%;
 		width: 100%;
 		padding-top: calc(var(--container-padding) * 2);
+		transform: translateZ(0);
+		backface-visibility: hidden;
+		contain: layout style;
 	}
+
 	.project-item {
 		padding-bottom: var(--container-padding);
+		transform: translateZ(0);
+		backface-visibility: hidden;
+		will-change: transform, opacity;
 	}
+
 	.project-list {
 		cursor: grab;
+		-webkit-overflow-scrolling: touch;
+		transform: translateZ(0);
 	}
+
 	.project-list.draging {
 		cursor: grabbing;
 	}
+
 	@media screen and (max-width: 1200px) {
 		.slider {
 			padding-top: var(--container-padding);
