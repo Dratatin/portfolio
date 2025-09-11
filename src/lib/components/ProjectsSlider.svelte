@@ -87,9 +87,6 @@
 		height: 100%;
 		width: 100%;
 		padding-top: calc(var(--container-padding) * 2);
-		transform: translateZ(0);
-		backface-visibility: hidden;
-		contain: layout style;
 	}
 
 	.project-item {

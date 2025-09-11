@@ -109,9 +109,6 @@
 	.project-content {
 		display: flex;
 		flex-direction: column;
-		contain: layout style;
-		transform: translateZ(0);
-		backface-visibility: hidden;
 	}
 	.project-media {
 		aspect-ratio: 16/9;
@@ -143,10 +140,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transform: translateZ(0);
-		backface-visibility: hidden;
 		display: block;
-		contain: layout style;
 	}
 	.project-media.blur .project-img {
 		filter: blur(2rem);
