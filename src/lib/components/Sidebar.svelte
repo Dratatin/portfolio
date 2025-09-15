@@ -1,20 +1,19 @@
 <script lang="ts">
-	import { firstPageLoadTimeline, mediumScreen } from "$lib/stores/store";
+	import { firstPageLoadTimeline, largeScreen } from "$lib/stores/store";
 	import { hoverFormat, mobileMenuOpen } from "$lib/stores/store";
 	import { onMount } from "svelte";
 	import Avatar from "./Avatar.svelte";
 	import { LinkHandler } from "$lib/utils/linkHandler";
-	import { largeScreen } from "$lib/stores/store";
 
 	const sidebarItems: HTMLElement[] = [];
 	let sidebar: HTMLElement;
 	let menuOpen = $state(false);
 
-	function handleLinkMouseEnter() {
+	function handleMouseEnter() {
 		hoverFormat.set("interactive");
 	}
 
-	function handleLinkMouseLeave() {
+	function handleMouseLeave() {
 		hoverFormat.set(null);
 	}
 
@@ -64,7 +63,7 @@
 	<ul class="link-list">
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[0]}>
 			<div class="sidebar-item item-first">
-				<Avatar reversed={!mediumScreen ? true : false} />
+				<Avatar reversed={!largeScreen ? true : false} />
 			</div>
 		</li>
 		<li class="sidebar-item-wrapper" bind:this={sidebarItems[1]}>
@@ -72,8 +71,8 @@
 				href={LinkHandler("/CV.pdf")}
 				download
 				class="sidebar-item btn-decorated"
-				onmouseenter={handleLinkMouseEnter}
-				onmouseleave={handleLinkMouseLeave}
+				onmouseenter={handleMouseEnter}
+				onmouseleave={handleMouseLeave}
 			>
 				cv
 			</a>
@@ -85,8 +84,8 @@
 				class="sidebar-item btn-decorated"
 				aria-label="Mon github"
 				target="_blank"
-				onmouseenter={handleLinkMouseEnter}
-				onmouseleave={handleLinkMouseLeave}
+				onmouseenter={handleMouseEnter}
+				onmouseleave={handleMouseLeave}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -118,8 +117,8 @@
 				class="sidebar-item btn-decorated linkedin"
 				aria-label="Mon linkedin"
 				target="_blank"
-				onmouseenter={handleLinkMouseEnter}
-				onmouseleave={handleLinkMouseLeave}
+				onmouseenter={handleMouseEnter}
+				onmouseleave={handleMouseLeave}
 			>
 				in
 			</a>
@@ -131,6 +130,8 @@
 			class:open={menuOpen}
 			onclick={toggleMobileMenu}
 			aria-label="Ouvrir la navigation mobile"
+			onmouseenter={handleMouseEnter}
+			onmouseleave={handleMouseLeave}
 		>
 			<div class="menu-line"></div>
 			<div class="menu-line"></div>
@@ -225,7 +226,7 @@
 			flex-direction: row;
 		}
 		.linkedin {
-			font-size: 22px;
+			font-size: 20px;
 		}
 	}
 </style>

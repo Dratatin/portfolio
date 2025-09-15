@@ -46,7 +46,6 @@
 			></span>
 		</div>
 	</div>
-	<p class="loader-info">Ce site est en cours de développement</p>
 </div>
 
 <style>
@@ -72,12 +71,6 @@
 		height: var(--side-content-size);
 		animation: 0.4s ease-out both appear;
 		padding: 0.8rem;
-	}
-	.loader-info {
-		font-style: italic;
-		font-size: 14px;
-		opacity: 0.2;
-		animation: 0.4s ease-out both infoappear;
 	}
 	.loader-text {
 		display: flex;

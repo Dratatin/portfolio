@@ -114,7 +114,9 @@
 		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
 			<div class="skills-title-wrapper">
 				<h3 class="skills-title">
-					{panel.panelTitle}
+					<span class="skills-title-text">
+						{panel.panelTitle}
+					</span>
 				</h3>
 			</div>
 			<ul class="skills-list">
@@ -145,6 +147,8 @@
 		min-width: 29rem;
 		background-color: var(--color-white);
 		text-transform: uppercase;
+		position: relative;
+		z-index: 1;
 	}
 	.skills-file {
 		display: flex;
@@ -178,6 +182,7 @@
 		align-items: flex-start;
 	}
 	.skills-title {
+		display: block;
 		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
 		position: relative;
 		top: 3px;
@@ -199,7 +204,13 @@
 		transform: rotateX(20deg) rotateY(0deg);
 		left: 0;
 		bottom: 0;
-		z-index: -1;
+		z-index: 0;
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+	.skills-title-text {
+		position: relative;
+		z-index: 1;
 	}
 	@media screen and (max-width: 992px) {
 		.skills-list {

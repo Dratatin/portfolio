@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { hoveredElement, hoverFormat } from "$lib/stores/store";
+	import { hoveredElement, hoverFormat, largeScreen } from "$lib/stores/store";
 	let {
 		name,
 		headerInk = false,
@@ -9,8 +9,15 @@
 	let hookRef: HTMLElement;
 
 	function onMouseEnter() {
-		hoveredElement.set(hookRef);
-		hoverFormat.set("check");
+		if (largeScreen) {
+			hoveredElement.set(hookRef);
+			hoverFormat.set("check");
+		} else if (headerInk) {
+			hoverFormat.set("interactive");
+		} else {
+			hoveredElement.set(hookRef);
+			hoverFormat.set("check");
+		}
 	}
 
 	function onMouseLeave() {
@@ -107,11 +114,6 @@
 		.headerInk.inkActive {
 			background-position: 100% 100%;
 			color: var(--color-white);
-		}
-	}
-	@media (hover: hover) and (pointer: fine) and (max-width: 992px) {
-		.ink:hover .ink-hook {
-			background-color: var(--color-white);
 		}
 	}
 </style>

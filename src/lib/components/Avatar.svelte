@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import gsap from "gsap";
 	import { avatarEmotion } from "$lib/stores/store";
-	import { largeScreen } from "$lib/stores/store";
+	import { hasMousePointer } from "$lib/stores/store";
 
 	let avatarEl: HTMLDivElement;
 	let pupilTimeline: gsap.core.Tween | null = null;
@@ -29,7 +29,7 @@
 	onMount(() => {
 		gsap.defaults({ overwrite: "auto" });
 
-		let unsubscribe: () => void;
+		let unsubscribeAvatarEmotion: () => void;
 
 		const context = gsap.context(() => {
 			const floatingEyeBrowTimeline = gsap
@@ -53,14 +53,13 @@
 				movePupil();
 			}
 
-			if (largeScreen) {
+			if (hasMousePointer) {
 				document.addEventListener("mousemove", handleMouseMove);
 			} else {
-				// 👉 Activer les mouvements naturels sur mobile
 				animatePupilsRandomly();
 			}
 
-			unsubscribe = avatarEmotion.subscribe((emotion) => {
+			unsubscribeAvatarEmotion = avatarEmotion.subscribe((emotion) => {
 				switch (emotion) {
 					case "normal":
 						gsap.to(".top-eyelid", { yPercent: 0, duration: 0.3, ease: "back.out" });
@@ -103,33 +102,24 @@
 						floatingEyeBrowTimeline.pause();
 						break;
 					default:
-						gsap.to(".top-eyelid", { yPercent: 0, duration: 0.3, ease: "back.out" });
-						gsap.to(".bottom-eyelid", { yPercent: 0, duration: 0.3, ease: "back.out" });
-						gsap.to(".avatar-right .eyebrow", {
-							rotate: 10,
-							yPercent: 0,
-							duration: 0.2,
-							ease: "power.out"
-						});
-						gsap.to(".avatar-left .eyebrow", {
-							rotate: -10,
-							yPercent: 0,
-							duration: 0.2,
-							ease: "power.out"
-						});
-						floatingEyeBrowTimeline.play();
+						console.log("emotion unknown");
+				}
+				if (!hasMousePointer) {
+					setTimeout(() => {
+						avatarEmotion.set("normal");
+					}, 2000);
 				}
 			});
 		}, avatarEl);
 
 		return () => {
-			if (largeScreen) {
+			if (hasMousePointer) {
 				document.removeEventListener("mousemove", handleMouseMove);
-			} else {
-				if (pupilTimeline) pupilTimeline.kill();
+			} else if (pupilTimeline) {
+				pupilTimeline.kill();
 			}
 			context.revert();
-			if (unsubscribe) unsubscribe();
+			if (unsubscribeAvatarEmotion) unsubscribeAvatarEmotion();
 		};
 	});
 </script>

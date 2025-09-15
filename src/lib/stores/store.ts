@@ -13,6 +13,7 @@ export const filterOpen = writable<string | null>(null);
 
 export const avatarEmotion = writable<"normal" | "angry" | "happy">("normal");
 
+export const hasMousePointer = new MediaQuery("pointer: fine").current;
 export const largeScreen = !new MediaQuery("max-width: 992px").current;
 export const mediumScreen = !new MediaQuery("max-width: 576px").current;
 export const mobileMenuOpen = writable<boolean>(false);

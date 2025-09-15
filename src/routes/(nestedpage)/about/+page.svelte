@@ -6,17 +6,18 @@
 	import gsap from "gsap";
 	import ShaderTransition, { type ShaderTransitionInstance } from "$lib/utils/shaderTransition";
 	import { SplitText } from "gsap/SplitText";
+	import { Flip } from "gsap/Flip";
 	import type SplitTextType from "gsap/SplitText";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { onMount } from "svelte";
 	import { hoverFormat } from "$lib/stores/store";
 
-	let buttons: HTMLButtonElement[] = [];
-	let buttonOrder: HTMLButtonElement[] = [];
-	let descriptions: HTMLElement[] = [];
+	let buttons: HTMLButtonElement[] = $state([]);
+	let descriptions: HTMLElement[] = $state([]);
 	let splitTexts: SplitTextType[] = [];
 	let shaderContainer: HTMLElement;
 	let myAnimation: ShaderTransitionInstance;
+	let activeIndex = $state(0);
 
 	const aboutContents = [
 		{
@@ -52,52 +53,50 @@ Tu connais la personne, voici le pro.`
 		});
 	}
 
-	function handleButtonClick(selectedButton: HTMLButtonElement, index: number) {
-		if (myAnimation.isCurrentlyTransitioning()) {
+	function handleButtonClick(index: number) {
+		if (myAnimation.isCurrentlyTransitioning() || activeIndex === index) {
 			return;
 		}
+
 		myAnimation.swap(index);
-		const clickedIndex = buttonOrder.indexOf(selectedButton);
-		if (clickedIndex === 0) return;
+		reorganizeButtons(index);
+		updateActiveDescription(index);
+		activeIndex = index;
+	}
 
-		const newOrder = [...buttonOrder];
-
-		const swap = <T,>(arr: T[], i: number, j: number) => {
-			[arr[i], arr[j]] = [arr[j], arr[i]];
-		};
-
-		if (clickedIndex === 2) {
-			const [lastButton] = newOrder.splice(2, 1);
-			newOrder.unshift(lastButton);
-		} else if (clickedIndex === 1) {
-			swap(newOrder, 0, 1);
-		}
-
-		newOrder.forEach((button, i) => {
+	function reorganizeButtons(clickedIndex: number) {
+		const state = Flip.getState(buttons);
+		buttons.forEach((button, index) => {
 			button.classList.remove("active");
-
-			gsap.to(button, {
-				duration: 0.6,
-				translateX: `${i * 100}%`,
-				ease: "power2.out"
-			});
+			if (index === clickedIndex) {
+				gsap.set(button, { order: -1 });
+			} else {
+				gsap.set(button, { order: index });
+			}
 		});
+		Flip.from(state, { duration: 0.6, ease: "power2.out" });
+		buttons[clickedIndex].classList.add("active");
+	}
 
-		newOrder[0].classList.add("active");
-		buttonOrder = newOrder;
+	function updateActiveDescription(index: number) {
+		const previousActiveIndex = descriptions.findIndex((description) =>
+			description.classList.contains("active")
+		);
 
-		const previousActiveIndex = descriptions.findIndex((d) => d.classList.contains("active"));
 		const previousDescription = descriptions[previousActiveIndex];
 		const newDescription = descriptions[index];
 
 		gsap.set(previousDescription, { clearProps: true });
-		newDescription.classList.add("active");
 		previousDescription.classList.remove("active");
+		newDescription.classList.add("active");
+
 		animeText(splitTexts[index].lines);
 	}
 
-	function handleButtonMouseEnter() {
-		hoverFormat.set("interactive");
+	function handleButtonMouseEnter(index: number) {
+		if (index !== activeIndex) {
+			hoverFormat.set("interactive");
+		}
 	}
 
 	function handleButtonMouseLeave() {
@@ -106,13 +105,11 @@ Tu connais la personne, voici le pro.`
 
 	onMount(async () => {
 		await document.fonts.ready;
-		gsap.registerPlugin(ScrollTrigger, SplitText);
-
-		buttonOrder = [...buttons];
+		gsap.registerPlugin(ScrollTrigger, SplitText, Flip);
 
 		myAnimation = new ShaderTransition({
 			parent: shaderContainer,
-			intensity: 0.3,
+			intensity: 0.4,
 			images: [recruteur, tous, amis],
 			initialIndex: 0,
 			displacementImage: texture,
@@ -141,11 +138,9 @@ Tu connais la personne, voici le pro.`
 			{#each aboutContents as content, index (index)}
 				<button
 					class="about-button btn-decorated {index === 0 ? 'active' : ''}"
-					style:transform="translateX({100 * index}%)"
-					style:left="{-100 * index}%"
 					bind:this={buttons[index]}
-					onclick={() => handleButtonClick(buttons[index], index)}
-					onmouseenter={handleButtonMouseEnter}
+					onclick={() => handleButtonClick(index)}
+					onmouseenter={() => handleButtonMouseEnter(index)}
 					onmouseleave={handleButtonMouseLeave}
 				>
 					{content.type}
@@ -184,6 +179,7 @@ Tu connais la personne, voici le pro.`
 		justify-content: center;
 		flex-direction: column;
 		position: relative;
+		flex: 1;
 	}
 	.about-description {
 		max-width: 45rem;
@@ -230,5 +226,55 @@ Tu connais la personne, voici le pro.`
 	}
 	.about-button.active:hover {
 		cursor: auto;
+	}
+	@media screen and (max-width: 1400px) {
+		.profile-wrapper {
+			aspect-ratio: 4/8;
+		}
+	}
+	@media screen and (max-width: 1200px) {
+		.about-button {
+			text-orientation: initial;
+			writing-mode: initial;
+			padding-inline: var(--btn-padding);
+		}
+		.about-btns {
+			transform: none;
+			top: unset;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+		}
+		.about-description {
+			padding: 4rem;
+			max-width: none;
+		}
+	}
+	@media screen and (max-width: 992px) {
+		.about {
+			flex-direction: column;
+			justify-content: center;
+		}
+		.profile-wrapper {
+			position: relative;
+			aspect-ratio: 4/6;
+			width: 35%;
+			border: var(--border-weight) solid var(--color-black);
+			margin: var(--container-padding) var(--container-padding) 0 var(--container-padding);
+		}
+		.about-description-wrapper {
+			margin-bottom: auto;
+		}
+		.about-description {
+			padding: var(--container-padding);
+		}
+		.about-content {
+			align-items: initial;
+		}
+	}
+	@media screen and (max-width: 576px) {
+		.about-btns {
+			grid-auto-flow: row;
+		}
 	}
 </style>

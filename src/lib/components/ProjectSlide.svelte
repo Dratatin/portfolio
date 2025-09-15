@@ -131,10 +131,8 @@
 		z-index: 5;
 	}
 	.redirection-arrow {
-		transition: transform 0.3s cubic-bezier(0, 1, 0.65, 1);
-	}
-	.project-link:hover .redirection-arrow {
 		transform: rotate(-45deg);
+		transition: transform 0.3s cubic-bezier(0, 1, 0.65, 1);
 	}
 	.project-img {
 		width: 100%;
@@ -220,7 +218,12 @@
 		.tooltip-container {
 			padding: 0.5rem;
 		}
-		.project-link .redirection-arrow {
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.redirection-arrow {
+			transform: rotate(0);
+		}
+		.project-link:hover .redirection-arrow {
 			transform: rotate(-45deg);
 		}
 	}

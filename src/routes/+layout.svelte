@@ -4,14 +4,18 @@
 	import Header from "$lib/components/Header.svelte";
 	import MousePointer from "$lib/components/MousePointer.svelte";
 	import Loader from "$lib/components/Loader.svelte";
-	import { firstPageLoadTimeline } from "$lib/stores/store";
 	import { fly, type EasingFunction, type TransitionConfig } from "svelte/transition";
 	import { cubicIn, cubicOut } from "svelte/easing";
 	import { page } from "$app/state";
 	import { onMount } from "svelte";
 	import { get } from "svelte/store";
-	import { hoverFormat, mobileMenuOpen, avatarEmotion } from "$lib/stores/store";
-	import { largeScreen } from "$lib/stores/store";
+	import {
+		hoverFormat,
+		mobileMenuOpen,
+		avatarEmotion,
+		firstPageLoadTimeline,
+		hasMousePointer
+	} from "$lib/stores/store";
 	import { afterNavigate } from "$app/navigation";
 	import gsap from "gsap";
 
@@ -94,7 +98,7 @@
 	{#if loading}
 		<Loader ondone={handleLoaded} />
 	{/if}
-	{#if largeScreen}
+	{#if hasMousePointer}
 		<MousePointer />
 	{/if}
 	<Sidebar />
@@ -121,7 +125,7 @@
 
 <style>
 	.site-content {
-		margin-right: calc(var(--side-content-size) - 1px);
+		margin-right: calc(var(--side-content-size) - var(--border-weight));
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
@@ -135,7 +139,7 @@
 	@media screen and (max-width: 992px) {
 		.site-content {
 			margin-right: 0;
-			padding-top: calc(var(--side-content-size) - 1px);
+			padding-top: calc(var(--side-content-size) - var(--border-weight));
 		}
 	}
 </style>
