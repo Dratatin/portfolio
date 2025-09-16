@@ -79,7 +79,7 @@ a {
 
 .page {
 	height: calc(100svh - var(--header-height) + (var(--border-weight) * 2));
-	top: calc(var(--border-weight) * -1);
+	top: calc(var(--border-weight) * -2);
 	position: relative;
 	background-color: var(--color-white);
 }

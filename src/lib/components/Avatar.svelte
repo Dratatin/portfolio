@@ -214,6 +214,7 @@
 		background-color: var(--color-black);
 		position: absolute;
 		top: 25%;
+		--pupil-reflect: 7px;
 	}
 	.pupil::after {
 		content: "";
@@ -221,7 +222,7 @@
 		height: 0;
 		width: 0;
 		border-top: 4px solid transparent;
-		border-right: 7px solid var(--color-white);
+		border-right: var(--pupil-reflect) solid var(--color-white);
 		border-bottom: 4px solid transparent;
 		position: absolute;
 		bottom: 5%;
@@ -265,10 +266,18 @@
 		right: 0;
 	}
 	.avatar.reversed .pupil::after {
-		border-left: 7px solid var(--color-white);
+		border-left: var(--pupil-reflect) solid var(--color-white);
 		border-right: 0;
 		left: 0;
 		right: auto;
 		transform: rotate(-35deg);
+	}
+	@media screen and (max-width: 992px) {
+		.pupil {
+			--pupil-reflect: 6px;
+		}
+		.pupil::after {
+			bottom: 3%;
+		}
 	}
 </style>

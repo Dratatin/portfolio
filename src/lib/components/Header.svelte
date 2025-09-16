@@ -87,6 +87,8 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
+		position: relative;
+		z-index: 5;
 	}
 	.nav-list {
 		display: flex;

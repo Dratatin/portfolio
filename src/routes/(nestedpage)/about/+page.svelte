@@ -249,7 +249,7 @@ Tu connais la personne, voici le pro.`
 			width: 100%;
 			bottom: 0;
 			left: 0;
-			position: fixed;
+			position: absolute;
 		}
 		.about-description {
 			padding: 4rem;
@@ -269,7 +269,7 @@ Tu connais la personne, voici le pro.`
 		}
 		.about-description {
 			padding: 0;
-			margin-top: 1.3rem;
+			margin-top: var(--container-padding);
 		}
 		.about-description-wrapper {
 			margin-bottom: auto;
@@ -277,6 +277,10 @@ Tu connais la personne, voici le pro.`
 		.about-content {
 			align-items: initial;
 			margin-bottom: 3rem;
+		}
+		.about-btns {
+			margin-bottom: var(--border-weight);
+			position: fixed;
 		}
 	}
 </style>

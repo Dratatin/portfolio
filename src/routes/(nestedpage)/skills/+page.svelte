@@ -113,11 +113,12 @@
 	{#each skills as panel, index (index)}
 		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
 			<div class="skills-title-wrapper">
-				<h3 class="skills-title">
-					<span class="skills-title-text">
+				<div class="skills-title-group">
+					<div class="skills-title-bg"></div>
+					<h3 class="skills-title">
 						{panel.panelTitle}
-					</span>
-				</h3>
+					</h3>
+				</div>
 			</div>
 			<ul class="skills-list">
 				{#each panel.panelCompetences as skill, index (index)}
@@ -181,7 +182,7 @@
 		display: flex;
 		align-items: flex-start;
 	}
-	.skills-title {
+	.skills-title-group {
 		display: block;
 		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
 		position: relative;
@@ -190,9 +191,16 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		font-family: "ExatWide";
+	}
+	.skills-title-bg {
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		position: absolute;
 		perspective: 130px;
 	}
-	.skills-title:before {
+	.skills-title-bg:before {
 		content: "";
 		display: block;
 		position: absolute;
@@ -207,7 +215,7 @@
 		backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
 	}
-	.skills-title-text {
+	.skills-title {
 		position: relative;
 		z-index: 1;
 	}
@@ -220,7 +228,7 @@
 		.skills-title-wrapper {
 			padding-inline: 0;
 		}
-		.skills-title {
+		.skills-title-group {
 			top: 1px;
 			padding: 0.8rem 1.4rem 0.8rem 1.4rem;
 			font-size: 14px;
