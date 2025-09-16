@@ -62,8 +62,8 @@
 			unsubscribeAvatarEmotion = avatarEmotion.subscribe((emotion) => {
 				switch (emotion) {
 					case "normal":
-						gsap.to(".top-eyelid", { yPercent: 0, duration: 0.3, ease: "back.out" });
-						gsap.to(".bottom-eyelid", { yPercent: 0, duration: 0.3, ease: "back.out" });
+						gsap.to(".top-eyelid", { yPercent: 0, duration: 0.5, ease: "back.out" });
+						gsap.to(".bottom-eyelid", { yPercent: 0, duration: 0.5, ease: "back.out" });
 						gsap.to(".avatar-right .eyebrow", {
 							rotate: 10,
 							yPercent: 0,
@@ -94,8 +94,14 @@
 							ease: "power.out"
 						});
 						floatingEyeBrowTimeline.pause();
+						setTimeout(() => {
+							avatarEmotion.set("normal");
+						}, 2000);
 						break;
 					case "happy":
+						if (!hasMousePointer) {
+							break;
+						}
 						gsap.to(".bottom-eyelid", { yPercent: -20, duration: 0.3, ease: "back.out" });
 						gsap.to(".avatar-right .eyebrow", { rotate: 20, duration: 0.2, ease: "power.out" });
 						gsap.to(".avatar-left .eyebrow", { rotate: -20, duration: 0.2, ease: "power.out" });
@@ -103,11 +109,6 @@
 						break;
 					default:
 						console.log("emotion unknown");
-				}
-				if (!hasMousePointer) {
-					setTimeout(() => {
-						avatarEmotion.set("normal");
-					}, 2000);
 				}
 			});
 		}, avatarEl);

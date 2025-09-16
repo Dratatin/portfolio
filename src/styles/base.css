@@ -78,9 +78,9 @@ a {
 }
 
 .page {
-	height: calc(100svh - var(--header-height) + var(--border-weight));
-	position: relative;
+	height: calc(100svh - var(--header-height) + (var(--border-weight) * 2));
 	top: calc(var(--border-weight) * -1);
+	position: relative;
 	background-color: var(--color-white);
 }
 
@@ -90,7 +90,7 @@ a {
 		--btn-padding: 0.7rem;
 	}
 	.page {
-		height: calc(100svh - var(--side-content-size) + var(--border-weight));
+		height: calc(100svh - var(--side-content-size) + (var(--border-weight) * 2));
 	}
 	.btn-decorated {
 		font-size: 16px;

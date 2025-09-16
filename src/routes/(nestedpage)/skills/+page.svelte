@@ -186,7 +186,6 @@
 		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
 		position: relative;
 		top: 3px;
-		z-index: -1;
 		font-size: 16px;
 		text-transform: uppercase;
 		font-weight: 700;

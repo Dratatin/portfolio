@@ -160,8 +160,8 @@ Tu connais la personne, voici le pro.`
 <style>
 	.about {
 		display: flex;
-		overflow: hidden;
 		border: var(--border-weight) solid var(--color-black);
+		overflow: auto;
 	}
 	.profile-wrapper {
 		position: relative;
@@ -171,6 +171,7 @@ Tu connais la personne, voici le pro.`
 	.profile-picture-wrapper {
 		width: 100%;
 		height: 100%;
+		display: flex;
 	}
 	.about-content {
 		display: flex;
@@ -181,11 +182,15 @@ Tu connais la personne, voici le pro.`
 		position: relative;
 		flex: 1;
 	}
+	.about-description-wrapper {
+		overflow: hidden;
+	}
 	.about-description {
 		max-width: 45rem;
 		visibility: hidden;
 		opacity: 0;
 		position: absolute;
+		top: 0;
 		padding: 9rem;
 		line-height: 1.6;
 	}
@@ -244,6 +249,7 @@ Tu connais la personne, voici le pro.`
 			width: 100%;
 			bottom: 0;
 			left: 0;
+			position: fixed;
 		}
 		.about-description {
 			padding: 4rem;
@@ -252,29 +258,25 @@ Tu connais la personne, voici le pro.`
 	}
 	@media screen and (max-width: 992px) {
 		.about {
-			flex-direction: column;
-			justify-content: center;
+			padding: var(--container-padding);
+			display: block;
 		}
 		.profile-wrapper {
 			position: relative;
 			aspect-ratio: 4/6;
-			width: 35%;
+			max-width: 400px;
 			border: var(--border-weight) solid var(--color-black);
-			margin: var(--container-padding) var(--container-padding) 0 var(--container-padding);
+		}
+		.about-description {
+			padding: 0;
+			margin-top: 1.3rem;
 		}
 		.about-description-wrapper {
 			margin-bottom: auto;
 		}
-		.about-description {
-			padding: var(--container-padding);
-		}
 		.about-content {
 			align-items: initial;
-		}
-	}
-	@media screen and (max-width: 576px) {
-		.about-btns {
-			grid-auto-flow: row;
+			margin-bottom: 3rem;
 		}
 	}
 </style>
