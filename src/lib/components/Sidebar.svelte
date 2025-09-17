@@ -22,29 +22,53 @@
 	}
 
 	onMount(() => {
-		const unsubscribePageLoadTimeline = firstPageLoadTimeline.subscribe((value) => {
-			if (value && sidebar && sidebarItems.length) {
-				value.from(
-					sidebar,
-					{
-						yPercent: 100,
-						duration: 0.8,
-						delay: 0.2,
-						ease: "power3.out"
-					},
-					0
-				);
+		const unsubscribePageLoadTimeline = firstPageLoadTimeline.subscribe((timeline) => {
+			if (timeline && sidebar && sidebarItems.length) {
+				if (largeScreen) {
+					timeline.from(
+						sidebar,
+						{
+							yPercent: 100,
+							duration: 0.8,
+							delay: 0.2,
+							ease: "power3.out"
+						},
+						0
+					);
 
-				value.from(
-					sidebarItems,
-					{
-						xPercent: 150,
-						stagger: 0.1,
-						duration: 0.6,
-						ease: "back.out(1)"
-					},
-					0.7
-				);
+					timeline.from(
+						sidebarItems,
+						{
+							xPercent: 150,
+							stagger: 0.1,
+							duration: 0.6,
+							ease: "back.out(1)"
+						},
+						0.7
+					);
+				} else {
+					timeline.from(
+						sidebar,
+						{
+							xPercent: -100,
+							duration: 0.8,
+							delay: 0.2,
+							ease: "power3.out"
+						},
+						0
+					);
+
+					timeline.from(
+						sidebarItems,
+						{
+							yPercent: -100,
+							stagger: 0.1,
+							duration: 0.6,
+							ease: "back.out(1)"
+						},
+						0.7
+					);
+				}
 			}
 		});
 
@@ -130,6 +154,7 @@
 			class:open={menuOpen}
 			onclick={toggleMobileMenu}
 			aria-label="Ouvrir la navigation mobile"
+			bind:this={sidebarItems[4]}
 			onmouseenter={handleMouseEnter}
 			onmouseleave={handleMouseLeave}
 		>

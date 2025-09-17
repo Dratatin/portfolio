@@ -25,9 +25,9 @@
 	});
 
 	onMount(() => {
-		const unsubscribePageLoadTimeline = firstPageLoadTimeline.subscribe((pageTimeline) => {
-			if (pageTimeline && largeScreen) {
-				pageTimeline.from(
+		const unsubscribePageLoadTimeline = firstPageLoadTimeline.subscribe((timeline) => {
+			if (timeline && navItemRefs && header && largeScreen) {
+				timeline.from(
 					header,
 					{
 						xPercent: -100,
@@ -38,7 +38,7 @@
 					0
 				);
 
-				pageTimeline.from(
+				timeline.from(
 					navItemRefs,
 					{
 						opacity: 0,
@@ -99,15 +99,16 @@
 		.header {
 			justify-content: center;
 			position: fixed;
-			top: var(--side-content-size);
 			z-index: 5;
+			top: 0;
 			border-right: var(--border-weight) solid var(--color-black);
 			border-top: 0;
-			transform: translateY(-100%);
-			transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+			transform: translateY(-101%);
+			transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		}
 		.header.mobileOpen {
 			transform: translateY(0%);
+			top: var(--side-content-size);
 		}
 		.nav-list {
 			column-gap: 1rem;

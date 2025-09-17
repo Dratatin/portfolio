@@ -198,6 +198,7 @@
 		position: absolute;
 		bottom: 100%;
 		right: 0;
+		z-index: 5;
 	}
 	.technos-tooltip-container.visible {
 		opacity: 1;

@@ -161,7 +161,6 @@ Tu connais la personne, voici le pro.`
 	.about {
 		display: flex;
 		border: var(--border-weight) solid var(--color-black);
-		overflow: auto;
 	}
 	.profile-wrapper {
 		position: relative;

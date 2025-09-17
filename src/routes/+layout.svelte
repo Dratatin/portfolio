@@ -14,7 +14,8 @@
 		mobileMenuOpen,
 		avatarEmotion,
 		firstPageLoadTimeline,
-		hasMousePointer
+		hasMousePointer,
+		largeScreen
 	} from "$lib/stores/store";
 	import { afterNavigate } from "$app/navigation";
 	import gsap from "gsap";
@@ -62,16 +63,20 @@
 	});
 
 	onMount(() => {
-		const unsubscribePageLoad = firstPageLoadTimeline.subscribe((pageTimeline) => {
-			if (pageTimeline && main) {
-				pageTimeline.from(
+		const unsubscribePageLoad = firstPageLoadTimeline.subscribe((timeline) => {
+			if (timeline && main) {
+				let delay = 1.7;
+				if (!largeScreen) {
+					delay = 1.4;
+				}
+				timeline.from(
 					main,
 					{
 						yPercent: 100,
 						ease: "power3.out",
 						duration: 0.9
 					},
-					1.7
+					delay
 				);
 			}
 		});

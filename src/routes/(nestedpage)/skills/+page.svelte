@@ -70,7 +70,7 @@
 				onDrag(e) {
 					mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
 				},
-				onDragEnd() {
+				onRelease() {
 					mouseDragPos.set(null);
 					hoverFormat.set(null);
 				},
@@ -234,7 +234,10 @@
 			font-size: 14px;
 			width: 100%;
 		}
-		.skills-title:before {
+		.skills-title-bg {
+			perspective: initial;
+		}
+		.skills-title-bg:before {
 			transform: unset;
 		}
 		.skills-list {
