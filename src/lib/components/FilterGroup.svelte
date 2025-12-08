@@ -1,13 +1,11 @@
-<script lang="ts">
-	import Ink from "./Ink.svelte";
-	import { type TechKey } from "$lib/utils/hardskills";
+<script>
+	import { hoverFormat, selectedTechnos } from "$lib/stores/store";
 	import { technos } from "$lib/utils/hardskills";
-	import { selectedTechnos } from "$lib/stores/store";
-	import { hoverFormat } from "$lib/stores/store";
+	import Ink from "./Ink.svelte";
 
-	let localSelected: TechKey[] = $state([]);
+	let localSelected = $state([]);
 
-	function handleChange(filter: TechKey) {
+	function handleChange(filter) {
 		selectedTechnos.update((items) => {
 			if (items.includes(filter)) {
 				return items.filter((i) => i !== filter);
@@ -25,19 +23,7 @@
 		hoverFormat.set(null);
 	}
 
-	let {
-		filterTitle,
-		filterList,
-		filterId,
-		toggleDropdown,
-		filterOpen = false
-	}: {
-		filterTitle: string;
-		filterList: TechKey[];
-		filterId: string;
-		toggleDropdown: (filterId: string) => void;
-		filterOpen?: boolean;
-	} = $props();
+	let { filterTitle, filterList, filterId, toggleDropdown, filterOpen = false } = $props();
 </script>
 
 <fieldset class="filter-group" class:open={filterOpen}>

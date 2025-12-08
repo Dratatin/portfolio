@@ -75,15 +75,9 @@ export const technos = {
 		iconName: "docker",
 		skillName: "Docker"
 	}
-} as const;
+};
 
-export type TechKey = keyof typeof technos;
-
-export const skills: {
-	panelTitle: string;
-	id: string;
-	panelCompetences: TechKey[];
-}[] = [
+export const skills = [
 	{
 		panelTitle: "Langages & Préprocesseurs",
 		id: "lang",

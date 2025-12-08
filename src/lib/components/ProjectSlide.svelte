@@ -1,14 +1,12 @@
-<script lang="ts">
-	import { type Project } from "$lib/utils/projects";
-	import SkillItem from "./SkillItem.svelte";
+<script>
+	import { hoverFormat, mediumScreen } from "$lib/stores/store";
 	import { LinkHandler } from "$lib/utils/linkHandler";
-	import { hoverFormat } from "$lib/stores/store";
-	import { mediumScreen } from "$lib/stores/store";
+	import SkillItem from "./SkillItem.svelte";
 
-	let { name, technos, secret, link, image }: Project = $props();
+	let { name, technos, secret, link, image } = $props();
 
 	let showTooltip = $state(false);
-	let mouseLeaveTimeout: ReturnType<typeof setTimeout>;
+	let mouseLeaveTimeout;
 
 	function handleTooltipEnter() {
 		clearTimeout(mouseLeaveTimeout);

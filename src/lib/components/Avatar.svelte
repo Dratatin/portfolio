@@ -1,14 +1,13 @@
-<script lang="ts">
-	import { onMount } from "svelte";
+<script>
+	import { avatarEmotion, hasMousePointer } from "$lib/stores/store";
 	import gsap from "gsap";
-	import { avatarEmotion } from "$lib/stores/store";
-	import { hasMousePointer } from "$lib/stores/store";
+	import { onMount } from "svelte";
 
-	let avatarEl: HTMLDivElement;
-	let pupilTimeline: gsap.core.Tween | null = null;
+	let avatarEl;
+	let pupilTimeline = null;
 	let { reversed = false } = $props();
 
-	function handleMouseMove(e: MouseEvent) {
+	function handleMouseMove(e) {
 		let x = (e.clientX / window.innerWidth - 0.5) * 4;
 		let y = (e.clientY / window.innerHeight - 0.5) * 4;
 		gsap.to(".pupil", {
@@ -29,7 +28,7 @@
 	onMount(() => {
 		gsap.defaults({ overwrite: "auto" });
 
-		let unsubscribeAvatarEmotion: () => void;
+		let unsubscribeAvatarEmotion;
 
 		const context = gsap.context(() => {
 			const floatingEyeBrowTimeline = gsap

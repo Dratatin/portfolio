@@ -1,6 +1,6 @@
 import { base } from "$app/paths";
 
-export const LinkHandler = (link: string) => {
+export const LinkHandler = (link) => {
 	if (import.meta.env.MODE === "development") {
 		return link;
 	}

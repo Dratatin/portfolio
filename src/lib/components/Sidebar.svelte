@@ -1,12 +1,16 @@
-<script lang="ts">
-	import { firstPageLoadTimeline, largeScreen } from "$lib/stores/store";
-	import { hoverFormat, mobileMenuOpen } from "$lib/stores/store";
+<script>
+	import {
+		firstPageLoadTimeline,
+		hoverFormat,
+		largeScreen,
+		mobileMenuOpen
+	} from "$lib/stores/store";
+	import { LinkHandler } from "$lib/utils/linkHandler";
 	import { onMount } from "svelte";
 	import Avatar from "./Avatar.svelte";
-	import { LinkHandler } from "$lib/utils/linkHandler";
 
-	const sidebarItems: HTMLElement[] = [];
-	let sidebar: HTMLElement;
+	const sidebarItems = [];
+	let sidebar;
 	let menuOpen = $state(false);
 
 	function handleMouseEnter() {
@@ -195,7 +199,6 @@
 		top: calc(var(--border-weight) * -1);
 	}
 	.sidebar-item-wrapper:first-child .sidebar-item {
-		border-top: var(--border-weight) solid var(--color-black);
 		padding: 0.8rem;
 	}
 	.link-list {

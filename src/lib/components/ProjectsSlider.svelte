@@ -1,24 +1,19 @@
-<script lang="ts">
+<script>
+	import { hoverFormat, mouseDragPos } from "$lib/stores/store";
+	import gsap from "gsap";
 	import { onMount } from "svelte";
 	import Swiper from "swiper";
+	import "swiper/css";
 	import { FreeMode, Mousewheel } from "swiper/modules";
 	import ProjectSlide from "./ProjectSlide.svelte";
-	import gsap from "gsap";
-	import { type Project } from "$lib/utils/projects";
-	import "swiper/css";
-	import { hoverFormat, mouseDragPos } from "$lib/stores/store";
 
-	let {
-		projects
-	}: {
-		projects: Project[];
-	} = $props();
+	let { projects } = $props();
 
-	let slider: HTMLElement;
-	let slides: HTMLElement[] = [];
+	let slider;
+	let slides = [];
 	let drag = $state(false);
 
-	function bindSlide(node: HTMLElement, index: number) {
+	function bindSlide(node, index) {
 		slides[index] = node;
 	}
 

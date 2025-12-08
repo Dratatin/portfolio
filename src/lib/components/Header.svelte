@@ -1,17 +1,15 @@
-<script lang="ts">
-	import { page } from "$app/state";
+<script>
 	import { afterNavigate } from "$app/navigation";
-	import Ink from "./Ink.svelte";
-	import { firstPageLoadTimeline, mobileMenuOpen } from "$lib/stores/store";
-	import { onMount } from "svelte";
+	import { page } from "$app/state";
+	import { firstPageLoadTimeline, largeScreen, mobileMenuOpen } from "$lib/stores/store";
 	import { LinkHandler } from "$lib/utils/linkHandler";
-	import { largeScreen } from "$lib/stores/store";
+	import Ink from "./Ink.svelte";
 
-	const navItemRefs: HTMLElement[] = $state([]);
-	const linkItemRefs: HTMLElement[] = $state([]);
+	let navItemRefs = $state([]);
+	let linkItemRefs = $state([]);
 	let menuOpen = $state(false);
 	let currentPath = $state(page.url.pathname);
-	let header: HTMLElement;
+	let header;
 
 	const pages = [
 		{ title: "Accueil", href: LinkHandler("/") },
@@ -24,7 +22,7 @@
 		currentPath = page.url.pathname;
 	});
 
-	onMount(() => {
+	$effect(() => {
 		const unsubscribePageLoadTimeline = firstPageLoadTimeline.subscribe((timeline) => {
 			if (timeline && navItemRefs && header && largeScreen) {
 				timeline.from(
@@ -66,10 +64,10 @@
 <header class="header container-inline-padding" class:mobileOpen={menuOpen} bind:this={header}>
 	<nav class="nav">
 		<ul class="nav-list">
-			{#each pages as page, index (index)}
+			{#each pages as pageItem, index (index)}
 				<li bind:this={navItemRefs[index]} class="nav-link-wrapper">
-					<a href={page.href} class="nav-link" bind:this={linkItemRefs[index]}>
-						<Ink name={page.title} active={currentPath === page.href} headerInk={true} />
+					<a href={pageItem.href} class="nav-link" bind:this={linkItemRefs[index]}>
+						<Ink name={pageItem.title} active={currentPath === pageItem.href} headerInk={true} />
 					</a>
 				</li>
 			{/each}
@@ -81,7 +79,6 @@
 	.header {
 		border-left: var(--border-weight) solid var(--color-black);
 		border-bottom: var(--border-weight) solid var(--color-black);
-		border-top: var(--border-weight) solid var(--color-black);
 		background-color: var(--color-white);
 		height: var(--header-height);
 		display: flex;

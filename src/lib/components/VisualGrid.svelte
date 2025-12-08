@@ -1,14 +1,14 @@
-<script lang="ts">
-	import { onMount } from "svelte";
+<script>
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { onMount } from "svelte";
 
-	let grid: HTMLElement;
-	let gridElements: HTMLElement[] = [];
+	let grid;
+	let gridElements = [];
 
 	const rows = 6;
 	const cols = 10;
-	const cursors: { x: number; y: number }[] = [];
+	const cursors = [];
 
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < cols; x++) {
@@ -17,8 +17,8 @@
 	}
 
 	let isActive = false;
-	let tableTargetAngle: number[] = [];
-	let tableCurrentAngle: number[] = [];
+	let tableTargetAngle = [];
+	let tableCurrentAngle = [];
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
@@ -45,7 +45,7 @@
 			requestAnimationFrame(step);
 		}
 
-		let rafId: number | null = null;
+		let rafId = null;
 		window.addEventListener("mousemove", (e) => {
 			if (!isActive) return;
 
@@ -63,7 +63,7 @@
 					let angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90;
 
 					// Normalisation d'angle
-					function normalizeAngle(from: number, to: number) {
+					function normalizeAngle(from, to) {
 						while (to - from > 180) to -= 360;
 						while (to - from < -180) to += 360;
 						return to;

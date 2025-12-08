@@ -1,15 +1,15 @@
-<script lang="ts">
-	import { onMount } from "svelte";
+<script>
 	import { hoveredElement, hoverFormat, mouseDragPos } from "$lib/stores/store";
+	import { onMount } from "svelte";
 
 	let position = $state({ x: 0, y: 0 });
 	let clicked = $state(false);
-	let activeHovered = $state<HTMLElement | null>(null);
-	let mouseFormat = $state<"check" | "interactive" | null>(null);
+	let activeHovered = $state(null);
+	let mouseFormat = $state(null);
 
 	let targetX = 0;
 	let targetY = 0;
-	let animationFrameId: number;
+	let animationFrameId;
 
 	onMount(() => {
 		const unsubMouseDragPos = mouseDragPos.subscribe((value) => {
@@ -27,7 +27,7 @@
 			mouseFormat = format;
 		});
 
-		const handleMouseMove = (e: MouseEvent) => {
+		const handleMouseMove = (e) => {
 			if (activeHovered) {
 				const rect = activeHovered.getBoundingClientRect();
 				targetX = rect.left + rect.width / 2;
@@ -67,18 +67,9 @@
 		};
 	});
 
-	type PointerStyle = {
-		transform: string;
-		top: string;
-		left: string;
-		borderRadius: string;
-	};
+	const mode = $derived(mouseFormat ? mouseFormat : clicked ? "clicked" : "default");
 
-	const mode = $derived<"clicked" | "interactive" | "check" | "default">(
-		mouseFormat ? mouseFormat : clicked ? "clicked" : "default"
-	);
-
-	const STYLES: Record<"clicked" | "interactive" | "check" | "default", PointerStyle> = {
+	const STYLES = {
 		interactive: {
 			transform: "translate(-50%, -50%) scale(6)",
 			top: "0",

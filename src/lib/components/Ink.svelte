@@ -1,12 +1,8 @@
-<script lang="ts">
+<script>
 	import { hoveredElement, hoverFormat, largeScreen } from "$lib/stores/store";
-	let {
-		name,
-		headerInk = false,
-		active = false
-	}: { name: string; headerInk?: boolean; active?: boolean } = $props();
+	let { name, headerInk = false, active = false } = $props();
 
-	let hookRef: HTMLElement;
+	let hookRef;
 
 	function onMouseEnter() {
 		if (largeScreen) {

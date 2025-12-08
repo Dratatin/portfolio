@@ -1,40 +1,31 @@
-<script lang="ts">
-	import "../app.css";
-	import Sidebar from "$lib/components/Sidebar.svelte";
-	import Header from "$lib/components/Header.svelte";
-	import MousePointer from "$lib/components/MousePointer.svelte";
-	import Loader from "$lib/components/Loader.svelte";
-	import { fly, type EasingFunction, type TransitionConfig } from "svelte/transition";
-	import { cubicIn, cubicOut } from "svelte/easing";
+<script>
+	import { afterNavigate } from "$app/navigation";
 	import { page } from "$app/state";
-	import { onMount } from "svelte";
-	import { get } from "svelte/store";
+	import Header from "$lib/components/Header.svelte";
+	import Loader from "$lib/components/Loader.svelte";
+	import MousePointer from "$lib/components/MousePointer.svelte";
+	import Sidebar from "$lib/components/Sidebar.svelte";
 	import {
-		hoverFormat,
-		mobileMenuOpen,
 		avatarEmotion,
 		firstPageLoadTimeline,
 		hasMousePointer,
-		largeScreen
+		hoverFormat,
+		largeScreen,
+		mobileMenuOpen
 	} from "$lib/stores/store";
-	import { afterNavigate } from "$app/navigation";
 	import gsap from "gsap";
+	import { onMount } from "svelte";
+	import { cubicIn, cubicOut } from "svelte/easing";
+	import { get } from "svelte/store";
+	import { fly } from "svelte/transition";
+	import "../app.css";
 
 	let { children } = $props();
-	let main: HTMLElement | null = $state(null);
+	let main = $state(null);
 	let loading = $state(true);
-	let emotionChangeTimeout: ReturnType<typeof setTimeout>;
+	let emotionChangeTimeout;
 
-	type PageOutParams = {
-		delay?: number;
-		duration?: number;
-		easing?: EasingFunction;
-	};
-
-	function pageOut(
-		node: HTMLElement,
-		{ delay = 0, duration = 1200, easing = cubicIn }: PageOutParams = {}
-	): TransitionConfig {
+	function pageOut(node, { delay = 0, duration = 1200, easing = cubicIn } = {}) {
 		return {
 			delay,
 			duration,

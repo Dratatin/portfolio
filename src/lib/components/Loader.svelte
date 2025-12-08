@@ -1,8 +1,8 @@
-<script lang="ts">
-	import { onMount } from "svelte";
+<script>
 	import { preloadCode } from "$app/navigation";
-	import { fade } from "svelte/transition";
+	import { onMount } from "svelte";
 	import { cubicOut } from "svelte/easing";
+	import { fade } from "svelte/transition";
 	import Avatar from "./Avatar.svelte";
 
 	let { ondone } = $props();
@@ -10,7 +10,7 @@
 	const routes = ["/", "/about", "/projects", "/skills"];
 
 	onMount(() => {
-		const siteReady = new Promise<void>((resolve) => {
+		const siteReady = new Promise((resolve) => {
 			if (document.readyState === "complete") {
 				resolve();
 			} else {
@@ -18,7 +18,7 @@
 			}
 		});
 
-		const minDelay = new Promise<void>((resolve) => setTimeout(resolve, 3000));
+		const minDelay = new Promise((resolve) => setTimeout(resolve, 3000));
 
 		const preloadAll = Promise.all(routes.map((route) => preloadCode(route)));
 

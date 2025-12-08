@@ -1,14 +1,14 @@
-<script lang="ts">
+<script>
 	import SkillItem from "$lib/components/SkillItem.svelte";
+	import { hoverFormat, largeScreen, mouseDragPos } from "$lib/stores/store";
+	import { skills } from "$lib/utils/hardskills";
 	import gsap from "gsap";
 	import { Draggable } from "gsap/Draggable";
 	import InertiaPlugin from "gsap/InertiaPlugin";
 	import { onMount, tick } from "svelte";
-	import { skills } from "$lib/utils/hardskills";
-	import { mouseDragPos, hoverFormat, largeScreen } from "$lib/stores/store";
 
-	let skillsDragContainer: HTMLElement;
-	const skillsRefs: HTMLElement[] = [];
+	let skillsDragContainer;
+	const skillsRefs = [];
 
 	onMount(async () => {
 		await tick();
@@ -21,7 +21,7 @@
 			let xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
 			let yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 
-			function updateQuickTo(x: number, y: number) {
+			function updateQuickTo(x, y) {
 				currentX = x;
 				currentY = y;
 
@@ -33,12 +33,7 @@
 			const amplitudeY = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
 			const duration = 1.8 + Math.random() * 1.5;
 
-			function createFloatTimeline(
-				panel: HTMLElement,
-				amplitudeX: number,
-				amplitudeY: number,
-				duration: number
-			) {
+			function createFloatTimeline(panel, amplitudeX, amplitudeY, duration) {
 				const tl = gsap.timeline({ repeat: -1, yoyo: true, paused: false });
 				tl.to(panel, {
 					y: `+=${amplitudeY}`,
@@ -79,7 +74,7 @@
 				}
 			})[0];
 
-			const magnetize = (e: MouseEvent) => {
+			const magnetize = (e) => {
 				if (!draggable.isDragging && !draggable.isThrowing) {
 					const bounds = panel.getBoundingClientRect();
 					const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;

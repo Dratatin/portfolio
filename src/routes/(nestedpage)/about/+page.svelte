@@ -1,22 +1,21 @@
-<script lang="ts">
-	import recruteur from "$assets/recruteur.png";
-	import tous from "$assets/tous.png";
+<script>
 	import amis from "$assets/amis.png";
+	import recruteur from "$assets/recruteur.png";
 	import texture from "$assets/texture.jpg";
-	import gsap from "gsap";
-	import ShaderTransition, { type ShaderTransitionInstance } from "$lib/utils/shaderTransition";
-	import { SplitText } from "gsap/SplitText";
-	import { Flip } from "gsap/Flip";
-	import type SplitTextType from "gsap/SplitText";
-	import { ScrollTrigger } from "gsap/ScrollTrigger";
-	import { onMount } from "svelte";
+	import tous from "$assets/tous.png";
 	import { hoverFormat } from "$lib/stores/store";
+	import ShaderTransition from "$lib/utils/shaderTransition";
+	import gsap from "gsap";
+	import { Flip } from "gsap/Flip";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { SplitText } from "gsap/SplitText";
+	import { onMount } from "svelte";
 
-	let buttons: HTMLButtonElement[] = $state([]);
-	let descriptions: HTMLElement[] = $state([]);
-	let splitTexts: SplitTextType[] = [];
-	let shaderContainer: HTMLElement;
-	let myAnimation: ShaderTransitionInstance;
+	let buttons = $state([]);
+	let descriptions = $state([]);
+	let splitTexts = [];
+	let shaderContainer;
+	let myAnimation;
 	let activeIndex = $state(0);
 
 	const aboutContents = [
@@ -43,7 +42,7 @@ Tu connais la personne, voici le pro.`
 		}
 	];
 
-	function animeText(text: Element[]) {
+	function animeText(text) {
 		gsap.from(text, {
 			yPercent: 100,
 			opacity: 0,
@@ -53,7 +52,7 @@ Tu connais la personne, voici le pro.`
 		});
 	}
 
-	function handleButtonClick(index: number) {
+	function handleButtonClick(index) {
 		if (myAnimation.isCurrentlyTransitioning() || activeIndex === index) {
 			return;
 		}
@@ -64,7 +63,7 @@ Tu connais la personne, voici le pro.`
 		activeIndex = index;
 	}
 
-	function reorganizeButtons(clickedIndex: number) {
+	function reorganizeButtons(clickedIndex) {
 		const state = Flip.getState(buttons);
 		buttons.forEach((button, index) => {
 			button.classList.remove("active");
@@ -78,7 +77,7 @@ Tu connais la personne, voici le pro.`
 		buttons[clickedIndex].classList.add("active");
 	}
 
-	function updateActiveDescription(index: number) {
+	function updateActiveDescription(index) {
 		const previousActiveIndex = descriptions.findIndex((description) =>
 			description.classList.contains("active")
 		);
@@ -93,7 +92,7 @@ Tu connais la personne, voici le pro.`
 		animeText(splitTexts[index].lines);
 	}
 
-	function handleButtonMouseEnter(index: number) {
+	function handleButtonMouseEnter(index) {
 		if (index !== activeIndex) {
 			hoverFormat.set("interactive");
 		}

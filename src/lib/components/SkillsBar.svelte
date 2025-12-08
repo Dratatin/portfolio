@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	const keywords = ["3D", "accessibilité", "performance", "modularité", "intéractivité"];
 </script>
 

@@ -1,9 +1,8 @@
-<script lang="ts">
+<script>
 	import { technos } from "$lib/utils/hardskills";
-	import type { TechKey } from "$lib/utils/hardskills";
 	import { LinkHandler } from "$lib/utils/linkHandler";
 
-	let { skill }: { skill: TechKey } = $props();
+	let { skill } = $props();
 	let skillDetails = $derived(technos[skill]);
 </script>
 

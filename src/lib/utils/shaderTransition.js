@@ -1,53 +1,21 @@
-import * as THREE from "three";
 import { gsap } from "gsap";
-
-export interface ShaderTransitionOptions {
-	parent: HTMLElement;
-	displacementImage: string;
-	images: string[];
-	imagesRatio?: number;
-	intensity?: number;
-	intensity1?: number;
-	intensity2?: number;
-	angle?: number;
-	angle1?: number;
-	angle2?: number;
-	speed?: number;
-	speedIn?: number;
-	speedOut?: number;
-	easing?: string;
-	video?: boolean;
-	initialIndex?: number;
-}
-
-export interface ShaderTransitionMethods {
-	swap(targetIndex: number): Promise<void>;
-	next(): Promise<void>;
-	previous(): Promise<void>;
-	getCurrentIndex(): number;
-	getTotalImages(): number;
-	getImageSrc(index: number): string | null;
-	isCurrentlyTransitioning(): boolean;
-	destroy(): void;
-}
-
-export type ShaderTransitionInstance = ShaderTransitionMethods;
+import * as THREE from "three";
 
 export class ShaderTransition {
-	private scene!: THREE.Scene;
-	private camera!: THREE.OrthographicCamera;
-	private renderer!: THREE.WebGLRenderer;
-	private material!: THREE.ShaderMaterial;
-	private geometry!: THREE.PlaneGeometry;
-	private mesh!: THREE.Mesh;
-	private parent!: HTMLElement;
-	private options!: Required<ShaderTransitionOptions>;
-	private textures: THREE.Texture[] = [];
-	private currentIndex: number = 0;
-	private targetIndex: number = 0;
-	private isTransitioning: boolean = false;
+	scene;
+	camera;
+	renderer;
+	material;
+	geometry;
+	mesh;
+	parent;
+	options;
+	textures = [];
+	currentIndex = 0;
+	targetIndex = 0;
+	isTransitioning = false;
 
-	constructor(options: ShaderTransitionOptions) {
+	constructor(options) {
 		if (!options.parent) {
 			console.warn("Parent missing");
 			return;
@@ -67,7 +35,7 @@ export class ShaderTransition {
 		this.setupEventListeners();
 	}
 
-	private setDefaultOptions(options: ShaderTransitionOptions): Required<ShaderTransitionOptions> {
+	setDefaultOptions(options) {
 		const defaultAngle = Math.PI / 4;
 
 		return {
@@ -90,18 +58,18 @@ export class ShaderTransition {
 		};
 	}
 
-	private init(): void {
+	init() {
 		this.createScene();
 		this.createCamera();
 		this.createRenderer();
 		this.loadTextures();
 	}
 
-	private createScene(): void {
+	createScene() {
 		this.scene = new THREE.Scene();
 	}
 
-	private createCamera(): void {
+	createCamera() {
 		const { offsetWidth, offsetHeight } = this.parent;
 
 		this.camera = new THREE.OrthographicCamera(
@@ -116,7 +84,7 @@ export class ShaderTransition {
 		this.camera.position.z = 1;
 	}
 
-	private createRenderer(): void {
+	createRenderer() {
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: false,
 			alpha: true
@@ -130,11 +98,11 @@ export class ShaderTransition {
 		this.parent.appendChild(this.renderer.domElement);
 	}
 
-	private render = (): void => {
+	render = () => {
 		this.renderer.render(this.scene, this.camera);
 	};
 
-	private async loadTextures(): Promise<void> {
+	async loadTextures() {
 		const loader = new THREE.TextureLoader();
 		loader.crossOrigin = "";
 
@@ -165,7 +133,7 @@ export class ShaderTransition {
 		}
 	}
 
-	private loadTexture(loader: THREE.TextureLoader, url: string): Promise<THREE.Texture> {
+	loadTexture(loader, url) {
 		return new Promise((resolve, reject) => {
 			loader.load(
 				url,
@@ -179,9 +147,9 @@ export class ShaderTransition {
 		});
 	}
 
-	private async loadVideoTextures(): Promise<THREE.VideoTexture[]> {
-		const videos: HTMLVideoElement[] = [];
-		const textures: THREE.VideoTexture[] = [];
+	async loadVideoTextures() {
+		const videos = [];
+		const textures = [];
 
 		for (let i = 0; i < this.options.images.length; i++) {
 			const video = document.createElement("video");
@@ -204,7 +172,7 @@ export class ShaderTransition {
 		return textures;
 	}
 
-	private waitForVideoLoad(video: HTMLVideoElement): Promise<void> {
+	waitForVideoLoad(video) {
 		return new Promise((resolve) => {
 			video.addEventListener(
 				"loadeddata",
@@ -217,19 +185,19 @@ export class ShaderTransition {
 		});
 	}
 
-	private startVideoLoop(): void {
-		const animate = (): void => {
+	startVideoLoop() {
+		const animate = () => {
 			requestAnimationFrame(animate);
 			this.renderer.render(this.scene, this.camera);
 		};
 		animate();
 	}
 
-	private createMaterial(displacementTexture: THREE.Texture): void {
+	createMaterial(displacementTexture) {
 		const { offsetWidth, offsetHeight } = this.parent;
 		const ratio = this.options.imagesRatio;
 
-		let scaleX: number, scaleY: number;
+		let scaleX, scaleY;
 
 		if (offsetHeight / offsetWidth < ratio) {
 			scaleX = 1;
@@ -300,22 +268,22 @@ export class ShaderTransition {
 		});
 	}
 
-	private createMesh(): void {
+	createMesh() {
 		this.geometry = new THREE.PlaneGeometry(this.parent.offsetWidth, this.parent.offsetHeight, 1);
 
 		this.mesh = new THREE.Mesh(this.geometry, this.material);
 		this.scene.add(this.mesh);
 	}
 
-	private setupEventListeners(): void {
+	setupEventListeners() {
 		window.addEventListener("resize", this.handleResize);
 	}
 
-	private handleResize = (): void => {
+	handleResize = () => {
 		const { offsetWidth, offsetHeight } = this.parent;
 		const ratio = this.options.imagesRatio;
 
-		let scaleX: number, scaleY: number;
+		let scaleX, scaleY;
 
 		if (offsetHeight / offsetWidth < ratio) {
 			scaleX = 1;
@@ -338,7 +306,7 @@ export class ShaderTransition {
 		this.render();
 	};
 
-	public swap = (targetIndex: number): Promise<void> => {
+	swap = (targetIndex) => {
 		return new Promise((resolve, reject) => {
 			if (targetIndex < 0 || targetIndex >= this.textures.length) {
 				reject(
@@ -385,36 +353,36 @@ export class ShaderTransition {
 		});
 	};
 
-	public next = (): Promise<void> => {
+	next = () => {
 		const nextIndex = (this.currentIndex + 1) % this.textures.length;
 		return this.swap(nextIndex);
 	};
 
-	public previous = (): Promise<void> => {
+	previous = () => {
 		const prevIndex = (this.currentIndex - 1 + this.textures.length) % this.textures.length;
 		return this.swap(prevIndex);
 	};
 
-	public getCurrentIndex(): number {
+	getCurrentIndex() {
 		return this.currentIndex;
 	}
 
-	public getTotalImages(): number {
+	getTotalImages() {
 		return this.textures.length;
 	}
 
-	public getImageSrc(index: number): string | null {
+	getImageSrc(index) {
 		if (index >= 0 && index < this.options.images.length) {
 			return this.options.images[index];
 		}
 		return null;
 	}
 
-	public isCurrentlyTransitioning(): boolean {
+	isCurrentlyTransitioning() {
 		return this.isTransitioning;
 	}
 
-	public destroy(): void {
+	destroy() {
 		window.removeEventListener("resize", this.handleResize);
 
 		if (this.renderer) {

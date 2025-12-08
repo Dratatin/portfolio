@@ -1,17 +1,12 @@
-<script lang="ts">
+<script>
 	import FilterGroup from "$lib/components/FilterGroup.svelte";
 	import ProjectsSlider from "$lib/components/ProjectsSlider.svelte";
-	import { selectedTechnos, filterOpen, hoverFormat } from "$lib/stores/store";
-	import { type TechKey } from "$lib/utils/hardskills";
-	import { type Project, projects } from "$lib/utils/projects";
+	import { filterOpen, hoverFormat, selectedTechnos } from "$lib/stores/store";
 	import { technos } from "$lib/utils/hardskills";
-	import { tick, onMount } from "svelte";
+	import { projects } from "$lib/utils/projects";
+	import { onMount, tick } from "svelte";
 
-	const filters: {
-		filterid: string;
-		filterTitle: string;
-		filterTable: TechKey[];
-	}[] = [
+	const filters = [
 		{
 			filterid: "lang",
 			filterTitle: "Langages et Préprocesseurs",
@@ -29,20 +24,20 @@
 		}
 	];
 
-	let filterOpenId = $state<string | null>(null);
-	let activeFilters = $state<TechKey[]>([]);
+	let filterOpenId = $state(null);
+	let activeFilters = $state([]);
 	let filteredProjects = $state(projects);
-	let activeFiltersRef: HTMLElement | null = $state(null);
+	let activeFiltersRef = $state(null);
 	let activeFiltersHeight = $state(0);
 
-	function calculateFilteredProjects(technos: TechKey[]): Project[] {
+	function calculateFilteredProjects(technos) {
 		if (technos.length === 0) return projects;
 		return projects.filter((project) => {
 			return technos.every((tech) => project.technos.includes(tech));
 		});
 	}
 
-	function toggleDropdown(filterid: string) {
+	function toggleDropdown(filterid) {
 		if (filterid === filterOpenId) {
 			filterOpen.set(null);
 		} else {
@@ -50,7 +45,7 @@
 		}
 	}
 
-	function handleDeleteFilter(techno: TechKey) {
+	function handleDeleteFilter(techno) {
 		hoverFormat.set(null);
 		selectedTechnos.update((items) => {
 			return items.filter((item) => item !== techno);

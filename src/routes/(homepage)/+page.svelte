@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import HeroContent from "$lib/components/HeroContent.svelte";
 	import SkillsBar from "$lib/components/SkillsBar.svelte";
 </script>

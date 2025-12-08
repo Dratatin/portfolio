@@ -1,22 +1,12 @@
-import { type TechKey } from "./hardskills";
+import airliquide from "$assets/projects/airliquide.png";
 import coquedenacre from "$assets/projects/coquedenacre.png";
+import fake from "$assets/projects/fake-project.jpg";
 import fidesio from "$assets/projects/fidesio.png";
+import kerialis from "$assets/projects/kerialis.png";
 import millon from "$assets/projects/millon.png";
 import richard from "$assets/projects/vinsrichard.png";
-import airliquide from "$assets/projects/airliquide.png";
-import kerialis from "$assets/projects/kerialis.png";
-import fake from "$assets/projects/fake-project.jpg";
 
-export type Project = {
-	name: string;
-	projectid: string;
-	technos: TechKey[];
-	secret: boolean;
-	link: null | string;
-	image: string;
-};
-
-export const projects: Project[] = [
+export const projects = [
 	{
 		name: "Coque de nacre",
 		projectid: "coquedenacre",
