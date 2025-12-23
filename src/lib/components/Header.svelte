@@ -13,7 +13,6 @@
 
 	const pages = [
 		{ title: "Accueil", href: LinkHandler("/") },
-		{ title: "À propos", href: LinkHandler("/about") },
 		{ title: "Liste des projets ", href: LinkHandler("/projects") },
 		{ title: "Savoir faire", href: LinkHandler("/skills") }
 	];

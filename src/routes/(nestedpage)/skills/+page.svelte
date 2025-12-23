@@ -29,38 +29,15 @@
 				yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 			}
 
-			const amplitudeX = (2 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
-			const amplitudeY = (3 + Math.random() * 5) * (Math.random() < 0.5 ? -1 : 1);
-			const duration = 1.8 + Math.random() * 1.5;
-
-			function createFloatTimeline(panel, amplitudeX, amplitudeY, duration) {
-				const tl = gsap.timeline({ repeat: -1, yoyo: true, paused: false });
-				tl.to(panel, {
-					y: `+=${amplitudeY}`,
-					x: `-=${amplitudeX}`,
-					duration,
-					ease: "sine.inOut"
-				});
-				return tl;
-			}
-
-			let floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration);
-			floatTimeline.restart();
-
 			const draggable = Draggable.create(panel, {
 				type: "x,y",
 				bounds: skillsDragContainer,
 				inertia: true,
-				onDragStart() {
-					floatTimeline.kill();
-				},
 				onClick() {
 					updateQuickTo(this.x, this.y);
 				},
 				onThrowComplete() {
 					updateQuickTo(this.x, this.y);
-					floatTimeline = createFloatTimeline(panel, amplitudeX, amplitudeY, duration);
-					floatTimeline.restart();
 				},
 				onDrag(e) {
 					mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
@@ -80,8 +57,6 @@
 					const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;
 					const offsetY = (e.clientY - bounds.top - bounds.height / 2) * 0.2;
 
-					floatTimeline.pause();
-
 					xTo(currentX + offsetX);
 					yTo(currentY + offsetY);
 				}
@@ -90,9 +65,7 @@
 			const demagnetize = () => {
 				if (!draggable.isDragging && !draggable.isThrowing) {
 					xTo(currentX);
-					yTo(currentY).then(() => {
-						floatTimeline.restart();
-					});
+					yTo(currentY);
 				}
 			};
 
@@ -104,35 +77,51 @@
 	});
 </script>
 
-<div class="skills page" bind:this={skillsDragContainer}>
-	{#each skills as panel, index (index)}
-		<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
-			<div class="skills-title-wrapper">
-				<div class="skills-title-group">
-					<div class="skills-title-bg"></div>
-					<h3 class="skills-title">
-						{panel.panelTitle}
-					</h3>
+<div class="skills page">
+	<div class="skills-cards" bind:this={skillsDragContainer}>
+		{#each skills as panel, index (index)}
+			<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
+				<div class="skills-title-wrapper">
+					<div class="skills-title-group">
+						<div class="skills-title-bg"></div>
+						<h3 class="skills-title">
+							{panel.panelTitle}
+						</h3>
+					</div>
 				</div>
+				<ul class="skills-list">
+					{#each panel.panelCompetences as skill, index (index)}
+						<li>
+							<SkillItem {skill} />
+						</li>
+					{/each}
+				</ul>
 			</div>
-			<ul class="skills-list">
-				{#each panel.panelCompetences as skill, index (index)}
-					<li>
-						<SkillItem {skill} />
-					</li>
-				{/each}
-			</ul>
-		</div>
-	{/each}
+		{/each}
+	</div>
+	<!-- <div class="skills-bar">
+		<SkillsBar />
+	</div> -->
 </div>
 
 <style>
 	.skills {
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		flex-direction: column;
 		position: relative;
 		border: var(--border-weight) solid var(--color-black);
+	}
+	.skills-cards {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		overflow: hidden;
+	}
+	.skills-bar {
+		margin-top: auto;
 	}
 	.skills-list {
 		display: flex;
@@ -179,10 +168,10 @@
 	}
 	.skills-title-group {
 		display: block;
-		padding: 0.8rem 1.8rem 0.8rem 1.8rem;
+		padding: var(--btn-padding) calc(var(--btn-padding) * 2);
 		position: relative;
 		top: 3px;
-		font-size: 16px;
+		font-size: var(--base-font-size);
 		text-transform: uppercase;
 		font-weight: 700;
 		font-family: "ExatWide";

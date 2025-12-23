@@ -2,7 +2,6 @@
 	import { afterNavigate } from "$app/navigation";
 	import { page } from "$app/state";
 	import Header from "$lib/components/Header.svelte";
-	import Loader from "$lib/components/Loader.svelte";
 	import MousePointer from "$lib/components/MousePointer.svelte";
 	import Sidebar from "$lib/components/Sidebar.svelte";
 	import {
@@ -91,9 +90,9 @@
 </script>
 
 <div>
-	{#if loading}
+	<!-- {#if loading}
 		<Loader ondone={handleLoaded} />
-	{/if}
+	{/if} -->
 	{#if hasMousePointer}
 		<MousePointer />
 	{/if}

@@ -7,7 +7,7 @@
 
 	let { ondone } = $props();
 
-	const routes = ["/", "/about", "/projects", "/skills"];
+	const routes = ["/", "/projects", "/skills"];
 
 	onMount(() => {
 		const siteReady = new Promise((resolve) => {

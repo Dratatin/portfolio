@@ -154,7 +154,7 @@
 		text-wrap: nowrap;
 		font-family: "ExatWide";
 		text-transform: uppercase;
-		font-size: 16px;
+		font-size: var(--base-font-size);
 	}
 	.project-technos-container {
 		display: flex;

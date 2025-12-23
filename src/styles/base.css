@@ -17,8 +17,10 @@ body {
 	font-size: var(--base-font-size);
 	color: var(--color-black);
 	background-color: var(--color-white);
-	-webkit-font-smoothing: antialiased; /* Pour Safari et Chrome */
-	-moz-osx-font-smoothing: grayscale; /* Pour Firefox sur macOS */
+	-webkit-font-smoothing: antialiased;
+	/* Pour Safari et Chrome */
+	-moz-osx-font-smoothing: grayscale;
+	/* Pour Firefox sur macOS */
 	text-rendering: optimizeLegibility;
 	overflow: hidden;
 }
@@ -55,7 +57,7 @@ a {
 }
 
 .btn-decorated {
-	font-size: 20px;
+	font-size: var(--base-font-size);
 	font-family: "ExatWide";
 	font-weight: 700;
 	padding: var(--btn-padding);
@@ -90,9 +92,11 @@ a {
 		--side-content-size: 3.2rem;
 		--btn-padding: 0.7rem;
 	}
+
 	.page {
 		height: calc(100svh + (var(--border-weight) * 2) - var(--side-content-size));
 	}
+
 	.btn-decorated {
 		font-size: 16px;
 	}

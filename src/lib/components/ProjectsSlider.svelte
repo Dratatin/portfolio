@@ -89,6 +89,7 @@
 		transform: translateZ(0);
 		backface-visibility: hidden;
 		will-change: transform, opacity;
+		padding-inline: 1px;
 	}
 
 	.project-list {

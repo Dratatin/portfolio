@@ -1,11 +1,13 @@
 <script>
 	import HeroContent from "$lib/components/HeroContent.svelte";
-	import SkillsBar from "$lib/components/SkillsBar.svelte";
 </script>
 
 <section class="hero page" id="hero">
 	<HeroContent />
-	<SkillsBar />
+	<!-- <SkillsBar /> -->
+
+	<!-- Ajouter notif style window à l'ancienne tah le trombonne -->
+	<!-- Rendre les lettres intéractives -->
 </section>
 
 <style>

@@ -148,7 +148,7 @@
 				onmouseenter={handleMouseEnter}
 				onmouseleave={handleMouseLeave}
 			>
-				in
+				IN
 			</a>
 		</li>
 	</ul>
@@ -205,10 +205,6 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.linkedin {
-		text-transform: lowercase;
-		font-size: 24px;
-	}
 	.mobile-menu {
 		width: var(--side-content-size);
 		height: var(--side-content-size);
@@ -252,9 +248,6 @@
 		}
 		.link-list {
 			flex-direction: row;
-		}
-		.linkedin {
-			font-size: 20px;
 		}
 	}
 </style>
