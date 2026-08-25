@@ -1,0 +1,1 @@
+import{C as e,T as t}from"../chunks/D5jCH4tc.js";import"../chunks/xihTtKlq.js";import"../chunks/Lpn1PGHG.js";var n=t(`<div>ERROR 404</div>`);function r(t){var r=n();e(t,r)}export{r as component};
