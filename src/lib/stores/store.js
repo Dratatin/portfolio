@@ -1,5 +1,5 @@
 import { MediaQuery } from "svelte/reactivity";
-import { readable, writable } from "svelte/store";
+import { writable } from "svelte/store";
 
 export const hoveredElement = writable(null);
 export const hoverFormat = writable(null);
@@ -16,5 +16,3 @@ export const hasMousePointer = new MediaQuery("pointer: fine").current;
 export const largeScreen = !new MediaQuery("max-width: 992px").current;
 export const mediumScreen = !new MediaQuery("max-width: 576px").current;
 export const mobileMenuOpen = writable(false);
-
-export const websitesImages = readable([]);

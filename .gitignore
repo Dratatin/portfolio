@@ -1,5 +1,8 @@
 node_modules
 
+# Agent customization
+AGENTS.md
+
 # Output
 .output
 .vercel

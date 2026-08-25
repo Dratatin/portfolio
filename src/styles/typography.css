@@ -1,11 +1,8 @@
 @font-face {
 	font-family: "ExatWide";
-	src: url("/fonts/ExatWide-ExtraBold.eot");
 	src:
-		url("/fonts/ExatWide-ExtraBold.eot?#iefix") format("embedded-opentype"),
 		url("/fonts/ExatWide-ExtraBold.woff2") format("woff2"),
-		url("/fonts/ExatWide-ExtraBold.woff") format("woff"),
-		url("/fonts/ExatWide-ExtraBold.ttf") format("truetype");
+		url("/fonts/ExatWide-ExtraBold.woff") format("woff");
 	font-weight: 900;
 	font-style: normal;
 	font-display: swap;
@@ -13,12 +10,9 @@
 
 @font-face {
 	font-family: "ExatWide";
-	src: url("/fonts/ExatWide-Bold.eot");
 	src:
-		url("/fonts/ExatWide-Bold.eot?#iefix") format("embedded-opentype"),
 		url("/fonts/ExatWide-Bold.woff2") format("woff2"),
-		url("/fonts/ExatWide-Bold.woff") format("woff"),
-		url("/fonts/ExatWide-Bold.ttf") format("truetype");
+		url("/fonts/ExatWide-Bold.woff") format("woff");
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;
@@ -26,12 +20,9 @@
 
 @font-face {
 	font-family: "StroyMono";
-	src: url("/fonts/StroyMonoTEST-Light.eot");
 	src:
-		url("/fonts/StroyMonoTEST-Light.eot?#iefix") format("embedded-opentype"),
 		url("/fonts/StroyMonoTEST-Light.woff2") format("woff2"),
-		url("/fonts/StroyMonoTEST-Light.woff") format("woff"),
-		url("/fonts/StroyMonoTEST-Light.ttf") format("truetype");
+		url("/fonts/StroyMonoTEST-Light.woff") format("woff");
 	font-weight: 300;
 	font-style: normal;
 	font-display: swap;
@@ -39,12 +30,9 @@
 
 @font-face {
 	font-family: "StroyMono";
-	src: url("/fonts/StroyMonoTEST-LightItalic.eot");
 	src:
-		url("/fonts/StroyMonoTEST-LightItalic.eot?#iefix") format("embedded-opentype"),
 		url("/fonts/StroyMonoTEST-LightItalic.woff2") format("woff2"),
-		url("/fonts/StroyMonoTEST-LightItalic.woff") format("woff"),
-		url("/fonts/StroyMonoTEST-LightItalic.ttf") format("truetype");
+		url("/fonts/StroyMonoTEST-LightItalic.woff") format("woff");
 	font-weight: 300;
 	font-style: italic;
 	font-display: swap;

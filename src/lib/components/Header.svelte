@@ -63,7 +63,7 @@
 <header class="header container-inline-padding" class:mobileOpen={menuOpen} bind:this={header}>
 	<nav class="nav">
 		<ul class="nav-list">
-			{#each pages as pageItem, index (index)}
+			{#each pages as pageItem, index (pageItem.href)}
 				<li bind:this={navItemRefs[index]} class="nav-link-wrapper">
 					<a href={pageItem.href} class="nav-link" bind:this={linkItemRefs[index]}>
 						<Ink name={pageItem.title} active={currentPath === pageItem.href} headerInk={true} />

@@ -79,7 +79,7 @@
 
 <div class="projects page">
 	<div class="filters">
-		{#each filters as filter, index (index)}
+		{#each filters as filter (filter.filterid)}
 			<FilterGroup
 				filterId={filter.filterid}
 				filterTitle={filter.filterTitle}
@@ -92,7 +92,7 @@
 			<span class="filters-result">
 				({filteredProjects.length} résultat{filteredProjects.length > 0 ? "s" : ""})
 			</span>
-			{#each activeFilters as techno, index (index)}
+			{#each activeFilters as techno (techno)}
 				<li class="filter-active">
 					<button
 						class="delete-filter-button"

@@ -10,17 +10,41 @@
 	let targetX = 0;
 	let targetY = 0;
 	let animationFrameId;
+	let animating = false;
 
 	onMount(() => {
+		const animate = () => {
+			const dx = targetX - position.x;
+			const dy = targetY - position.y;
+			if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) {
+				position.x = targetX;
+				position.y = targetY;
+				animating = false;
+				return;
+			}
+			position.x += dx * 0.1;
+			position.y += dy * 0.1;
+			animationFrameId = requestAnimationFrame(animate);
+		};
+
+		const startAnimating = () => {
+			if (!animating) {
+				animating = true;
+				animationFrameId = requestAnimationFrame(animate);
+			}
+		};
+
 		const unsubMouseDragPos = mouseDragPos.subscribe((value) => {
 			if (value) {
 				targetX = value.posX;
 				targetY = value.posY;
+				startAnimating();
 			}
 		});
 
 		const unsubHovered = hoveredElement.subscribe((el) => {
 			activeHovered = el;
+			startAnimating();
 		});
 
 		const unsubFormat = hoverFormat.subscribe((format) => {
@@ -36,6 +60,7 @@
 				targetX = e.clientX;
 				targetY = e.clientY;
 			}
+			startAnimating();
 		};
 
 		const handleMouseDown = () => {
@@ -45,16 +70,9 @@
 			clicked = false;
 		};
 
-		const animate = () => {
-			position.x += (targetX - position.x) * 0.1;
-			position.y += (targetY - position.y) * 0.1;
-			animationFrameId = requestAnimationFrame(animate);
-		};
-
 		window.addEventListener("mousemove", handleMouseMove);
 		window.addEventListener("mousedown", handleMouseDown);
 		window.addEventListener("mouseup", handleMouseUp);
-		animationFrameId = requestAnimationFrame(animate);
 
 		return () => {
 			unsubMouseDragPos();

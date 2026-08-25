@@ -3,7 +3,7 @@
 </script>
 
 <ul class="keywords-list">
-	{#each keywords as keyword, index (index)}
+	{#each keywords as keyword (keyword)}
 		<li class="keyword-item">
 			<span class="btn-decorated">
 				{keyword}

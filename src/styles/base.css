@@ -1,7 +1,8 @@
 :root {
 	--main-font: "Stroymono", sans-serif;
+	--title-font: "ExatWide";
 	--color-black: #1a1a1a;
-	--color-white: #fdfbf7;
+	--color-white: #ece6da;
 	--container-padding: 2.5rem;
 	--side-content-size: 4.4rem;
 	--small-font-size: 14px;
@@ -17,6 +18,9 @@ body {
 	font-size: var(--base-font-size);
 	color: var(--color-black);
 	background-color: var(--color-white);
+	transition:
+		color 0.3s ease,
+		background-color 0.3s ease;
 	-webkit-font-smoothing: antialiased;
 	/* Pour Safari et Chrome */
 	-moz-osx-font-smoothing: grayscale;
@@ -32,6 +36,14 @@ button,
 select,
 a {
 	-webkit-tap-highlight-color: transparent;
+}
+
+/* Visible on every focusable element, including inside overflow:hidden ancestors */
+:focus-visible {
+	outline: none;
+	box-shadow:
+		inset 0 0 0 2px var(--color-white),
+		inset 0 0 0 4px var(--color-black);
 }
 
 /* Container style */
@@ -58,7 +70,7 @@ a {
 
 .btn-decorated {
 	font-size: var(--base-font-size);
-	font-family: "ExatWide";
+	font-family: var(--title-font);
 	font-weight: 700;
 	padding: var(--btn-padding);
 	text-transform: uppercase;

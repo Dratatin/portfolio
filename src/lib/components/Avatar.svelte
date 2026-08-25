@@ -4,13 +4,16 @@
 	import { onMount } from "svelte";
 
 	let avatarEl;
+	let pupilLeft;
+	let pupilRight;
 	let pupilTimeline = null;
+	let angryTimeout;
 	let { reversed = false } = $props();
 
 	function handleMouseMove(e) {
 		let x = (e.clientX / window.innerWidth - 0.5) * 4;
 		let y = (e.clientY / window.innerHeight - 0.5) * 4;
-		gsap.to(".pupil", {
+		gsap.to([pupilLeft, pupilRight], {
 			x: x,
 			y: y,
 			duration: 0.2
@@ -41,7 +44,7 @@
 					let x = gsap.utils.random(-2, 2, 0.1);
 					let y = gsap.utils.random(-2, 2, 0.1);
 
-					pupilTimeline = gsap.to(".pupil", {
+					pupilTimeline = gsap.to([pupilLeft, pupilRight], {
 						x,
 						y,
 						duration: gsap.utils.random(1, 2),
@@ -93,7 +96,8 @@
 							ease: "power.out"
 						});
 						floatingEyeBrowTimeline.pause();
-						setTimeout(() => {
+						clearTimeout(angryTimeout);
+						angryTimeout = setTimeout(() => {
 							avatarEmotion.set("normal");
 						}, 2000);
 						break;
@@ -106,8 +110,6 @@
 						gsap.to(".avatar-left .eyebrow", { rotate: -20, duration: 0.2, ease: "power.out" });
 						floatingEyeBrowTimeline.pause();
 						break;
-					default:
-						console.log("emotion unknown");
 				}
 			});
 		}, avatarEl);
@@ -118,6 +120,7 @@
 			} else if (pupilTimeline) {
 				pupilTimeline.kill();
 			}
+			clearTimeout(angryTimeout);
 			context.revert();
 			if (unsubscribeAvatarEmotion) unsubscribeAvatarEmotion();
 		};
@@ -137,7 +140,7 @@
 			<div class="eyebrow"></div>
 			<div class="eye">
 				<div class="top-eyelid"></div>
-				<div class="pupil"></div>
+				<div class="pupil" bind:this={pupilLeft}></div>
 				<div class="bottom-eyelid"></div>
 			</div>
 		</div>
@@ -145,7 +148,7 @@
 			<div class="eyebrow"></div>
 			<div class="eye">
 				<div class="top-eyelid"></div>
-				<div class="pupil"></div>
+				<div class="pupil" bind:this={pupilRight}></div>
 				<div class="bottom-eyelid"></div>
 			</div>
 		</div>

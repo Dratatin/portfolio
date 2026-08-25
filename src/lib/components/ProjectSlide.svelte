@@ -1,12 +1,15 @@
 <script>
 	import { hoverFormat, mediumScreen } from "$lib/stores/store";
 	import { LinkHandler } from "$lib/utils/linkHandler";
+	import { onDestroy } from "svelte";
 	import SkillItem from "./SkillItem.svelte";
 
 	let { name, technos, secret, link, image } = $props();
 
 	let showTooltip = $state(false);
 	let mouseLeaveTimeout;
+
+	onDestroy(() => clearTimeout(mouseLeaveTimeout));
 
 	function handleTooltipEnter() {
 		clearTimeout(mouseLeaveTimeout);
@@ -36,6 +39,7 @@
 				class="project-link"
 				href={link}
 				target="_blank"
+				rel="noopener noreferrer"
 				onmouseenter={handleMouseEnterLink}
 				onmouseleave={handleMouseLeaveLink}
 				aria-label="visiter le site"
@@ -53,14 +57,20 @@
 				</svg>
 			</a>
 		{/if}
-		<img class="project-img" src={LinkHandler(image)} alt="projet" />
+		<img
+			class="project-img"
+			src={LinkHandler(image)}
+			alt="projet"
+			loading="lazy"
+			decoding="async"
+		/>
 	</div>
 	<div class="project-details">
 		<h2 class="project-title">{name}</h2>
 		<div class="project-technos-container">
 			{#if mediumScreen}
 				<ul class="project-technos">
-					{#each technos as techno, technoIndex (technoIndex)}
+					{#each technos as techno, technoIndex (techno)}
 						{#if technoIndex <= 1}
 							<li>
 								<SkillItem skill={techno} />
@@ -70,11 +80,15 @@
 				</ul>
 			{/if}
 			{#if technos.length > 2 || !mediumScreen}
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
 					class="tooltip-container"
+					tabindex="0"
+					role="button"
+					aria-label="Voir toutes les technologies"
 					onmouseenter={handleTooltipEnter}
 					onmouseleave={handleTooltipLeave}
+					onfocus={handleTooltipEnter}
+					onblur={handleTooltipLeave}
 					aria-describedby="tooltip-technos"
 				>
 					<span class="tooltip-decoration"></span>
@@ -90,7 +104,7 @@
 						onmouseenter={handleTooltipEnter}
 					>
 						<ul class="technos-tooltip">
-							{#each technos as techno, technoIndex (technoIndex)}
+							{#each technos as techno, technoIndex (techno)}
 								{#if technoIndex > 1 || !mediumScreen}
 									<li><SkillItem skill={techno} /></li>
 								{/if}
@@ -152,7 +166,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		text-wrap: nowrap;
-		font-family: "ExatWide";
+		font-family: var(--title-font);
 		text-transform: uppercase;
 		font-size: var(--base-font-size);
 	}

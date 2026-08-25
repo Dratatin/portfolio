@@ -9,6 +9,7 @@
 
 	let skillsDragContainer;
 	const skillsRefs = [];
+	const cleanupFns = [];
 
 	onMount(async () => {
 		await tick();
@@ -73,13 +74,23 @@
 				panel.addEventListener("mousemove", magnetize);
 				panel.addEventListener("mouseleave", demagnetize);
 			}
+
+			cleanupFns.push(() => {
+				panel.removeEventListener("mousemove", magnetize);
+				panel.removeEventListener("mouseleave", demagnetize);
+				draggable.kill();
+			});
 		});
+
+		return () => {
+			cleanupFns.forEach((cleanup) => cleanup());
+		};
 	});
 </script>
 
 <div class="skills page">
 	<div class="skills-cards" bind:this={skillsDragContainer}>
-		{#each skills as panel, index (index)}
+		{#each skills as panel, index (panel.id)}
 			<div class="skills-file" id="skills-{panel.id}" bind:this={skillsRefs[index]}>
 				<div class="skills-title-wrapper">
 					<div class="skills-title-group">
@@ -90,7 +101,7 @@
 					</div>
 				</div>
 				<ul class="skills-list">
-					{#each panel.panelCompetences as skill, index (index)}
+					{#each panel.panelCompetences as skill (skill)}
 						<li>
 							<SkillItem {skill} />
 						</li>
@@ -119,9 +130,6 @@
 		align-items: center;
 		position: relative;
 		overflow: hidden;
-	}
-	.skills-bar {
-		margin-top: auto;
 	}
 	.skills-list {
 		display: flex;
@@ -174,7 +182,7 @@
 		font-size: var(--base-font-size);
 		text-transform: uppercase;
 		font-weight: 700;
-		font-family: "ExatWide";
+		font-family: var(--title-font);
 	}
 	.skills-title-bg {
 		left: 0;

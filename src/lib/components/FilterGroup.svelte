@@ -46,10 +46,10 @@
 			<path d="M8.00488 0.00488281L8.00488 16.0049" stroke="black" class="y-line" />
 		</svg>
 	</button>
-	<div class="dropdown-container">
+	<div class="dropdown-container" inert={!filterOpen}>
 		<div class="dropdown-wrapper">
 			<ul class="filter-list">
-				{#each filterList as filter, index (index)}
+				{#each filterList as filter (filter)}
 					<li>
 						<label class="filter-label" for={`filter-${filter}`}>
 							<Ink name={technos[filter].skillName} active={$selectedTechnos.includes(filter)} />
@@ -83,6 +83,11 @@
 	}
 	.filter-label {
 		cursor: pointer;
+		border-radius: 2px;
+	}
+	li:has(.filter-input:focus-visible) .filter-label {
+		outline: var(--border-weight) solid var(--color-black);
+		outline-offset: 4px;
 	}
 	.filter-input {
 		position: absolute;

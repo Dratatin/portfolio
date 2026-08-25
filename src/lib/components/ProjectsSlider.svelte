@@ -4,7 +4,7 @@
 	import { onMount } from "svelte";
 	import Swiper from "swiper";
 	import "swiper/css";
-	import { FreeMode, Mousewheel } from "swiper/modules";
+	import { FreeMode, Keyboard, Mousewheel } from "swiper/modules";
 	import ProjectSlide from "./ProjectSlide.svelte";
 
 	let { projects } = $props();
@@ -24,6 +24,7 @@
 			autoHeight: true,
 			freeMode: true,
 			mousewheel: true,
+			keyboard: { enabled: true },
 			on: {
 				touchStart: () => {
 					hoverFormat.set("interactive");
@@ -49,7 +50,7 @@
 					drag = false;
 				}
 			},
-			modules: [FreeMode, Mousewheel]
+			modules: [FreeMode, Keyboard, Mousewheel]
 		});
 
 		gsap.from(slides, {

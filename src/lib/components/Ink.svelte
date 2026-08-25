@@ -29,6 +29,8 @@
 	class:headerInk
 	onmouseenter={onMouseEnter}
 	onmouseleave={onMouseLeave}
+	onfocus={onMouseEnter}
+	onblur={onMouseLeave}
 >
 	<div class="ink-hook-wrapper">
 		<div class="left-bracket"></div>

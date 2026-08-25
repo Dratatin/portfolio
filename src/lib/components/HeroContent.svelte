@@ -31,7 +31,7 @@
 		line-height: 85%;
 		text-transform: uppercase;
 		font-weight: 900;
-		font-family: "ExatWide";
+		font-family: var(--title-font);
 	}
 	.hero-subtitle {
 		font-size: 3.5vw;
