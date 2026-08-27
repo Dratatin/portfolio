@@ -1,6 +1,6 @@
 <script>
 	import SkillItem from "$lib/components/SkillItem.svelte";
-	import { hoverFormat, largeScreen, mouseDragPos } from "$lib/stores/store";
+	import { hoverFormat, largeScreen, mouseDragPos, whenTransitionDone } from "$lib/stores/store";
 	import { skills } from "$lib/utils/hardskills";
 	import gsap from "gsap";
 	import { Draggable } from "gsap/Draggable";
@@ -11,78 +11,86 @@
 	const skillsRefs = [];
 	const cleanupFns = [];
 
-	onMount(async () => {
-		await tick();
-		gsap.registerPlugin(Draggable, InertiaPlugin);
+	onMount(() => {
+		let unmounted = false;
 
-		skillsRefs.forEach((panel) => {
-			let currentX = 0;
-			let currentY = 0;
+		const cancelInit = whenTransitionDone(async () => {
+			await tick();
+			if (unmounted) return;
 
-			let xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
-			let yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
+			gsap.registerPlugin(Draggable, InertiaPlugin);
 
-			function updateQuickTo(x, y) {
-				currentX = x;
-				currentY = y;
+			skillsRefs.forEach((panel) => {
+				let currentX = 0;
+				let currentY = 0;
 
-				xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
-				yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
-			}
+				let xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
+				let yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 
-			const draggable = Draggable.create(panel, {
-				type: "x,y",
-				bounds: skillsDragContainer,
-				inertia: true,
-				onClick() {
-					updateQuickTo(this.x, this.y);
-				},
-				onThrowComplete() {
-					updateQuickTo(this.x, this.y);
-				},
-				onDrag(e) {
-					mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
-				},
-				onRelease() {
-					mouseDragPos.set(null);
-					hoverFormat.set(null);
-				},
-				onPress() {
-					hoverFormat.set("interactive");
+				function updateQuickTo(x, y) {
+					currentX = x;
+					currentY = y;
+
+					xTo = gsap.quickTo(panel, "x", { duration: 0.4, ease: "power3" });
+					yTo = gsap.quickTo(panel, "y", { duration: 0.4, ease: "power3" });
 				}
-			})[0];
 
-			const magnetize = (e) => {
-				if (!draggable.isDragging && !draggable.isThrowing) {
-					const bounds = panel.getBoundingClientRect();
-					const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;
-					const offsetY = (e.clientY - bounds.top - bounds.height / 2) * 0.2;
+				const draggable = Draggable.create(panel, {
+					type: "x,y",
+					bounds: skillsDragContainer,
+					inertia: true,
+					onClick() {
+						updateQuickTo(this.x, this.y);
+					},
+					onThrowComplete() {
+						updateQuickTo(this.x, this.y);
+					},
+					onDrag(e) {
+						mouseDragPos.set({ posX: e.clientX, posY: e.clientY });
+					},
+					onRelease() {
+						mouseDragPos.set(null);
+						hoverFormat.set(null);
+					},
+					onPress() {
+						hoverFormat.set("interactive");
+					}
+				})[0];
 
-					xTo(currentX + offsetX);
-					yTo(currentY + offsetY);
+				const magnetize = (e) => {
+					if (!draggable.isDragging && !draggable.isThrowing) {
+						const bounds = panel.getBoundingClientRect();
+						const offsetX = (e.clientX - bounds.left - bounds.width / 2) * 0.2;
+						const offsetY = (e.clientY - bounds.top - bounds.height / 2) * 0.2;
+
+						xTo(currentX + offsetX);
+						yTo(currentY + offsetY);
+					}
+				};
+
+				const demagnetize = () => {
+					if (!draggable.isDragging && !draggable.isThrowing) {
+						xTo(currentX);
+						yTo(currentY);
+					}
+				};
+
+				if (largeScreen) {
+					panel.addEventListener("mousemove", magnetize);
+					panel.addEventListener("mouseleave", demagnetize);
 				}
-			};
 
-			const demagnetize = () => {
-				if (!draggable.isDragging && !draggable.isThrowing) {
-					xTo(currentX);
-					yTo(currentY);
-				}
-			};
-
-			if (largeScreen) {
-				panel.addEventListener("mousemove", magnetize);
-				panel.addEventListener("mouseleave", demagnetize);
-			}
-
-			cleanupFns.push(() => {
-				panel.removeEventListener("mousemove", magnetize);
-				panel.removeEventListener("mouseleave", demagnetize);
-				draggable.kill();
+				cleanupFns.push(() => {
+					panel.removeEventListener("mousemove", magnetize);
+					panel.removeEventListener("mouseleave", demagnetize);
+					draggable.kill();
+				});
 			});
 		});
 
 		return () => {
+			unmounted = true;
+			cancelInit();
 			cleanupFns.forEach((cleanup) => cleanup());
 		};
 	});
@@ -126,8 +134,7 @@
 		height: 100%;
 		width: 100%;
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		flex-wrap: wrap;
 		position: relative;
 		overflow: hidden;
 	}
@@ -146,28 +153,8 @@
 	.skills-file {
 		display: flex;
 		flex-direction: column;
-		position: absolute;
 		z-index: 1;
-	}
-	#skills-frame {
-		margin-left: 160px;
-		margin-top: 70px;
-	}
-	#skills-tools {
-		margin-right: 60px;
-		margin-bottom: 90px;
-	}
-	#skills-lib {
-		margin-left: 130px;
-		margin-bottom: 200px;
-	}
-	#skills-rick {
-		margin-right: 140px;
-		margin-top: 130px;
-	}
-	#skills-lang {
-		margin-right: 120px;
-		margin-top: 120px;
+		padding: 4rem;
 	}
 	.skills-title-wrapper {
 		padding-inline: 2rem;
@@ -235,26 +222,6 @@
 		.skills-list {
 			min-width: 18rem;
 			padding: 1rem;
-		}
-		#skills-frame {
-			margin-left: 50px;
-			margin-top: 70px;
-		}
-		#skills-tools {
-			margin-right: 10px;
-			margin-bottom: 90px;
-		}
-		#skills-lib {
-			margin-left: 15px;
-			margin-bottom: 230px;
-		}
-		#skills-rick {
-			margin-right: 70px;
-			margin-top: 120px;
-		}
-		#skills-lang {
-			margin-right: 0;
-			margin-top: 110px;
 		}
 	}
 </style>

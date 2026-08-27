@@ -4,7 +4,7 @@
 	import { onDestroy } from "svelte";
 	import SkillItem from "./SkillItem.svelte";
 
-	let { name, technos, secret, link, image } = $props();
+	let { name, technos, secret, link, image, loadImage = false } = $props();
 
 	let showTooltip = $state(false);
 	let mouseLeaveTimeout;
@@ -59,7 +59,7 @@
 		{/if}
 		<img
 			class="project-img"
-			src={LinkHandler(image)}
+			src={loadImage ? LinkHandler(image) : undefined}
 			alt="projet"
 			loading="lazy"
 			decoding="async"

@@ -1,5 +1,5 @@
 <script>
-	import { afterNavigate } from "$app/navigation";
+	import { afterNavigate, beforeNavigate } from "$app/navigation";
 	import { page } from "$app/state";
 	import Header from "$lib/components/Header.svelte";
 	import Loader from "$lib/components/Loader.svelte";
@@ -11,7 +11,8 @@
 		hasMousePointer,
 		hoverFormat,
 		largeScreen,
-		mobileMenuOpen
+		mobileMenuOpen,
+		pageTransitioning
 	} from "$lib/stores/store";
 	import gsap from "gsap";
 	import { onMount } from "svelte";
@@ -49,9 +50,22 @@
 		firstPageLoadTimeline.set(gsap.timeline({}));
 	}
 
+	beforeNavigate(({ cancel }) => {
+		// A transition is already running: block navigation until it finishes.
+		if (get(pageTransitioning)) {
+			cancel();
+			return;
+		}
+		pageTransitioning.set(true);
+	});
+
 	afterNavigate(() => {
 		mobileMenuOpen.set(false);
 	});
+
+	function handleIntroEnd() {
+		pageTransitioning.set(false);
+	}
 
 	onMount(() => {
 		const unsubscribePageLoad = firstPageLoadTimeline.subscribe((timeline) => {
@@ -111,6 +125,7 @@
 					easing: cubicOut
 				}}
 				out:pageOut={{ duration: 1200 }}
+				onintroend={handleIntroEnd}
 				bind:this={main}
 			>
 				{@render children()}
